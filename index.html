@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<title>SORC</title>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            text-align: center;
+        }
+
+        canvas {
+            min-width: 800px;
+            min-height: 600px;
+            max-width: 800px;
+            max-height: 600px;
+            width: 800px;
+            height: 600px;
+            border: 1px solid grey;
+            background-color: #050505;
+        }
+
+        .footer {
+            position: fixed;
+            text-align: center;
+            bottom: 0px;
+            width: 100%;
+            background-color: grey;
+        }
+    </style>
+</head>
+
+<div class="footer">
+    2019.06.23, v1.00
+</div>
+
+<body onload="init()">
+    <canvas id="graphCanvas" onclick="draw()"/>
+    <br>
+    <br>
+</body>
+
+</html>
+
+<script src="js/misc.js "></script>
+
+<script src="js/stats.js "></script>
+<script src="js/inventory.js "></script>
+<script src="js/entity.js "></script>
+
+<script src="js/item.js "></script>
+
+<script src="js/draw.js "></script>
