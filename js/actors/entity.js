@@ -2,9 +2,7 @@
 
 var Entity = function (name) {
     this.name = name;
-
-    this.inventory = new Inventory(this);    
+    
+    this.inventory = new Inventory(this);
     this.stats = new Stats(this);
 }
-
-var player = new Entity("WORLDDESTROYER IV");

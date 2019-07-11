@@ -76,18 +76,6 @@ function itemGenerate(type = "sword") {
             break;
     }
 
-    player.inventory.itemPickup(item);
-    player.inventory.itemEquip(item);
+    gPlayer.inventory.itemPickup(item);
+    gPlayer.inventory.itemEquip(item);
 }
-
-itemGenerate("sword");
-itemGenerate("sword");
-itemGenerate("sword");
-itemGenerate("sword");
-itemGenerate("sword");
-
-itemGenerate("sword");
-itemGenerate("bow");
-itemGenerate("ammo");
-itemGenerate("helmet");
-itemGenerate("armor");

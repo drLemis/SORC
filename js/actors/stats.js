@@ -8,12 +8,12 @@ var Stats = function (parent) {
     };
 
     this.health = {
-        CURRENT: 100,
+        CURRENT: 150,
         MIN: 0,
         MAX: 150
     };
     this.mana = {
-        CURRENT: 8,
+        CURRENT: 80,
         MIN: 0,
         MAX: 80
     };
