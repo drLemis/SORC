@@ -20,3 +20,71 @@ snake_case для имён файлов.
 Можешь сэкономить процессорное время в ущерб месту на диске/в памяти - вперёд, но документируй.
 Десять файлов по сто строк лучше, чем один файл в тысячу строк. Но только с комментами.
 Представляй что тот, кто будет переписывать за тобой, знает где ты живёшь и уже купил лом.
+
+
+GAME
+|-WORLD
+  |-MAP
+    |-TILE
+    | |-COORDS
+    | |-PASSABLE
+    |   |-BY FOOT
+    |   |-BY BOAT
+    |   |-BY FLIGHT
+    |-SUBMAP
+      |-TILE
+        |-PASSABLE
+        |-CONTENT
+          |-OBJECT
+          | |-INTERACTABLE
+          | |-TYPE (DOOR, TELEPORT, LEVER)
+          | |-STATE
+          | |-DEPENDANTS (LEVER OPENING DOOR)
+          |-ENTITY
+          | |-STATS
+          | | |-EXPERIENCE
+          | | |-HEALTH
+          | | | |-MIN
+          | | | |-CURRENT
+          | | | |-MAX
+          | | | |-TEMPORARY BONUS
+          | | |   |-CURRENT
+          | | |   |-TIME LEFT
+          | | |-MANA
+          | | | |-MIN
+          | | | |-CURRENT
+          | | | |-MAX
+          | | | |-TEMPORARY BONUS
+          | | |   |-CURRENT
+          | | |   |-TIME LEFT
+          | | |-ATTRIBUTES
+          | |   |-STRENGTH
+          | |   | |-CURRENT
+          | |   | |-TEMPORARY BONUS
+          | |   |   |-CURRENT
+          | |   |   |-TIME LEFT
+          | |   |-AGILITY
+          | |   | |-CURRENT
+          | |   | |-TEMPORARY BONUS
+          | |   |   |-CURRENT
+          | |   |   |-TIME LEFT
+          | |   |-LUCK
+          | |     |-CURRENT
+          | |     |-TEMPORARY BONUS
+          | |       |-CURRENT
+          | |       |-TIME LEFT
+          | |-INVENTORY
+          |   |-ITEM
+          |     |-OBTAINABLE
+          |     |-OWNER
+          |     |-SLOT
+          |     |-BONUS
+          |     |-COST
+          |     |-WEIGHT
+          |-ITEM
+            |-OBTAINABLE
+            |-OWNER
+            |-SLOT
+            |-BONUS
+            |-COST
+            |-WEIGHT
