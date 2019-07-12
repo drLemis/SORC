@@ -51,6 +51,9 @@ var Submap = function (w, h) {
 					var dmgEntity = -toTile.creature.inventory.getSlotsAllMod("PDMG") - toTile.creature.inventory.getSlotsAllMod("MDMG");
 					toTile.creature.stats.setHealthDelta(dmgPlayer);
 					gPlayer.stats.setHealthDelta(dmgEntity);
+
+					drawInterfaceLogs("YOU ATTACK! " + dmgPlayer + " DMG!");
+					drawInterfaceLogs("YOU'VE BEEN ATTACKED! " + dmgEntity + " DMG!");
 				}
 				return;
 			}

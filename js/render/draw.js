@@ -58,6 +58,7 @@ function draw() {
     drawInterfaceFrame();
     drawInterfaceStats();
     drawInterfaceStatus();
+    drawInterfaceLogs();
 
     // рендер каждый возможный кадр
     // window.requestAnimationFrame(draw);

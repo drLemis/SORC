@@ -1,3 +1,4 @@
+var interfaceLogs = [];
 
 function drawInterfaceLogo() {
     ctx.fillStyle = colorBack;
@@ -116,4 +117,29 @@ function drawInterfaceStats() {
 
     ctx.fillText("  WEIGHT     FOOD" + gPlayer.inventory.getWeight(), locW, ++i * locH + offH);
     ctx.fillText(gPlayer.inventory.getWeight() + gPlayer.inventory.getFood(), locW, ++i * locH + offH);
+}
+
+function drawInterfaceLogs(newLog = "") {
+    if (newLog != "")
+        interfaceLogs.push(newLog);
+
+    ctx.strokeStyle = colorMain;
+
+    var locH = height * 0.80 + 5;
+    var stepH = 16;
+
+    var i = 0;
+
+    for (let index = interfaceLogs.length - 1; index >= 0; index--) {
+        var text = interfaceLogs[index];
+        var color = colorMain;
+
+        if (Array.isArray(interfaceLogs[index])) {
+            text = interfaceLogs[index][0];
+            color = interfaceLogs[index][1];
+        }
+
+        ctx.fillStyle = color;
+        ctx.fillText(text.toUpperCase().trim(), 5, (i++ - 1) * stepH + locH);
+    }
 }

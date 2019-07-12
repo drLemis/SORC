@@ -40,6 +40,7 @@ var Stats = function (parent) {
 
         if (this.health.CURRENT <= 0 && this.parent != gPlayer) {
             gSubmap.getTile(this.parent.subX, this.parent.subY).removeCreature();
+            drawInterfaceLogs([this.parent.name + " IS DEAD!", colorWarn]);
         }
     };
 
