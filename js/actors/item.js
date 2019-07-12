@@ -43,7 +43,7 @@ function itemGenerate(type = "sword") {
         case "armor":
             item = new Item(getRandomItemName(), "BODY");
             item.stats["STNG"] = getRandomInt(0, 1);
-            item.stats["PARM"] = getRandomInt(1, 3);
+            item.stats["PARM"] = getRandomInt(1, 10);
             item.stats["MARM"] = getRandomInt(1, 3);
             break;
         case "helmet":

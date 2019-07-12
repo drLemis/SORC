@@ -18,9 +18,9 @@ var Stats = function (parent) {
         MAX: 80
     };
     this.attributes = {
-        STNG: getRandomInt(6, 12),
-        AGIL: getRandomInt(6, 12),
-        LUCK: getRandomInt(6, 12),
+        STNG: getRandomInt(1, 3),
+        AGIL: getRandomInt(1, 3),
+        LUCK: getRandomInt(1, 3),
     };
 
     this.getStat = function (statName) {

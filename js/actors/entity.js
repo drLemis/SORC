@@ -10,16 +10,16 @@ var Entity = function (name) {
     this.stats = new Stats(this);
 
     this.attackMain = function attackMain(entity) {
-        var random = Math.floor(gTwister.random() * 20 + 1);
+        var random = Math.floor(Math.random() * (20 + +this.stats.attributes.LUCK) + 1);
 
-        var patk = random + +this.stats.attributes.LUCK + +this.inventory.getSlotsAllMod("PATK") + +this.stats.attributes.AGIL + +this.inventory.getSlotsAllMod("STNG");
-        var matk = random + +this.stats.attributes.LUCK + +this.inventory.getSlotsAllMod("MATK") + +this.stats.attributes.AGIL;
+        var patk = random + +this.inventory.getSlotsAllMod("PATK") + +this.stats.attributes.STNG + +this.inventory.getSlotsAllMod("STNG");
+        var matk = random + +this.inventory.getSlotsAllMod("MATK");
 
         var parm = entity.inventory.getSlotsAllMod("PARM") + +entity.stats.attributes.AGIL + +entity.inventory.getSlotsAllMod("AGIL");
         var marm = entity.inventory.getSlotsAllMod("MARM");
 
-        var pdmg = this.inventory.getSlotsAllMod("PDMG");
-        var mdmg = this.inventory.getSlotsAllMod("MDMG");
+        var pdmg = this.inventory.getSlotsMod("PDMG") + +this.inventory.getStat("PDMG", "MAIN");
+        var mdmg = this.inventory.getSlotsMod("MDMG") + +this.inventory.getStat("MDMG", "MAIN");
         var hand = this.stats.attributes.STNG + +this.inventory.getSlotsAllMod("STNG");
 
         if (pdmg < 0)
@@ -39,10 +39,18 @@ var Entity = function (name) {
         if (marm <= matk)
             damage += mdmg;
 
+        console.log(this.name);
+        console.log(patk);
+        console.log(random);
+        console.log(this.inventory.getSlotsAllMod("PATK"));
+        console.log(this.stats.attributes.STNG);
+        console.log(this.inventory.getSlotsAllMod("STNG"));
+        console.log("=======");
+
         var log = this.name + " ATTACKS " + entity.name + "! " + patk + "->" + parm + "/" + matk + "->" + marm
 
         if (damage > 0)
-            log += " " + damage + " DAMAGE!";
+            log += ", " + damage + " DAMAGE!";
 
         drawInterfaceLogs(log);
 

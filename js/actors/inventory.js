@@ -26,7 +26,7 @@ var Inventory = function (parent) {
 
     this.getStat = function (typeSTAT, typeWPN) {
         var result = [0, 0];
-        if (this.slots[typeSTAT]) {
+        if (this.slots[typeWPN]) {
             result[0] = this.slots[typeWPN].stats[typeSTAT];
         }
 
