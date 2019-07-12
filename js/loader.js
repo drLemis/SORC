@@ -39,18 +39,6 @@ function loadAllScripts() {
 //попадаем сюда только если загрузили все файлы
 //стартовая инициализация параметров игры
 function initializeAllScripts() {
-    itemGenerate("sword");
-    itemGenerate("sword");
-    itemGenerate("sword");
-    itemGenerate("sword");
-    itemGenerate("sword");
-
-    itemGenerate("sword");
-    itemGenerate("bow");
-    itemGenerate("ammo");
-    itemGenerate("helmet");
-    itemGenerate("armor");
-
     // начало рендера
     initDraw();
 }

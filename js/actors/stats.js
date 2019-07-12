@@ -37,6 +37,14 @@ var Stats = function (parent) {
 
     this.setHealth = function (newStat) {
         this.health.CURRENT = Math.min(Math.max(this.health.MIN, newStat), this.health.MAX);
+
+        if (this.health.CURRENT <= 0 && this.parent != gPlayer) {
+            gSubmap.getTile(this.parent.subX, this.parent.subY).removeCreature();
+        }
+    };
+
+    this.setHealthDelta = function (delta) {
+        this.setHealth(this.health.CURRENT + delta);
     };
 
     this.getHealthAsString = function () {

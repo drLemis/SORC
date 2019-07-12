@@ -76,6 +76,5 @@ function itemGenerate(type = "sword") {
             break;
     }
 
-    gPlayer.inventory.itemPickup(item);
-    gPlayer.inventory.itemEquip(item);
+    return item;
 }

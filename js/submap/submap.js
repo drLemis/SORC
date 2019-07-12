@@ -46,6 +46,12 @@ var Submap = function (w, h) {
 		if (fromTile != toTile) {
 			if (toTile.creature != null) {
 				console.log("Failed map-based move: target is occupied!");
+				if (fromTile.creature == gPlayer) {
+					var dmgPlayer = -gPlayer.inventory.getSlotsAllMod("PDMG") - gPlayer.inventory.getSlotsAllMod("MDMG");
+					var dmgEntity = -toTile.creature.inventory.getSlotsAllMod("PDMG") - toTile.creature.inventory.getSlotsAllMod("MDMG");
+					toTile.creature.stats.setHealthDelta(dmgPlayer);
+					gPlayer.stats.setHealthDelta(dmgEntity);
+				}
 				return;
 			}
 			if (toTile.passable != true) {
