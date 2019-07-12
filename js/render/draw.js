@@ -63,7 +63,7 @@ function draw() {
     // window.requestAnimationFrame(draw);
 
     //рендер 1 раза в секунду
-    setTimeout(() => {
-        draw();
-    }, 1000 / 1);
+    // setTimeout(() => {
+    //     draw();
+    // }, 1000 / 1);
 }

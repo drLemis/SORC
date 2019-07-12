@@ -15,9 +15,9 @@ function drawScreenSubmap2D(submap) {
                 ctx.fillStyle = colorsCGA[8]; // dark gray
 
             if (submap.grid[iY][iX].getCreature() != null) {
-                if (submap.grid[iY][iX].getCreature() == gPlayer)
+                if (submap.grid[iY][iX].getCreature() == gPlayer) {
                     ctx.fillStyle = colorsCGA[1]; // blue
-                else
+                } else
                     ctx.fillStyle = colorsCGA[6]; // brown
             }
 
@@ -25,4 +25,5 @@ function drawScreenSubmap2D(submap) {
             ctx.strokeRect(cellCoord[0], cellCoord[1], cellSize[0], cellSize[1]);
         }
     }
+
 }

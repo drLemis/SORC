@@ -12,15 +12,19 @@ function CreateTileArray(map, h, w) {
 
 
 var Submap = function (w, h) {
-
 	this.grid = CreateTileArray(this, h, w)
 	this.height = h
 	this.width = w
 
 	this.getTile = function (x, y) {
-		if (x >= 0 && x < h && y >= 0 && y < w) return this.grid[x][y];
-		else console.log("Out of bounds error for tile (%i, %i)", x, y)
+		if (x >= 0 && x < h && y >= 0 && y < w)
+			return this.grid[x][y];
+		else {
+			console.log("Out of bounds error for tile (%i, %i)", x, y)
+			return null;
+		}
 	}
+
 	this.setTile = function (newTile, x, y) {
 		newTile.x = x
 		newTile.y = y
@@ -28,32 +32,34 @@ var Submap = function (w, h) {
 		this.grid[x][y] = newTile
 		return this
 	}
+
 	this.wipe = function () {
 		this.grid.forEach(function (row) {
-
 			row.forEach(function (tile) {
 				tile.clearTile()
 			})
-
 		})
 		return this
 	}
+
 	this.moveCreature = function (fromTile, toTile) {
-		if (fromTile.parent != this || toTile.parent != this) {
-			console.log("Failed map-based move: tiles don't belong to map!")
-			return
+		if (fromTile != toTile) {
+			if (toTile.creature != null) {
+				console.log("Failed map-based move: target is occupied!");
+				return;
+			}
+			if (toTile.passable != true) {
+				console.log("Failed map-based move: target is impassible!");
+				return;
+			}
+			toTile.setCreature(fromTile.getCreature());
+			fromTile.removeCreature();
+			return this;
 		}
-		if (toTile.creature !== null) {
-			console.log("Failed map-based move: target is occupied!")
-			return
-		}
-		if (!toTile.passable) {
-			console.log("Failed map-based move: target is impassible!")
-			return
-		}
-		toTile.setCreature(fromTile.getCreature)
-		fromTile.removeCreature
-		return this
+	}
+
+	this.getTileAdjacent = function (fromTile, vector) {
+		return this.getTile(fromTile.x + vector[0], fromTile.y + vector[1]);
 	}
 	return this;
 };
@@ -136,23 +142,6 @@ var Tile = function (map, x, y) {
 	}
 	this.removeCreature = function () {
 		this.creature = null;
-		return this
-	}
-	this.moveCreature = function (target) {
-		if (this.parent != target.parent) {
-			console.log("Failed tile-based move: tiles belong to different maps!")
-			return
-		}
-		if (target.creature !== null) {
-			console.log("Failed tile-based move: target tile is occupied!")
-			return
-		}
-		if (!target.passable) {
-			console("Failed tile-based move: target is impassible!")
-			return
-		}
-		target.setCreature(this.getCreature)
-		this.removeCreature
 		return this
 	}
 }
