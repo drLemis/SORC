@@ -10,15 +10,15 @@ const gTwister = new MersenneTwister(GENERATE_SEED);
 
 const gWorld = new World();
 
-const gSubmap = new Submap(5, 8);
-// GenerateDungeon(GENERATE_SEED);
+// const gSubmap = new Submap(5, 8);
+const gSubmap = SubmapFromArray(GenerateDungeon(Math.random() * 50000000000000));
 
 const gPlayer = new Entity("WORLDDESTROYER IV");
 
 var enemy = new Entity("ENEMY");
 
 gSubmap.getTile(6, 3).setCreature(gPlayer);
-gSubmap.getTile(2, 3).setCreature(enemy);
+gSubmap.getTile(10, 3).setCreature(enemy);
 gSubmap.getTile(0, 0).setPass(false);
 gSubmap.getTile(1, 0).setPass(false);
 gSubmap.getTile(2, 0).setPass(false);

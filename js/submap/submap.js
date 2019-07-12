@@ -10,6 +10,17 @@ function CreateTileArray(map, h, w) {
 	return arr
 }
 
+function SubmapFromArray(array) {
+	map = new Submap(array.length, array[0].length)
+
+	for (curX = 0; curX < array[0].length; curX++) {
+		for (curY = 0; curY < array.length; curY++) {
+			if (array[curY][curX] == 1)
+				map.getTile(curX, curY).setPass(false);
+		}
+	}
+	return map
+}
 
 var Submap = function (w, h) {
 	this.grid = CreateTileArray(this, h, w)

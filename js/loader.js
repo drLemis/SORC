@@ -14,9 +14,10 @@ const LOADER_SCRIPTFILES = [
     "js/render/screen.js",
 
     "js/submap/submap.js",
-    
+    "js/submap/submapGenerate.js",
+
     "js/world/world.js",
-    
+
     "js/debug.js",
 ];
 
