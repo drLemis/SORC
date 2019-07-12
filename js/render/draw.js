@@ -19,10 +19,22 @@ var colorMain = "#FFFFFF"
 var colorWarn = "#FF0000"
 var colorAttn = "#FFFF00"
 
+var gSubmap = [
+    [1, 1, 1, 1],
+    [1, 1, 1, 1],
+    [1, 1, 1, 1]
+];
+
 function draw() {
     ctx.clearRect(0, 0, width, height);
 
-    drawInterfaceLogo();
+    ctx.fillStyle = colorBack;
+    ctx.fillRect(0, 0, width, height);
+
+    //drawInterfaceLogo();
+
+    if (gSubmap)
+        drawScreenSubmap2D(gSubmap);
 
     drawInterfaceFrame();
     drawInterfaceStats();
