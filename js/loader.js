@@ -1,7 +1,8 @@
 'use strict';
 
 const LOADER_SCRIPTFILES = [
-    "js/misc.js",
+    "js/misc/misc.js",
+    "js/misc/twister.js",
 
     "js/actors/item.js",
     "js/actors/inventory.js",

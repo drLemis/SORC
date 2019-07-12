@@ -1,8 +1,12 @@
 'use strict';
 
+var GENERATE_SEED = 1337;
+
 var World = function () {
-    this.date = new Date(getRandomInt(100000000000000, 150000000000000));
+    this.date = new Date(gTwister.random() * 50000000000000 + 100000000000000);
 }
+
+const gTwister = new MersenneTwister(GENERATE_SEED);
 
 const gWorld = new World();
 const gPlayer = new Entity("WORLDDESTROYER IV");
