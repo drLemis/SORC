@@ -33,10 +33,10 @@ var colorsCGA = [
     "#FFFFFF", // 15 white
 ];
 
-var colorBack = colorsCGA[0];
-var colorMain = colorsCGA[15]
-var colorWarn = colorsCGA[4]
-var colorAttn = colorsCGA[14]
+var colorBack = colorsCGA[0]; // black
+var colorMain = colorsCGA[15]; // white
+var colorWarn = colorsCGA[4]; // red
+var colorAttn = colorsCGA[14]; //yellow
 
 var gSubmap = [
     [1, 1, 1, 1],
