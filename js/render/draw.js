@@ -38,11 +38,11 @@ var colorMain = colorsCGA[15]; // white
 var colorWarn = colorsCGA[4]; // red
 var colorAttn = colorsCGA[14]; //yellow
 
-var gSubmap = [
-    [1, 1, 1, 1],
-    [1, 1, 1, 1],
-    [1, 1, 1, 1]
-];
+// var gSubmap = [
+//     [1, 1, 1, 1],
+//     [1, 1, 1, 1],
+//     [1, 1, 1, 1]
+// ];
 
 function draw() {
     ctx.clearRect(0, 0, width, height);
@@ -52,7 +52,7 @@ function draw() {
 
     //drawInterfaceLogo();
 
-    if (gSubmap)
+    if (gSubmap && debugSubmap2D)
         drawScreenSubmap2D(gSubmap);
 
     drawInterfaceFrame();

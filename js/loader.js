@@ -12,7 +12,11 @@ const LOADER_SCRIPTFILES = [
     "js/render/interface.js",
     "js/render/screen.js",
 
+    "js/submap/submap.js",
+    
     "js/world/world.js",
+    
+    "js/debug.js",
 ];
 
 var scriptsLoadedTotal = 0;
