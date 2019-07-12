@@ -51,3 +51,15 @@ function getRandomWord(type = "noun") {
 function getRandomItemName() {
     return getRandomWord("adjective") + getRandomWord("middle") + getRandomWord("noun");
 }
+
+function getStatusColor(stat, colors) {
+    if (stat.MAX > stat.MIN && stat.CURRENT >= stat.MIN && stat.MAX >= stat.CURRENT && colors.length > 1) {
+        var index = Math.floor((stat.CURRENT - stat.MIN) / (stat.MAX - stat.MIN) * colors.length);
+        if (index == colors.length)
+            index--;
+
+        return colors[index];
+    } else {
+        return null;
+    }
+}

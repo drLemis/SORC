@@ -39,14 +39,6 @@ var Entity = function (name) {
         if (marm <= matk)
             damage += mdmg;
 
-        console.log(this.name);
-        console.log(patk);
-        console.log(random);
-        console.log(this.inventory.getSlotsAllMod("PATK"));
-        console.log(this.stats.attributes.STNG);
-        console.log(this.inventory.getSlotsAllMod("STNG"));
-        console.log("=======");
-
         var log = this.name + " ATTACKS " + entity.name + "! " + patk + "->" + parm + "/" + matk + "->" + marm
 
         if (damage > 0)

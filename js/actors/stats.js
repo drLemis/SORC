@@ -64,10 +64,3 @@ var Stats = function (parent) {
         return this.xp.CURRENT;
     }
 }
-
-function getStatusColor(stat, colors) {
-    if (stat.MAX > stat.MIN && stat.CURRENT >= stat.MIN && stat.MAX >= stat.CURRENT && colors.length > 1) {
-        return colors[Math.floor((stat.CURRENT - stat.MIN) / (stat.MAX - stat.MIN) * colors.length)];
-    } else
-        return null;
-}
