@@ -14,10 +14,29 @@ function initDraw() {
     draw();
 }
 
-var colorBack = "#050505"
-var colorMain = "#FFFFFF"
-var colorWarn = "#FF0000"
-var colorAttn = "#FFFF00"
+var colorsCGA = [
+    "#000000", // 0  black
+    "#0000AA", // 1  blue
+    "#00AA00", // 2  green
+    "#00AAAA", // 3  cyan
+    "#AA0000", // 4  red
+    "#AA00AA", // 5  magenta
+    "#AA5500", // 6  brown
+    "#AAAAAA", // 7  light gray
+    "#555555", // 8  dark gray
+    "#5555FF", // 9  light blue
+    "#55FF55", // 10 light green
+    "#55FFFF", // 11 light cyan
+    "#FF5555", // 12 light red
+    "#FF55FF", // 13 light magenta
+    "#FFFF55", // 14 yellow
+    "#FFFFFF", // 15 white
+];
+
+var colorBack = colorsCGA[0];
+var colorMain = colorsCGA[15]
+var colorWarn = colorsCGA[4]
+var colorAttn = colorsCGA[14]
 
 var gSubmap = [
     [1, 1, 1, 1],
