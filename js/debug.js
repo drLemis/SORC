@@ -12,19 +12,15 @@ document.onkeydown = function (e) {
 
         if (e.keyCode == 37) { // left
             newTile = gSubmap.getTileAdjacent(oldTile, [-1, 0]);
-            drawInterfaceLogs("YOU MOVE WEST");
         } else if (e.keyCode == 38) { // up
             newTile = gSubmap.getTileAdjacent(oldTile, [0, -1]);
-            drawInterfaceLogs("YOU MOVE NORTH");
         } else if (e.keyCode == 39) { // right
             newTile = gSubmap.getTileAdjacent(oldTile, [1, 0]);
-            drawInterfaceLogs("YOU MOVE EAST");
         } else if (e.keyCode == 40) { // down
             newTile = gSubmap.getTileAdjacent(oldTile, [0, 1]);
-            drawInterfaceLogs("YOU MOVE SOUTH");
         }
 
-        if (newTile != null)
+        if (newTile != null && newTile != undefined)
             gSubmap.moveCreature(oldTile, newTile);
     }
 

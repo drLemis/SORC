@@ -20,7 +20,6 @@ var Submap = function (w, h) {
 		if (x >= 0 && x < h && y >= 0 && y < w)
 			return this.grid[x][y];
 		else {
-			console.log("Out of bounds error for tile (%i, %i)", x, y)
 			return null;
 		}
 	}
@@ -45,20 +44,15 @@ var Submap = function (w, h) {
 	this.moveCreature = function (fromTile, toTile) {
 		if (fromTile != toTile) {
 			if (toTile.creature != null) {
-				console.log("Failed map-based move: target is occupied!");
 				if (fromTile.creature == gPlayer) {
-					var dmgPlayer = -gPlayer.inventory.getSlotsAllMod("PDMG") - gPlayer.inventory.getSlotsAllMod("MDMG");
-					var dmgEntity = -toTile.creature.inventory.getSlotsAllMod("PDMG") - toTile.creature.inventory.getSlotsAllMod("MDMG");
-					toTile.creature.stats.setHealthDelta(dmgPlayer);
-					gPlayer.stats.setHealthDelta(dmgEntity);
-
-					drawInterfaceLogs("YOU ATTACK! " + dmgPlayer + " DMG!");
-					drawInterfaceLogs("YOU'VE BEEN ATTACKED! " + dmgEntity + " DMG!");
+					gPlayer.attackMain(toTile.creature);
+					if (toTile.creature)
+						toTile.creature.attackMain(gPlayer);
 				}
 				return;
 			}
 			if (toTile.passable != true) {
-				console.log("Failed map-based move: target is impassible!");
+				drawInterfaceLogs("YOU CAN'T MOVE THERE!");
 				return;
 			}
 			toTile.setCreature(fromTile.getCreature());

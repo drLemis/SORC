@@ -87,6 +87,17 @@ var Inventory = function (parent) {
     }
 
 
+    this.getSlotsMod = function (modname) {
+        var result = 0;
+
+        Object.keys(this.slots).forEach(slotName => {
+            if (slotName != "MAIN" && slotName != "DIST" && slotName != "AMMO" && this.slots[slotName])
+                result += this.slots[slotName].stats[modname];
+        });
+
+        return result;
+    }
+
     this.getSlotsAllMod = function (modname) {
         var result = 0;
 
