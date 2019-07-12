@@ -11,11 +11,16 @@ function drawScreenSubmap2D(submap) {
 
             ctx.fillStyle = colorsCGA[0]; // black
 
-            if (submap.grid[iY][iX].getPass() != true)
+            var tile = submap.grid[iY][iX];
+
+            if (tile.getPass() != true)
                 ctx.fillStyle = colorsCGA[8]; // dark gray
 
-            if (submap.grid[iY][iX].getCreature() != null) {
-                if (submap.grid[iY][iX].getCreature() == gPlayer) {
+            if (tile.items.length > 0)
+                ctx.fillStyle = colorsCGA[14]; // yellow
+
+            if (tile.getCreature() != null) {
+                if (tile.getCreature() == gPlayer) {
                     ctx.fillStyle = colorsCGA[1]; // blue
                 } else
                     ctx.fillStyle = colorsCGA[6]; // brown

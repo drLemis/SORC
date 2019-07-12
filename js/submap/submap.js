@@ -121,16 +121,20 @@ var Tile = function (map, x, y) {
 		return this
 	}
 	this.addItems = function (newItems) {
-		this.items.concat(newItems);
+		this.items = this.items.concat(newItems);
 		return this
 	}
 	this.removeItems = function (targetItems) {
+		var itemsOnFloor = this.items;
 		targetItems.forEach(function (item) {
-			var i = this.items.indexOf(item)
+			var i = itemsOnFloor.indexOf(item)
 			if (i > -1) {
-				this.items.splice(i, 1)
+				itemsOnFloor.splice(i, 1)
 			}
 		})
+		this.items = itemsOnFloor.filter(function (el) {
+			return el != null;
+		});
 		return this
 	}
 	this.wipeItems = function () {

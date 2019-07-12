@@ -40,6 +40,19 @@ var Stats = function (parent) {
 
         if (this.health.CURRENT <= 0 && this.parent != gPlayer) {
             gSubmap.getTile(this.parent.subX, this.parent.subY).removeCreature();
+
+            this.parent.inventory.itemUnequipFromSlot("HEAD");
+            this.parent.inventory.itemUnequipFromSlot("NECK");
+            this.parent.inventory.itemUnequipFromSlot("BODY");
+            this.parent.inventory.itemUnequipFromSlot("HAND");
+            this.parent.inventory.itemUnequipFromSlot("LEGS");
+            this.parent.inventory.itemUnequipFromSlot("MAIN");
+            this.parent.inventory.itemUnequipFromSlot("DIST");
+            this.parent.inventory.itemUnequipFromSlot("AMMO");
+
+            while (this.parent.inventory.bag.length > 0)
+                this.parent.inventory.itemDrop(this.parent.inventory.bag[0]);
+
             drawInterfaceLogs([this.parent.name + " IS DEAD!", colorWarn]);
         }
     };

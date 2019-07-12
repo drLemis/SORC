@@ -83,9 +83,31 @@ var Inventory = function (parent) {
     }
 
     this.itemPickup = function (item) {
-        this.bag.push(item);
+        if (item) {
+            gSubmap.getTile(this.parent.subX, this.parent.subY).removeItems([item]);
+            this.bag.push(item);
+            if (this.parent == gPlayer)
+                drawInterfaceLogs("YOU GOT " + item.name + "!");
+        }
     }
 
+    this.itemDrop = function (item) {
+        var index = this.bag.indexOf(item);
+        if (index >= 0) {
+            gSubmap.grid[this.parent.subX][this.parent.subY].addItems(item);
+
+            var i = this.bag.indexOf(item)
+            if (i > -1) {
+                this.bag.splice(i, 1);
+            }
+
+            this.bag = this.bag.filter(function (el) {
+                return el != null;
+            });
+            if (this.parent == gPlayer)
+                drawInterfaceLogs("YOU DROPPED " + item.name + "!");
+        }
+    }
 
     this.getSlotsMod = function (modname) {
         var result = 0;
@@ -113,7 +135,8 @@ var Inventory = function (parent) {
         var result = 0;
 
         this.bag.forEach(item => {
-            result += item.weight;
+            if (item)
+                result += item.weight;
         });
 
         return setPadding(result, 8);
