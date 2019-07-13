@@ -7,7 +7,6 @@ document.onkeydown = function (e) {
             gPlayer.inventory.itemPickup(gSubmap.grid[gPlayer.subX][gPlayer.subY].items[0]);
         }
 
-
         var oldTile = gSubmap.grid[gPlayer.subX][gPlayer.subY];
         var newTile = null;
 

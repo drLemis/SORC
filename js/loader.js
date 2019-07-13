@@ -17,10 +17,10 @@ const LOADER_SCRIPTFILES = [
     "js/submap/submapGenerate.js",
 
     "js/globalmap/globalmap.js",
-
+    
     "js/world/world.js",
 
-    "js/debug.js",
+    "js/input/input.js",
 ];
 
 var scriptsLoadedTotal = 0;
