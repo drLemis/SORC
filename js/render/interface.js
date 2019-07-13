@@ -125,7 +125,7 @@ function drawInterfaceLogs(newLog = "") {
 
     ctx.strokeStyle = colorMain;
 
-    var locH = height * 0.80 + 5;
+    var locH = height * 0.80 + 2;
     var stepH = 16;
 
     var i = 0;
