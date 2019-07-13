@@ -6,6 +6,9 @@ var Entity = function (name) {
     this.subX;
     this.subY;
 
+    this.globalX;
+    this.globalY;
+
     this.inventory = new Inventory(this);
     this.stats = new Stats(this);
 

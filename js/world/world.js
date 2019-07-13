@@ -11,9 +11,31 @@ const gTwister = new MersenneTwister(GENERATE_SEED);
 const gWorld = new World();
 
 // const gSubmap = new Submap(5, 8);
-const gSubmap = SubmapFromArray(GenerateDungeon(Math.random() * 50000000000000));
+const gGlobalmap = new Globalmap(30, 30);
+
+var submap = SubmapFromArray(GenerateDungeon(Math.random() * 50000000000000));
+var gSubmap = submap;
+
+gGlobalmap.getTile(getRandomInt(0, gGlobalmap.width), getRandomInt(0, gGlobalmap.height)).submap = submap;
+
+var eGamePositions = {
+    GLOBALMAP: 1,
+    SUBMAP: 2
+};
+var eGameStates = {
+    MENU: 1,
+    PLAYING: 2,
+    INVENTORY: 3,
+    STORE: 4,
+    DIALOGUE: 5
+};
+
+var gGamePosition = eGamePositions.GLOBALMAP;
+var gGameState = eGameStates.PLAYING;
 
 const gPlayer = new Entity("WORLDDESTROYER IV");
+gPlayer.globalX = 0;
+gPlayer.globalY = 0;
 
 for (let index = 0; index < Math.floor(Math.random() * 20 + 1); index++) {
     var enemy = new Entity("ENEMY");
@@ -88,3 +110,5 @@ gPlayer.inventory.itemEquip(item);
 // item = itemGenerate("armor");
 // gPlayer.inventory.itemPickup(item);
 // gPlayer.inventory.itemEquip(item);
+
+gSubmap = null;

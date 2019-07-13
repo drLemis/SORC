@@ -27,6 +27,8 @@ var Submap = function (w, h) {
 	this.height = h
 	this.width = w
 
+	this.seed = 0;
+
 	this.getTile = function (x, y) {
 		if (x >= 0 && x < h && y >= 0 && y < w)
 			return this.grid[x][y];

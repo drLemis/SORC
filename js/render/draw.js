@@ -52,8 +52,11 @@ function draw() {
 
     //drawInterfaceLogo();
 
-    if (gSubmap && debugSubmap2D)
+    if (gGamePosition == eGamePositions.SUBMAP && gSubmap)
         drawScreenSubmap2D(gSubmap);
+    else if (gGamePosition == eGamePositions.GLOBALMAP && gGlobalmap)
+        drawScreenGlobalmap2D(gGlobalmap);
+
 
     drawInterfaceFrame();
     drawInterfaceStats();

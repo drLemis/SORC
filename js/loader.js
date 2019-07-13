@@ -16,6 +16,8 @@ const LOADER_SCRIPTFILES = [
     "js/submap/submap.js",
     "js/submap/submapGenerate.js",
 
+    "js/globalmap/globalmap.js",
+
     "js/world/world.js",
 
     "js/debug.js",
