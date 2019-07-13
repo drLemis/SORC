@@ -1,29 +1,17 @@
-//helper cucktion
-function CreateGlobalTileArray(map, h, w) {
+//helper function
+function CreateTileGlobalArray(map, h, w) {
 	arr = new Array(h)
 	for (var i = 0; i < h; i++) {
 		arr[i] = new Array(w)
 		for (var j = 0; j < w; j++) {
-			arr[i][j] = new GlobalTile(map, i, j)
+			arr[i][j] = new TileGlobal(map, i, j)
 		}
 	}
 	return arr
 }
 
-function GlobalmapFromArray(array) {
-	map = new Globalmap(array.length, array[0].length)
-
-	for (curX = 0; curX < array[0].length; curX++) {
-		for (curY = 0; curY < array.length; curY++) {
-			if (array[curY][curX] == 1)
-				map.getTile(curX, curY).setPass(false);
-		}
-	}
-	return map
-}
-
-var Globalmap = function (w, h) {
-	this.grid = CreateGlobalTileArray(this, h, w)
+var MapGlobal = function (w, h) {
+	this.grid = CreateTileGlobalArray(this, h, w)
 	this.height = h
 	this.width = w
 
@@ -43,8 +31,8 @@ var Globalmap = function (w, h) {
 		return this
 	}
 
-	this.movePlayer = function (fromTile, toTile) {
-		if (fromTile != toTile) {
+	this.movePlayer = function (toTile) {
+		if (toTile != null && toTile != undefined) {
 			if (toTile.onFoot != true) {
 				drawInterfaceLogs("YOU CAN'T MOVE THERE!");
 				return;
@@ -55,13 +43,15 @@ var Globalmap = function (w, h) {
 	}
 
 	this.getTileAdjacent = function (fromTile, vector) {
-		return this.getTile(fromTile.x + vector[0], fromTile.y + vector[1]);
+		if (fromTile != null)
+			return this.getTile(fromTile.x + vector[0], fromTile.y + vector[1]);
+		return null
 	}
 
 	return this;
 };
 
-var GlobalTile = function (map, x, y) {
+var TileGlobal = function (map, x, y) {
 	this.x = x;
 	this.y = y;
 	this.parent = map;
@@ -69,5 +59,5 @@ var GlobalTile = function (map, x, y) {
 	this.onFoot = new Boolean(true);
 	this.onSail = new Boolean(false);
 	this.onFlight = new Boolean(true);
-	this.submap = null;
+	this.submapSeed = null;
 }

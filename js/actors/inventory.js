@@ -84,7 +84,7 @@ var Inventory = function (parent) {
 
     this.itemPickup = function (item) {
         if (item) {
-            gSubmap.getTile(this.parent.subX, this.parent.subY).removeItems([item]);
+            gWorld.mapLocal.getTile(this.parent.localX, this.parent.localY).removeItems([item]);
             this.bag.push(item);
             if (this.parent == gPlayer)
                 drawInterfaceLogs("YOU GOT " + item.name + "!");
@@ -94,7 +94,10 @@ var Inventory = function (parent) {
     this.itemDrop = function (item) {
         var index = this.bag.indexOf(item);
         if (index >= 0) {
-            gSubmap.grid[this.parent.subX][this.parent.subY].addItems(item);
+            console.log(this.parent)
+            console.log(this.parent.localX)
+            console.log(this.parent.localY)
+            gWorld.mapLocal.grid[this.parent.localX][this.parent.localY].addItems(item);
 
             var i = this.bag.indexOf(item)
             if (i > -1) {

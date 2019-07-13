@@ -13,11 +13,11 @@ const LOADER_SCRIPTFILES = [
     "js/render/interface.js",
     "js/render/screen.js",
 
-    "js/submap/submap.js",
-    "js/submap/submapGenerate.js",
+    "js/map/map_local.js",
+    "js/map/map_local_generate.js",
 
-    "js/globalmap/globalmap.js",
-    
+    "js/map/map_global.js",
+
     "js/world/world.js",
 
     "js/input/input.js",
@@ -44,5 +44,5 @@ function loadAllScripts() {
 //стартовая инициализация параметров игры
 function initializeAllScripts() {
     // начало рендера
-    initDraw();
+    initGame();
 }

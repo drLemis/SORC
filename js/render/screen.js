@@ -57,7 +57,7 @@ function drawScreenGlobalmap2D(globalmap) {
                 ctx.fillStyle = colorsCGA[9]; // river, light blue
             }
 
-            if (tile.submap != null)
+            if (tile.submapSeed != null)
                 ctx.fillStyle = colorsCGA[14]; // submap, yellow
 
             if (tile.x == gPlayer.globalX && tile.y == gPlayer.globalY) {

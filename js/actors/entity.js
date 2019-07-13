@@ -3,8 +3,8 @@
 var Entity = function (name) {
     this.name = name;
 
-    this.subX;
-    this.subY;
+    this.localX;
+    this.localY;
 
     this.globalX;
     this.globalY;

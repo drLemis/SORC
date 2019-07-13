@@ -1,17 +1,17 @@
-//helper cucktion
-function CreateTileArray(map, h, w) {
+//helper function
+function CreateTileLocalArray(map, h, w) {
 	arr = new Array(h)
 	for (var i = 0; i < h; i++) {
 		arr[i] = new Array(w)
 		for (var j = 0; j < w; j++) {
-			arr[i][j] = new Tile(map, i, j)
+			arr[i][j] = new TileLocal(map, i, j)
 		}
 	}
 	return arr
 }
 
-function SubmapFromArray(array) {
-	map = new Submap(array.length, array[0].length)
+function MapLocalFromArray(array) {
+	map = new MapLocal(array.length, array[0].length)
 
 	for (curX = 0; curX < array[0].length; curX++) {
 		for (curY = 0; curY < array.length; curY++) {
@@ -22,8 +22,8 @@ function SubmapFromArray(array) {
 	return map
 }
 
-var Submap = function (w, h) {
-	this.grid = CreateTileArray(this, h, w)
+var MapLocal = function (w, h) {
+	this.grid = CreateTileLocalArray(this, h, w)
 	this.height = h
 	this.width = w
 
@@ -80,7 +80,7 @@ var Submap = function (w, h) {
 	return this;
 };
 
-var Tile = function (map, x, y) {
+var TileLocal = function (map, x, y) {
 	this.x = x;
 	this.y = y;
 	this.parent = map;
@@ -156,12 +156,54 @@ var Tile = function (map, x, y) {
 
 	this.setCreature = function (newCreature) {
 		this.creature = newCreature;
-		this.creature.subX = this.x;
-		this.creature.subY = this.y;
+		this.creature.localX = this.x;
+		this.creature.localY = this.y;
 		return this
 	}
 	this.removeCreature = function () {
 		this.creature = null;
 		return this
 	}
+}
+
+var seedToMapLocal = function (seed) {
+	// generating mapLocal
+	var mapLocal = MapLocalFromArray(GenerateDungeon(seed));
+
+	var twister = new MersenneTwister(seed);
+
+	for (let index = 0; index < Math.floor(twister.random() * 20 + 1); index++) {
+		var enemy = new Entity("ENEMY");
+		var x = Math.floor(twister.random() * mapLocal.width);
+		var y = Math.floor(twister.random() * mapLocal.height);
+
+		while (mapLocal.getTile(x, y) && (mapLocal.getTile(x, y).getPass() != true || mapLocal.getTile(x, y).creature != null)) {
+			x = Math.floor(twister.random() * mapLocal.width);
+			y = Math.floor(twister.random() * mapLocal.height);
+		}
+
+		tile = mapLocal.getTile(x, y);
+		tile.setCreature(enemy);
+
+		item = itemGenerate("sword");
+		enemy.inventory.bag.push(item);
+		enemy.inventory.itemEquip(item);
+		item = itemGenerate("armor");
+		enemy.inventory.bag.push(item);
+		enemy.inventory.itemEquip(item);
+		item = itemGenerate("helmet");
+		enemy.inventory.bag.push(item);
+		enemy.inventory.itemEquip(item);
+	}
+
+	var x = Math.floor(twister.random() * mapLocal.width);
+	var y = Math.floor(twister.random() * mapLocal.height);
+
+	while (mapLocal.getTile(x, y) && (mapLocal.getTile(x, y).getPass() != true || mapLocal.getTile(x, y).creature != null)) {
+		x = Math.floor(twister.random() * mapLocal.width);
+		y = Math.floor(twister.random() * mapLocal.height);
+	}
+
+	mapLocal.getTile(x, y).setCreature(gPlayer);
+	return mapLocal;
 }

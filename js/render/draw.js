@@ -38,7 +38,7 @@ var colorMain = colorsCGA[15]; // white
 var colorWarn = colorsCGA[4]; // red
 var colorAttn = colorsCGA[14]; //yellow
 
-// var gSubmap = [
+// var gWorld.mapLocal = [
 //     [1, 1, 1, 1],
 //     [1, 1, 1, 1],
 //     [1, 1, 1, 1]
@@ -52,10 +52,10 @@ function draw() {
 
     //drawInterfaceLogo();
 
-    if (gGamePosition == eGamePositions.SUBMAP && gSubmap)
-        drawScreenSubmap2D(gSubmap);
-    else if (gGamePosition == eGamePositions.GLOBALMAP && gGlobalmap)
-        drawScreenGlobalmap2D(gGlobalmap);
+    if (gGamePosition == eGamePositions.SUBMAP && gWorld.mapLocal)
+        drawScreenSubmap2D(gWorld.mapLocal);
+    else if (gGamePosition == eGamePositions.GLOBALMAP && gWorld.mapGlobal)
+        drawScreenGlobalmap2D(gWorld.mapGlobal);
 
 
     drawInterfaceFrame();
