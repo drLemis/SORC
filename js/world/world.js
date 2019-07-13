@@ -15,10 +15,42 @@ const gSubmap = SubmapFromArray(GenerateDungeon(Math.random() * 50000000000000))
 
 const gPlayer = new Entity("WORLDDESTROYER IV");
 
-var enemy = new Entity("ENEMY");
+for (let index = 0; index < Math.floor(Math.random() * 20 + 1); index++) {
+    var enemy = new Entity("ENEMY");
+    var x = Math.floor(Math.random() * gSubmap.width);
+    var y = Math.floor(Math.random() * gSubmap.height);
 
-gSubmap.getTile(6, 3).setCreature(gPlayer);
-gSubmap.getTile(10, 3).setCreature(enemy);
+    while (gSubmap.getTile(x, y) && (gSubmap.getTile(x, y).getPass() != true || gSubmap.getTile(x, y).creature != null)) {
+        x = Math.floor(Math.random() * gSubmap.width);
+        y = Math.floor(Math.random() * gSubmap.height);
+    }
+
+    tile = gSubmap.getTile(x, y);
+    tile.setCreature(enemy);
+
+    item = itemGenerate("sword");
+    tile.items.push(item);
+    enemy.inventory.itemPickup(item);
+    enemy.inventory.itemEquip(item);
+    item = itemGenerate("armor");
+    tile.items.push(item);
+    enemy.inventory.itemPickup(item);
+    enemy.inventory.itemEquip(item);
+    item = itemGenerate("helmet");
+    tile.items.push(item);
+    enemy.inventory.itemPickup(item);
+    enemy.inventory.itemEquip(item);
+}
+
+var x = Math.floor(Math.random() * gSubmap.width);
+var y = Math.floor(Math.random() * gSubmap.height);
+
+while (gSubmap.getTile(x, y) && (gSubmap.getTile(x, y).getPass() != true || gSubmap.getTile(x, y).creature != null)) {
+    x = Math.floor(Math.random() * gSubmap.width);
+    y = Math.floor(Math.random() * gSubmap.height);
+}
+
+gSubmap.getTile(x, y).setCreature(gPlayer);
 gSubmap.getTile(0, 0).setPass(false);
 gSubmap.getTile(1, 0).setPass(false);
 gSubmap.getTile(2, 0).setPass(false);
@@ -56,18 +88,3 @@ gPlayer.inventory.itemEquip(item);
 // item = itemGenerate("armor");
 // gPlayer.inventory.itemPickup(item);
 // gPlayer.inventory.itemEquip(item);
-
-tile = gSubmap.getTile(enemy.subX, enemy.subY);
-
-item = itemGenerate("sword");
-tile.items.push(item);
-enemy.inventory.itemPickup(item);
-enemy.inventory.itemEquip(item);
-item = itemGenerate("armor");
-tile.items.push(item);
-enemy.inventory.itemPickup(item);
-enemy.inventory.itemEquip(item);
-item = itemGenerate("helmet");
-tile.items.push(item);
-enemy.inventory.itemPickup(item);
-enemy.inventory.itemEquip(item);
