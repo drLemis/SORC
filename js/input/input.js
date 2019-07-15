@@ -6,14 +6,21 @@ function inputProcessing(e) {
 
 
     if (gGameState == eGameStates.PLAYING) {
-        // GAME
-        if ((e.keyCode == 'I'.charCodeAt(0))) {
+        // INVENTORY
+        if (e.keyCode == 'I'.charCodeAt(0)) {
             gGameState = eGameStates.INVENTORY;
             draw();
             return;
         }
 
         if (gGamePosition == eGamePositions.SUBMAP) {
+            // ENTER GET MODE
+            if (e.keyCode == 'G'.charCodeAt(0) && gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items.length > 0) {
+                gGameStateLast = gGameState;
+                gGameState = eGameStates.INVENTORY_GET;
+                drawInterfaceLogs("WHICH ITEM TO PICK UP? SPACE TO STOP");
+            }
+
             //movement
             var oldTile = gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY];
             var newTile = null;
@@ -38,13 +45,9 @@ function inputProcessing(e) {
             if (newTile != null && newTile != undefined)
                 gWorld.mapLocal.moveCreature(oldTile, newTile);
 
-            if ((e.keyCode == 'O'.charCodeAt(0))) {
+            if (e.keyCode == 'O'.charCodeAt(0)) {
                 gGamePosition = eGamePositions.GLOBALMAP;
                 gWorld.mapLocal = null;
-            }
-
-            if ((e.keyCode == 'G'.charCodeAt(0))) {
-                gPlayer.inventory.itemPickup(gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items[0]);
             }
         } else if (gGamePosition == eGamePositions.GLOBALMAP) {
             switch (e.keyCode) {
@@ -64,16 +67,17 @@ function inputProcessing(e) {
                     break;
             }
 
-            if ((e.keyCode == 'O'.charCodeAt(0))) {
+            if (e.keyCode == 'O'.charCodeAt(0)) {
                 if (gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).submapSeed != null) {
                     gGamePosition = eGamePositions.SUBMAP;
                     gWorld.mapLocal = seedToMapLocal(gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).submapSeed);
                 }
             }
         }
+
     } else if (gGameState == eGameStates.INVENTORY) {
         // CLOSE INVENTORY
-        if ((e.keyCode == 'I'.charCodeAt(0))) {
+        if (e.keyCode == 'I'.charCodeAt(0)) {
             gGameState = eGameStates.PLAYING;
             draw();
             return;
@@ -83,6 +87,16 @@ function inputProcessing(e) {
         if (e.keyCode == 'D'.charCodeAt(0)) {
             gGameState = eGameStates.INVENTORY_DROP;
             drawInterfaceLogs("WHICH ITEM TO TOSS AWAY? SPACE TO STOP");
+        }
+
+
+        if (gGamePosition == eGamePositions.SUBMAP) {
+            // ENTER GET MODE
+            if (e.keyCode == 'G'.charCodeAt(0) && gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items.length > 0) {
+                gGameStateLast = gGameState;
+                gGameState = eGameStates.INVENTORY_GET;
+                drawInterfaceLogs("WHICH ITEM TO PICK UP? SPACE TO STOP");
+            }
         }
 
         // ENTER USE MODE
@@ -101,12 +115,12 @@ function inputProcessing(e) {
         }
     } else if (gGameState == eGameStates.INVENTORY_DROP) {
         // INVENTORY
-        if ((e.keyCode == 32)) {
+        if (e.keyCode == 32) {
             gGameState = eGameStates.INVENTORY;
             drawInterfaceLogs("NO MORE ITEM TOSSING");
         }
 
-        if (e.keyCode >= 'A'.charCodeAt(0)) {
+        if (e.keyCode >= 'A'.charCodeAt(0) && e.keyCode <= 'Z'.charCodeAt(0)) {
             if (gGamePosition == eGamePositions.SUBMAP) {
                 gPlayer.inventory.itemDrop(gPlayer.inventory.bag[e.keyCode - 65 + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
             } else {
@@ -119,7 +133,6 @@ function inputProcessing(e) {
             var keys = Object.keys(gPlayer.inventory.slots);
             for (let index = 0; index < keys.length; index++) {
                 if (e.keyCode - 49 == index) {
-                    console.log(e.keyCode - 49 + ":" + index + ":" + keys[index])
                     gPlayer.inventory.itemUnequipFromSlot(keys[index]);
                 }
             }
@@ -140,10 +153,35 @@ function inputProcessing(e) {
             drawInterfaceLogs("NO MORE ITEM USING");
         }
 
-        if (e.keyCode >= 'A'.charCodeAt(0)) {
+        if (e.keyCode >= 'A'.charCodeAt(0) && e.keyCode <= 'Z'.charCodeAt(0)) {
             gPlayer.inventory.itemEquip(gPlayer.inventory.bag[e.keyCode - 65 + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
         }
-        
+
+        // PREV PAGE PGUP
+        if (drawMenuInventoryPage > 0 && e.keyCode == 33) {
+            drawMenuInventoryPage--;
+        }
+        // NEXT PAGE PGDN
+        if (drawMenuInventoryRows >= 30 && e.keyCode == 34) {
+            drawMenuInventoryPage++;
+        }
+    } else if (gGameState == eGameStates.INVENTORY_GET) {
+        // INVENTORY
+        if (e.keyCode == 32) {
+            gGameState = gGameStateLast;
+            gGameStateLast = 0;
+            drawInterfaceLogs("NO MORE ITEM PICK UP");
+        }
+
+        if (e.keyCode >= 'A'.charCodeAt(0) && e.keyCode <= 'Z'.charCodeAt(0)) {
+            gPlayer.inventory.itemPickup(gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items[e.keyCode - 65 + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
+            if (gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items.length == 0) {
+                gGameState = gGameStateLast;
+                gGameStateLast = 0;
+                drawInterfaceLogs("NO MORE ITEMS TO PICK UP");
+            }
+        }
+
         // PREV PAGE PGUP
         if (drawMenuInventoryPage > 0 && e.keyCode == 33) {
             drawMenuInventoryPage--;

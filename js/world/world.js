@@ -32,7 +32,10 @@ var eGameStates = {
     INVENTORY: 3,
     INVENTORY_DROP: 4,
     INVENTORY_USE: 5,
+    INVENTORY_GET: 6,
 };
+
+var gGameStateLast = 0;
 
 var generateWorld = function (seed) {
     var newWorld = new World(seed);
