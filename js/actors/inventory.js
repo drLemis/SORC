@@ -95,8 +95,8 @@ var Inventory = function (parent) {
             this.parent.stats.health.max -= this.slots[slot].stats["HP"];
             this.parent.stats.mana.max -= this.slots[slot].stats["MP"];
             this.bag.push(this.slots[slot]);
+            drawInterfaceLogs("YOU PUT " + this.slots[slot].name + " IN A BAG");
             this.slots[slot] = "";
-            drawInterfaceLogs("YOU PUT " + item.name + " IN A BAG");
         }
     }
 
