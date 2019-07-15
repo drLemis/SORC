@@ -96,6 +96,7 @@ var Inventory = function (parent) {
             this.parent.stats.mana.max -= this.slots[slot].stats["MP"];
             this.bag.push(this.slots[slot]);
             this.slots[slot] = "";
+            drawInterfaceLogs("YOU PUT " + item.name + " IN A BAG");
         }
     }
 
@@ -104,7 +105,7 @@ var Inventory = function (parent) {
             gWorld.mapLocal.getTile(this.parent.localX, this.parent.localY).removeItems([item]);
             this.bag.push(item);
             if (this.parent == gPlayer)
-                drawInterfaceLogs("YOU GOT " + item.name + "!");
+                drawInterfaceLogs("YOU GOT " + item.name);
         }
     }
 
@@ -122,7 +123,7 @@ var Inventory = function (parent) {
                 return el != null;
             });
             if (this.parent == gPlayer)
-                drawInterfaceLogs("YOU DROPPED " + item.name + "!");
+                drawInterfaceLogs("YOU DROPPED " + item.name);
         }
     }
 
