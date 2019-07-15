@@ -14,7 +14,7 @@ function initDraw() {
     draw();
 }
 
-var colorsCGA = [
+var gColorsCGA = [
     "#000000", // 0  black
     "#0000AA", // 1  blue
     "#00AA00", // 2  green
@@ -33,10 +33,11 @@ var colorsCGA = [
     "#FFFFFF", // 15 white
 ];
 
-var colorBack = colorsCGA[0]; // black
-var colorMain = colorsCGA[15]; // white
-var colorWarn = colorsCGA[4]; // red
-var colorAttn = colorsCGA[14]; //yellow
+var colorBack = gColorsCGA[0]; // black
+var colorMain = gColorsCGA[15]; // white
+var colorWarn = gColorsCGA[4]; // red
+var colorAttn = gColorsCGA[14]; // yellow
+var colorGood = gColorsCGA[2]; // green
 
 // var gWorld.mapLocal = [
 //     [1, 1, 1, 1],
@@ -52,11 +53,19 @@ function draw() {
 
     //drawInterfaceLogo();
 
-    if (gGamePosition == eGamePositions.SUBMAP && gWorld.mapLocal)
-        drawScreenSubmap2D(gWorld.mapLocal);
-    else if (gGamePosition == eGamePositions.GLOBALMAP && gWorld.mapGlobal)
-        drawScreenGlobalmap2D(gWorld.mapGlobal);
-
+    switch (gGameState) {
+        case eGameStates.INVENTORY:
+        case eGameStates.INVENTORY_DROP:
+        case eGameStates.INVENTORY_USE:
+            drawMenuInventory();
+            break;
+        default:
+            if (gGamePosition == eGamePositions.SUBMAP && gWorld.mapLocal)
+                drawScreenSubmap2D(gWorld.mapLocal);
+            else
+                drawScreenGlobalmap2D(gWorld.mapGlobal);
+            break;
+    }
 
     drawInterfaceFrame();
     drawInterfaceStats();

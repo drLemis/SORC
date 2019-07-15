@@ -17,9 +17,48 @@ var Item = function (name, slot) {
 
     this.weight = Math.ceil(Math.random() * 10);
 
+    this.getStatsAsString = function () {
+        var result = ""
+        Object.keys(this.stats).forEach(stat => {
+            if (this.stats[stat] != "" && this.stats[stat] != null && this.stats[stat] != 0) {
+                result += " " + stat + ":";
+                if (this.stats[stat] > 0)
+                    result += "+"
+                result += this.stats[stat]
+            }
+        });
+
+        return result;
+    }
+
+    this.getStatsShortAsString = function () {
+        var result = ""
+        Object.keys(this.stats).forEach(stat => {
+            if (this.stats[stat] != "" && this.stats[stat] != null && this.stats[stat] != 0) {
+                result += " " + stat.substr(0, 2);
+                if (this.stats[stat] > 0)
+                    result += "+"
+                result += this.stats[stat]
+            }
+        });
+        return result;
+    }
+
     this.master = "";
 
     this.slot = slot;
+
+    // just in case
+    this.slotToColor = function () {
+        if (this.slot) {
+            var keys = Object.keys(gPlayer.inventory.slots);
+            for (let index = 0; index < keys.length; index++) {
+                if (slot == keys[index] || index > 14)
+                    return gColorsCGA[index];
+            }
+        }
+        return colorsCGA[15];
+    }
 
     this.stats = {
         HP: 0, // + health.max

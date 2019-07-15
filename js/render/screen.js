@@ -9,21 +9,21 @@ function drawScreenSubmap2D(submap) {
         for (let iY = 0; iY < submap.height; iY++) {
             var cellCoord = [fromCoord[0] + (iY * cellSize), fromCoord[1] + (iX * cellSize)];
 
-            ctx.fillStyle = colorsCGA[0]; // black
+            ctx.fillStyle = gColorsCGA[0]; // black
 
             var tile = submap.grid[iY][iX];
 
             if (tile.getPass() != true)
-                ctx.fillStyle = colorsCGA[8]; // dark gray
+                ctx.fillStyle = gColorsCGA[8]; // dark gray
 
             if (tile.items.length > 0)
-                ctx.fillStyle = colorsCGA[14]; // yellow
+                ctx.fillStyle = gColorsCGA[14]; // yellow
 
             if (tile.getCreature() != null) {
                 if (tile.getCreature() == gPlayer) {
-                    ctx.fillStyle = colorsCGA[15]; // white
+                    ctx.fillStyle = gColorsCGA[15]; // white
                 } else
-                    ctx.fillStyle = colorsCGA[6]; // brown
+                    ctx.fillStyle = gColorsCGA[6]; // brown
             }
 
             ctx.fillRect(cellCoord[0], cellCoord[1], cellSize, cellSize)
@@ -43,25 +43,25 @@ function drawScreenGlobalmap2D(globalmap) {
         for (let iY = 0; iY < globalmap.height; iY++) {
             var cellCoord = [fromCoord[0] + (iY * cellSize), fromCoord[1] + (iX * cellSize)];
 
-            ctx.fillStyle = colorsCGA[7]; // light gray
+            ctx.fillStyle = gColorsCGA[7]; // light gray
 
             var tile = globalmap.grid[iY][iX];
 
             if (tile.onFoot != true) {
-                ctx.fillStyle = colorsCGA[2]; // forest, green
+                ctx.fillStyle = gColorsCGA[2]; // forest, green
                 if (tile.onSail == true)
-                    ctx.fillStyle = colorsCGA[1]; // sea, blue
+                    ctx.fillStyle = gColorsCGA[1]; // sea, blue
                 if (tile.onFlight != true)
-                    ctx.fillStyle = colorsCGA[8]; // mountain, dark gray
+                    ctx.fillStyle = gColorsCGA[8]; // mountain, dark gray
             } else if (tile.onSail == true) {
-                ctx.fillStyle = colorsCGA[9]; // river, light blue
+                ctx.fillStyle = gColorsCGA[9]; // river, light blue
             }
 
             if (tile.submapSeed != null)
-                ctx.fillStyle = colorsCGA[14]; // submap, yellow
+                ctx.fillStyle = gColorsCGA[14]; // submap, yellow
 
             if (tile.x == gPlayer.globalX && tile.y == gPlayer.globalY) {
-                ctx.fillStyle = colorsCGA[15]; // player, white
+                ctx.fillStyle = gColorsCGA[15]; // player, white
             }
 
             ctx.fillRect(cellCoord[0], cellCoord[1], cellSize, cellSize)

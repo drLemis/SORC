@@ -17,6 +17,16 @@ function setPadding(text, padLeft = 0, padright = 0, separator = "") {
     return result;
 }
 
+function padText(pad, str, padLeft) {
+    if (typeof str === 'undefined') 
+      return pad;
+    if (padLeft) {
+      return (pad + str).slice(-pad.length);
+    } else {
+      return (str + pad).substring(0, pad.length);
+    }
+  }
+
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);

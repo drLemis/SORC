@@ -42,6 +42,21 @@ var Inventory = function (parent) {
         return result;
     }
 
+    this.getItemInfo = function (item) {
+        var result = ["", ""];
+        if (item)
+            result = [item.name, item.getStatsAsString()]
+
+        return result;
+    }
+
+    this.getItemInfoShort = function (item) {
+        var result = ["", ""];
+        if (item)
+            result = [item.name, item.getStatsShortAsString()]
+
+        return result;
+    }
 
     this.getArmor = function () {
         var A = this.getSlotsAllMod("PARM") + this.parent.stats.attributes["AGIL"] + this.getSlotsAllMod("AGIL");
@@ -61,15 +76,17 @@ var Inventory = function (parent) {
     };
 
     this.itemEquip = function (item) {
-        if (this.bag.indexOf(item) > -1) {
-            this.bag.splice(this.bag.indexOf(item), 1);
+        if (item && item.slot) {
+            if (this.bag.indexOf(item) > -1) {
+                this.bag.splice(this.bag.indexOf(item), 1);
 
-            this.itemUnequipFromSlot(item.slot);
+                this.itemUnequipFromSlot(item.slot);
 
-            this.parent.stats.health.MAX += item.stats["HP"];
-            this.parent.stats.mana.MAX += item.stats["MP"];
+                this.parent.stats.health.MAX += item.stats["HP"];
+                this.parent.stats.mana.MAX += item.stats["MP"];
 
-            this.slots[item.slot] = item;
+                this.slots[item.slot] = item;
+            }
         }
     }
 
@@ -94,9 +111,6 @@ var Inventory = function (parent) {
     this.itemDrop = function (item) {
         var index = this.bag.indexOf(item);
         if (index >= 0) {
-            console.log(this.parent)
-            console.log(this.parent.localX)
-            console.log(this.parent.localY)
             gWorld.mapLocal.grid[this.parent.localX][this.parent.localY].addItems(item);
 
             var i = this.bag.indexOf(item)

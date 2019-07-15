@@ -30,8 +30,8 @@ var eGameStates = {
     MENU: 1,
     PLAYING: 2,
     INVENTORY: 3,
-    STORE: 4,
-    DIALOGUE: 5
+    INVENTORY_DROP: 4,
+    INVENTORY_USE: 5,
 };
 
 var generateWorld = function (seed) {
@@ -48,7 +48,16 @@ var generateWorld = function (seed) {
     var item = itemGenerate("sword");
     gPlayer.inventory.bag.push(item);
     gPlayer.inventory.itemEquip(item);
-    item = itemGenerate("sword");
+    item = itemGenerate("bow");
+    gPlayer.inventory.bag.push(item);
+    gPlayer.inventory.itemEquip(item);
+    item = itemGenerate("ammo");
+    gPlayer.inventory.bag.push(item);
+    gPlayer.inventory.itemEquip(item);
+    item = itemGenerate("helmet");
+    gPlayer.inventory.bag.push(item);
+    gPlayer.inventory.itemEquip(item);
+    item = itemGenerate("armor");
     gPlayer.inventory.bag.push(item);
     gPlayer.inventory.itemEquip(item);
 
