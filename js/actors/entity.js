@@ -2,6 +2,8 @@
 
 var Entity = function (name) {
     this.name = name;
+    this.race = "HUMAN";
+    this.class = "WARRIOR";
 
     this.localX;
     this.localY;

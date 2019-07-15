@@ -90,6 +90,15 @@ function inputProcessing(e) {
             gGameState = eGameStates.INVENTORY_USE;
             drawInterfaceLogs("WHICH ITEM TO USE? SPACE TO STOP");
         }
+
+        // PREV PAGE PGUP
+        if (drawMenuInventoryPage > 0 && e.keyCode == 33) {
+            drawMenuInventoryPage--;
+        }
+        // NEXT PAGE PGDN
+        if (drawMenuInventoryRows >= 30 && e.keyCode == 34) {
+            drawMenuInventoryPage++;
+        }
     } else if (gGameState == eGameStates.INVENTORY_DROP) {
         // INVENTORY
         if ((e.keyCode == 32)) {
@@ -99,7 +108,7 @@ function inputProcessing(e) {
 
         if (e.keyCode >= 'A'.charCodeAt(0)) {
             if (gGamePosition == eGamePositions.SUBMAP) {
-                gPlayer.inventory.itemDrop(gPlayer.inventory.bag[e.keyCode - 65]);
+                gPlayer.inventory.itemDrop(gPlayer.inventory.bag[e.keyCode - 65 + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
             } else {
                 drawInterfaceLogs("YOU CAN'T DROP ITEMS ON GLOBAL MAP!");
             }
@@ -115,6 +124,15 @@ function inputProcessing(e) {
                 }
             }
         }
+
+        // PREV PAGE PGUP
+        if (drawMenuInventoryPage > 0 && e.keyCode == 33) {
+            drawMenuInventoryPage--;
+        }
+        // NEXT PAGE PGDN
+        if (drawMenuInventoryRows >= 30 && e.keyCode == 34) {
+            drawMenuInventoryPage++;
+        }
     } else if (gGameState == eGameStates.INVENTORY_USE) {
         // INVENTORY
         if (e.keyCode == 32) {
@@ -123,7 +141,16 @@ function inputProcessing(e) {
         }
 
         if (e.keyCode >= 'A'.charCodeAt(0)) {
-            gPlayer.inventory.itemEquip(gPlayer.inventory.bag[e.keyCode - 65]);
+            gPlayer.inventory.itemEquip(gPlayer.inventory.bag[e.keyCode - 65 + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
+        }
+        
+        // PREV PAGE PGUP
+        if (drawMenuInventoryPage > 0 && e.keyCode == 33) {
+            drawMenuInventoryPage--;
+        }
+        // NEXT PAGE PGDN
+        if (drawMenuInventoryRows >= 30 && e.keyCode == 34) {
+            drawMenuInventoryPage++;
         }
     }
 

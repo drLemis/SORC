@@ -1,6 +1,6 @@
 function drawScreenSubmap2D(submap) {
     var fromCoord = [0, 0]; // left-top offset
-    var cellSize = Math.min(width * 0.75 / submap.width, height * 0.75 / submap.height); // px
+    var cellSize = Math.min(width * 0.80 / submap.width, height * 0.80 / submap.height); // px
 
     ctx.strokeStyle = colorMain;
     ctx.lineWidth = 1;
@@ -34,7 +34,7 @@ function drawScreenSubmap2D(submap) {
 
 function drawScreenGlobalmap2D(globalmap) {
     var fromCoord = [0, 0]; // left-top offset
-    var cellSize = Math.min(width * 0.75 / globalmap.width, height * 0.75 / globalmap.height); // px
+    var cellSize = Math.min(width * 0.80 / globalmap.width, height * 0.80 / globalmap.height); // px
 
     ctx.strokeStyle = colorMain;
     ctx.lineWidth = 1;

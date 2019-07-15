@@ -19,11 +19,11 @@ function drawInterfaceFrame() {
     ctx.lineWidth = 3;
 
     ctx.fillStyle = colorBack;
-    ctx.fillRect(0, height * 0.75, width, height * 0.25);
-    ctx.fillRect(width * 0.8, 0, width * 0.2, height * 0.75);
+    ctx.fillRect(0, height * 0.80, width, height * 0.25);
+    ctx.fillRect(width * 0.8, 0, width * 0.2, height * 0.80);
 
     //bottom
-    ctx.strokeRect(1, height * 0.75 + 1, width - 2, height * 0.25 - 2);
+    ctx.strokeRect(1, height * 0.80 + 1, width - 2, height * 0.25 - 2);
     //right
     ctx.strokeRect(width * 0.8 + 1, 1, width * 0.2 - 2, height - 1);
 }
@@ -34,14 +34,12 @@ function drawInterfaceStatus() {
 
     var locW = width * 0.80 + 5;
     var locH = 16;
-    var offH = height * 0.75;
+    var offH = height * 0.80;
 
     var i = 0;
 
     ctx.fillText("      =====      ", locW, ++i * locH + offH);
-    ctx.fillText("   ===========   ", locW, ++i * locH + offH);
     ctx.fillText("  ====     ====  ", locW, ++i * locH + offH);
-    ctx.fillText(" ===         === ", locW, ++i * locH + offH);
     ctx.fillText(" ===         === ", locW, ++i * locH + offH);
     ctx.fillText("=================", locW, ++i * locH + offH);
     ctx.fillText("      SUNNY      ", locW, ++i * locH + offH);
@@ -62,6 +60,11 @@ function drawInterfaceStats() {
 
     ctx.fillStyle = colorMain;
     ctx.fillText(gPlayer.name, locW, ++i * locH + offH);
+    ctx.fillText("=================", locW, ++i * locH + offH);
+    ctx.fillText(gPlayer.race, locW, ++i * locH + offH);
+    ctx.textAlign = "right"
+    ctx.fillText(gPlayer.class, width - 3, i * locH + offH);
+    ctx.textAlign = "left"
 
     ctx.fillText("=================", locW, ++i * locH + offH);
 
@@ -125,7 +128,7 @@ function drawInterfaceLogs(newLog = "") {
 
     ctx.strokeStyle = colorMain;
 
-    var locH = height * 0.80 + 2;
+    var locH = height * 0.85 + 5;
     var stepH = 16;
 
     var i = 0;

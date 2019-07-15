@@ -61,6 +61,11 @@ var generateWorld = function (seed) {
     gPlayer.inventory.bag.push(item);
     gPlayer.inventory.itemEquip(item);
 
+    for (let index = 0; index < 70; index++) {
+        item = itemGenerate("armor");
+        gPlayer.inventory.bag.push(item);
+    }
+
     for (let index = 0; index < 20; index++) {
         // creating and placing submap on globalmap
         var tile = null;
