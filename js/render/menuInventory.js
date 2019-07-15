@@ -61,7 +61,7 @@ function drawMenuInventory() {
             }
             // Do your thing, then:
             var slot = item.slot ? "[" + item.slot + "] " : "";
-            ctx.fillText(String.fromCharCode(++itemIndex) + ") " + slot + gPlayer.inventory.getItemInfoShort(item)[0], locW, ++i * locH + offH);
+            ctx.fillText(toBetterLetter(++itemIndex) + ") " + slot + gPlayer.inventory.getItemInfoShort(item)[0], locW, ++i * locH + offH);
             ctx.textAlign = "right";
             ctx.fillText(gPlayer.inventory.getItemInfoShort(item)[1], maxW - locW, i * locH + offH);
             ctx.textAlign = "left";
@@ -95,8 +95,6 @@ function drawMenuPickup() {
 
     ctx.fillStyle = colorMain;
 
-    ctx.fillText("=================", locW, ++i * locH + offH);
-
     itemIndex = 64; // pre-A letter
 
     drawMenuPreRows = drawMenuInventoryRows;
@@ -107,9 +105,9 @@ function drawMenuPickup() {
     }
 
     gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items.every(function (item, index) {
-        if (index >= drawMenuInventoryPage * (30 - drawMenuPreRows - 1)) {
+        if (index >= drawMenuInventoryPage * (31 - drawMenuPreRows - 1)) {
             bDrawnAtLeastOneBagItem = true;
-            if (++drawMenuInventoryRows >= 30) {
+            if (++drawMenuInventoryRows >= 31) {
                 if (drawMenuInventoryPage == 0) {
                     ctx.fillText("============== PGUP TO PREVOUS PAGE    PGDWN TO NEXT PAGE ==============", locW, 30 * locH + offH);
                 }
@@ -117,7 +115,7 @@ function drawMenuPickup() {
             }
             // Do your thing, then:
             var slot = item.slot ? "[" + item.slot + "] " : "";
-            ctx.fillText(String.fromCharCode(++itemIndex) + ") " + slot + gPlayer.inventory.getItemInfoShort(item)[0], locW, ++i * locH + offH);
+            ctx.fillText(toBetterLetter(++itemIndex) + ") " + slot + gPlayer.inventory.getItemInfoShort(item)[0], locW, ++i * locH + offH);
             ctx.textAlign = "right";
             ctx.fillText(gPlayer.inventory.getItemInfoShort(item)[1], maxW - locW, i * locH + offH);
             ctx.textAlign = "left";

@@ -77,7 +77,7 @@ function inputProcessing(e) {
 
     } else if (gGameState == eGameStates.INVENTORY) {
         // CLOSE INVENTORY
-        if (e.keyCode == 'I'.charCodeAt(0)) {
+        if (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 32) {
             gGameState = eGameStates.PLAYING;
             draw();
             return;
@@ -94,6 +94,7 @@ function inputProcessing(e) {
             // ENTER GET MODE
             if (e.keyCode == 'G'.charCodeAt(0) && gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items.length > 0) {
                 gGameStateLast = gGameState;
+                drawMenuInventoryPage = 0;
                 gGameState = eGameStates.INVENTORY_GET;
                 drawInterfaceLogs("WHICH ITEM TO PICK UP? SPACE TO STOP");
             }
@@ -120,9 +121,9 @@ function inputProcessing(e) {
             drawInterfaceLogs("NO MORE ITEM TOSSING");
         }
 
-        if (e.keyCode >= 'A'.charCodeAt(0) && e.keyCode <= 'Z'.charCodeAt(0)) {
+        if (keyCodeToIndexFromA(e.keyCode) >= 0) {
             if (gGamePosition == eGamePositions.SUBMAP) {
-                gPlayer.inventory.itemDrop(gPlayer.inventory.bag[e.keyCode - 65 + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
+                gPlayer.inventory.itemDrop(gPlayer.inventory.bag[keyCodeToIndexFromA(e.keyCode) + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
             } else {
                 drawInterfaceLogs("YOU CAN'T DROP ITEMS ON GLOBAL MAP!");
             }
@@ -153,8 +154,8 @@ function inputProcessing(e) {
             drawInterfaceLogs("NO MORE ITEM USING");
         }
 
-        if (e.keyCode >= 'A'.charCodeAt(0) && e.keyCode <= 'Z'.charCodeAt(0)) {
-            gPlayer.inventory.itemEquip(gPlayer.inventory.bag[e.keyCode - 65 + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
+        if (keyCodeToIndexFromA(e.keyCode) >= 0) {
+            gPlayer.inventory.itemEquip(gPlayer.inventory.bag[keyCodeToIndexFromA(e.keyCode) + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
         }
 
         // PREV PAGE PGUP
@@ -169,14 +170,16 @@ function inputProcessing(e) {
         // INVENTORY
         if (e.keyCode == 32) {
             gGameState = gGameStateLast;
+            drawMenuInventoryPage = 0;
             gGameStateLast = 0;
             drawInterfaceLogs("NO MORE ITEM PICK UP");
         }
 
-        if (e.keyCode >= 'A'.charCodeAt(0) && e.keyCode <= 'Z'.charCodeAt(0)) {
-            gPlayer.inventory.itemPickup(gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items[e.keyCode - 65 + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
+        if (keyCodeToIndexFromA(e.keyCode) >= 0) {
+            gPlayer.inventory.itemPickup(gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items[keyCodeToIndexFromA(e.keyCode) + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
             if (gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items.length == 0) {
                 gGameState = gGameStateLast;
+                drawMenuInventoryPage = 0;
                 gGameStateLast = 0;
                 drawInterfaceLogs("NO MORE ITEMS TO PICK UP");
             }

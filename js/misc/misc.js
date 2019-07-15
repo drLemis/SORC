@@ -18,14 +18,14 @@ function setPadding(text, padLeft = 0, padright = 0, separator = "") {
 }
 
 function padText(pad, str, padLeft) {
-    if (typeof str === 'undefined') 
-      return pad;
+    if (typeof str === 'undefined')
+        return pad;
     if (padLeft) {
-      return (pad + str).slice(-pad.length);
+        return (pad + str).slice(-pad.length);
     } else {
-      return (str + pad).substring(0, pad.length);
+        return (str + pad).substring(0, pad.length);
     }
-  }
+}
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -72,4 +72,32 @@ function getStatusColor(stat, colors) {
     } else {
         return null;
     }
+}
+
+function keyCodeToIndexFromA(keyCode) {
+    var result = -1;
+
+    if (keyCode >= 65 && keyCode <= 90)
+        result = keyCode - 65;
+    else if (keyCode == 186) // ;
+        result = 26;
+    else if (keyCode == 188) // ,
+        result = 27;
+    else if (keyCode == 190) // .
+        result = 28;
+
+    return result;
+}
+
+function toBetterLetter(char) {
+    if (char == 91) // ;
+        char = ";";
+    else if (char == 92) // ,
+        char = ",";
+    else if (char == 93) // .
+        char = ".";
+    else
+        char = String.fromCodePoint(char);
+
+    return char;
 }
