@@ -14,36 +14,47 @@ function initDraw() {
     draw();
 }
 
-var gColorsCGA = [
-    "#000000", // 0  black
-    "#0000AA", // 1  blue
-    "#00AA00", // 2  green
-    "#00AAAA", // 3  cyan
-    "#AA0000", // 4  red
-    "#AA00AA", // 5  magenta
-    "#AA5500", // 6  brown
-    "#AAAAAA", // 7  light gray
-    "#555555", // 8  dark gray
-    "#5555FF", // 9  light blue
-    "#55FF55", // 10 light green
-    "#55FFFF", // 11 light cyan
-    "#FF5555", // 12 light red
-    "#FF55FF", // 13 light magenta
-    "#FFFF55", // 14 yellow
-    "#FFFFFF", // 15 white
-];
+var gColorsCGA = {
+    0: "#000000", 
+    1: "#0000AA", 
+    2: "#00AA00", 
+    3: "#00AAAA", 
+    4: "#AA0000", 
+    5: "#AA00AA", 
+    6: "#AA5500", 
+    7: "#AAAAAA", 
+    8: "#555555", 
+    9: "#5555FF", 
+    10: "#55FF55", 
+    11: "#55FFFF",
+    12: "#FF5555",
+    13: "#FF55FF",
+    14: "#FFFF55",
+    15: "#FFFFFF",
+    
+    BLACK: "#000000",
+    BLUE: "#0000AA",
+    GREEN: "#00AA00",
+    CYAN: "#00AAAA",
+    RED: "#AA0000",
+    MAGENTA: "#AA00AA",
+    BROWN: "#AA5500",
+    LIGHTGRAY: "#AAAAAA",
+    DARKGRAY: "#555555",
+    LIGHTBLUE: "#5555FF",
+    LIGHTGREEN: "#55FF55",
+    LIGHTCYAN: "#55FFFF",
+    LIGHTRED: "#FF5555",
+    LIGHTMAGENTA: "#FF55FF",
+    YELLOW: "#FFFF55",
+    WHITE: "#FFFFFF",
+};
 
-var colorBack = gColorsCGA[0]; // black
-var colorMain = gColorsCGA[15]; // white
-var colorWarn = gColorsCGA[4]; // red
-var colorAttn = gColorsCGA[14]; // yellow
-var colorGood = gColorsCGA[2]; // green
-
-// var gWorld.mapLocal = [
-//     [1, 1, 1, 1],
-//     [1, 1, 1, 1],
-//     [1, 1, 1, 1]
-// ];
+var colorBack = gColorsCGA.BLACK; // black
+var colorMain = gColorsCGA.WHITE; // white
+var colorWarn = gColorsCGA.RED; // red
+var colorAttn = gColorsCGA.YELLOW; // yellow
+var colorGood = gColorsCGA.GREEN; // green
 
 function draw() {
     ctx.clearRect(0, 0, width, height);
@@ -51,7 +62,7 @@ function draw() {
     ctx.fillStyle = colorBack;
     ctx.fillRect(0, 0, width, height);
 
-    //drawInterfaceLogo();
+    drawInterfaceFrame();
 
     switch (gGameState) {
         case eGameStates.INVENTORY:
@@ -70,7 +81,6 @@ function draw() {
             break;
     }
 
-    drawInterfaceFrame();
     drawInterfaceStats();
     drawInterfaceStatus();
     drawInterfaceLogs();
@@ -78,7 +88,7 @@ function draw() {
     // рендер каждый возможный кадр
     // window.requestAnimationFrame(draw);
 
-    //рендер 1 раза в секунду
+    //рендер 1 раз в секунду
     // setTimeout(() => {
     //     draw();
     // }, 1000 / 1);

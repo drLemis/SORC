@@ -1,18 +1,4 @@
-var interfaceLogs = [];
-
-function drawInterfaceLogo() {
-    ctx.fillStyle = colorBack;
-    ctx.fillRect(0, 0, width, height);
-
-    ctx.fillStyle = colorMain;
-    ctx.textAlign = "left";
-    ctx.font = "60px Consolas";
-    ctx.fillText("S.O.R.C.", 0, 50);
-    ctx.font = "16.5px Consolas";
-    ctx.fillText("Some Oldstyle Roguelike Crap", 0, 70);
-    ctx.font = "10px Consolas";
-    ctx.fillText("CLICK and F5", 0, 85);
-}
+var gInterfaceLogs = [];
 
 function drawInterfaceFrame() {
     ctx.strokeStyle = colorMain;
@@ -26,6 +12,8 @@ function drawInterfaceFrame() {
     ctx.strokeRect(1, height * 0.80 + 1, width - 2, height * 0.25 - 2);
     //right
     ctx.strokeRect(width * 0.8 + 1, 1, width * 0.2 - 2, height - 1);
+    
+    ctx.strokeRect(1, 1, width - 2, height - 2);
 }
 
 function drawInterfaceStatus() {
@@ -124,22 +112,22 @@ function drawInterfaceStats() {
 
 function drawInterfaceLogs(newLog = "") {
     if (newLog != "")
-        interfaceLogs.push(newLog);
+    gInterfaceLogs.push(newLog);
 
     ctx.strokeStyle = colorMain;
 
-    var locH = height * 0.85 + 5;
+    var locH = height * 0.85 + 3;
     var stepH = 16;
 
     var i = 0;
 
-    for (let index = interfaceLogs.length - 1; index >= 0; index--) {
-        var text = interfaceLogs[index];
+    for (let index = gInterfaceLogs.length - 1; index >= 0; index--) {
+        var text = gInterfaceLogs[index];
         var color = colorMain;
 
-        if (Array.isArray(interfaceLogs[index])) {
-            text = interfaceLogs[index][0];
-            color = interfaceLogs[index][1];
+        if (Array.isArray(gInterfaceLogs[index])) {
+            text = gInterfaceLogs[index][0];
+            color = gInterfaceLogs[index][1];
         }
 
         ctx.fillStyle = color;

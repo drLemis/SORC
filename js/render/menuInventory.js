@@ -11,19 +11,19 @@ function drawMenuInventory() {
     var locW = 5;
     var maxW = width * 0.8
     var locH = 16;
-    var offH = -3;
+    var offH = -1;
 
     var i = 0;
 
     var itemIndex = 0
-    drawMenuInventoryRows = 1;
+    drawMenuInventoryRows = 0;
 
     if (gGameState == eGameStates.INVENTORY_DROP) {
         ctx.strokeStyle = colorWarn;
-        ctx.strokeRect(1, 1, width * 0.8 - 2, height * 0.80 - 3);
+        ctx.strokeRect(1, 1, width * 0.8, height * 0.80);
     } else if (gGameState == eGameStates.INVENTORY_USE) {
         ctx.strokeStyle = colorGood;
-        ctx.strokeRect(1, 1, width * 0.8 - 2, height * 0.80 - 3);
+        ctx.strokeRect(1, 1, width * 0.8, height * 0.80);
     }
 
     ctx.fillStyle = colorMain;
@@ -39,7 +39,10 @@ function drawMenuInventory() {
         }
     });
 
-    ctx.fillText("=================", locW, ++i * locH + offH);
+    if (i > 0) {
+        ctx.fillText("=================", locW, ++i * locH + offH);
+        drawMenuInventoryRows++;
+    }
 
     itemIndex = 64; // pre-A letter
 
@@ -59,7 +62,6 @@ function drawMenuInventory() {
                 }
                 return false;
             }
-            // Do your thing, then:
             var slot = item.slot ? "[" + item.slot + "] " : "";
             ctx.fillText(toBetterLetter(++itemIndex) + ") " + slot + gPlayer.inventory.getItemInfoShort(item)[0], locW, ++i * locH + offH);
             ctx.textAlign = "right";
@@ -83,15 +85,15 @@ function drawMenuPickup() {
     var locW = 5;
     var maxW = width * 0.8
     var locH = 16;
-    var offH = -3;
+    var offH = -1;
 
     var i = 0;
 
     var itemIndex = 0
     drawMenuInventoryRows = 1;
 
-    ctx.strokeStyle = gColorsCGA[1];
-    ctx.strokeRect(1, 1, width * 0.8 - 2, height * 0.80 - 3);
+    ctx.strokeStyle = gColorsCGA.BLUE;
+    ctx.strokeRect(1, 1, width * 0.8, height * 0.80);
 
     ctx.fillStyle = colorMain;
 
