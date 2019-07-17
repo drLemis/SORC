@@ -117,7 +117,14 @@ function makeEnum(list) {
     return (obj);
 }
 
-function getCurrentTown()
-{
-    return gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).town
+function getCurrentGlobalTile(entity) {
+    if (!entity)
+        entity = gPlayer
+    return gWorld.mapGlobal.getTile(entity.globalX, entity.globalY)
+}
+
+function getCurrentLocalTile(entity) {
+    if (!entity)
+        entity = gPlayer
+    return gWorld.mapLocal.getTile(entity.localX, entity.localY)
 }

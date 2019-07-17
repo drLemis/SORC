@@ -155,6 +155,7 @@ var TileLocal = function (map, x, y) {
 	}
 
 	this.setCreature = function (newCreature) {
+        console.log("TCL: this.setCreature -> newCreature", newCreature)
 		this.creature = newCreature;
 		this.creature.localX = this.x;
 		this.creature.localY = this.y;

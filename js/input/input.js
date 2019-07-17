@@ -22,7 +22,7 @@ function inputProcessing(e) {
 
         if (gGamePosition == eGamePositions.SUBMAP) {
             // ENTER GET MODE
-            if (e.code == 'KeyG' && gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items.length > 0) {
+            if (e.code == 'KeyG' && getCurrentLocalTile().items.length > 0) {
                 gGameStateLast = gGameState;
                 gGameState = eGameStates.INVENTORY_GET;
                 drawInterfaceLogs("WHICH ITEM TO PICK UP? SPACE TO STOP");
@@ -31,7 +31,7 @@ function inputProcessing(e) {
             }
 
             //movement
-            var oldTile = gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY];
+            var oldTile = getCurrentLocalTile();
             var newTile = null;
 
             switch (e.code) {
@@ -61,26 +61,26 @@ function inputProcessing(e) {
         } else if (gGamePosition == eGamePositions.GLOBALMAP) {
             switch (e.code) {
                 case "ArrowLeft":
-                    gWorld.mapGlobal.movePlayer(gWorld.mapGlobal.getTileAdjacent(gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY), [-1, 0]));
+                    gWorld.mapGlobal.movePlayer(gWorld.mapGlobal.getTileAdjacent(getCurrentGlobalTile(), [-1, 0]));
                     break;
                 case "ArrowUp":
-                    gWorld.mapGlobal.movePlayer(gWorld.mapGlobal.getTileAdjacent(gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY), [0, -1]));
+                    gWorld.mapGlobal.movePlayer(gWorld.mapGlobal.getTileAdjacent(getCurrentGlobalTile(), [0, -1]));
                     break;
                 case "ArrowRight":
-                    gWorld.mapGlobal.movePlayer(gWorld.mapGlobal.getTileAdjacent(gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY), [1, 0]));
+                    gWorld.mapGlobal.movePlayer(gWorld.mapGlobal.getTileAdjacent(getCurrentGlobalTile(), [1, 0]));
                     break;
                 case "ArrowDown":
-                    gWorld.mapGlobal.movePlayer(gWorld.mapGlobal.getTileAdjacent(gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY), [0, 1]));
+                    gWorld.mapGlobal.movePlayer(gWorld.mapGlobal.getTileAdjacent(getCurrentGlobalTile(), [0, 1]));
                     break;
                 default:
                     break;
             }
 
             if (e.code == 'KeyO') {
-                if (gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).submapSeed != null) {
+                if (getCurrentGlobalTile().submapSeed != null) {
                     gGamePosition = eGamePositions.SUBMAP;
-                    gWorld.mapLocal = seedToMapLocal(gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).submapSeed);
-                } else if (getCurrentTown() != null) {
+                    gWorld.mapLocal = seedToMapLocal(getCurrentGlobalTile().submapSeed);
+                } else if (getCurrentGlobalTile().town != null) {
                     gGameState = eGameStates.TOWN;
                 }
             }
@@ -103,7 +103,7 @@ function inputProcessing(e) {
 
         if (gGamePosition == eGamePositions.SUBMAP) {
             // ENTER GET MODE
-            if (e.code == 'KeyG' && gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items.length > 0) {
+            if (e.code == 'KeyG' && getCurrentLocalTile().items.length > 0) {
                 gGameStateLast = gGameState;
                 drawMenuInventoryPage = 0;
                 gGameState = eGameStates.INVENTORY_GET;
@@ -190,9 +190,9 @@ function inputProcessing(e) {
         if (keyCodeToIndexFromA(e.which) >= 0) {
             var items;
             if (gGameStateLast == eGameStates.TOWN_TAVERN)
-                items = getCurrentTown().items;
+                items = getCurrentGlobalTile().town.items;
             else
-                items = gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items;
+                items = getCurrentLocalTile().items;
 
             gPlayer.inventory.itemPickup(items[keyCodeToIndexFromA(e.which) + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
 
@@ -243,7 +243,7 @@ function inputProcessing(e) {
                 gGameState = eGameStates.INVENTORY_DROP;
                 break;
             case 'Digit3':
-                if (getCurrentTown().items.length > 0) {
+                if (getCurrentGlobalTile().town.items.length > 0) {
                     gGameStateLast = gGameState;
                     gGameState = eGameStates.INVENTORY_GET;
                 } else

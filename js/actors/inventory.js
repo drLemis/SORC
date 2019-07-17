@@ -103,9 +103,9 @@ var Inventory = function (parent) {
     this.itemPickup = function (item) {
         if (item) {
             if (gGameStateLast == eGameStates.TOWN_TAVERN)
-                getCurrentTown().removeItems([item]);
+                getCurrentGlobalTile(this.parent).town.removeItems([item]);
             else
-                gWorld.mapLocal.getTile(this.parent.localX, this.parent.localY).removeItems([item]);
+                getCurrentLocalTile(this.parent).removeItems([item]);
 
             this.bag.push(item);
             if (this.parent == gPlayer)
@@ -117,9 +117,9 @@ var Inventory = function (parent) {
         var index = this.bag.indexOf(item);
         if (index >= 0) {
             if (gGameStateLast == eGameStates.TOWN_TAVERN) {
-                getCurrentTown().addItems(item);
+                getCurrentGlobalTile(this.parent).town.addItems(item);
             } else
-                gWorld.mapLocal.grid[this.parent.localX][this.parent.localY].addItems(item);
+                getCurrentLocalTile(this.parent).addItems(item);
 
             var i = this.bag.indexOf(item)
             if (i > -1) {

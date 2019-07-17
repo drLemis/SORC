@@ -39,7 +39,7 @@ var Stats = function (parent) {
         this.health.CURRENT = Math.min(Math.max(this.health.MIN, newStat), this.health.MAX);
 
         if (this.health.CURRENT <= 0 && this.parent != gPlayer) {
-            gWorld.mapLocal.getTile(this.parent.localX, this.parent.localY).removeCreature();
+            getCurrentLocalTile(this.parent).removeCreature();
 
             this.parent.inventory.itemUnequipFromSlot("HEAD");
             this.parent.inventory.itemUnequipFromSlot("NECK");

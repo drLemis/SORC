@@ -72,9 +72,9 @@ function draw() {
             break;
         case eGameStates.INVENTORY_GET:
             if (gGameStateLast == eGameStates.TOWN_TAVERN)
-                drawMenuPickup(getCurrentTown().items);
+                drawMenuPickup(getCurrentGlobalTile().town.items);
             else
-                drawMenuPickup(gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items);
+                drawMenuPickup(getCurrentLocalTile().items);
             break;
         case eGameStates.TOWN:
             drawMenuTown();
