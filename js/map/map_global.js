@@ -60,4 +60,14 @@ var TileGlobal = function (map, x, y) {
 	this.onSail = new Boolean(false);
 	this.onFlight = new Boolean(true);
 	this.submapSeed = null;
+
+	this.town = null;
+}
+
+
+var Town = function (tile, name) {
+	tile.town = this;
+
+	this.name = name;
+	this.bag = [];
 }

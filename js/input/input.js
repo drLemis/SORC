@@ -71,6 +71,8 @@ function inputProcessing(e) {
                 if (gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).submapSeed != null) {
                     gGamePosition = eGamePositions.SUBMAP;
                     gWorld.mapLocal = seedToMapLocal(gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).submapSeed);
+                } else if (gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).town != null) {
+                    gGameState = eGameStates.TOWN;
                 }
             }
         }
@@ -192,6 +194,12 @@ function inputProcessing(e) {
         // NEXT PAGE PGDN
         if (drawMenuInventoryRows >= 30 && e.keyCode == 34) {
             drawMenuInventoryPage++;
+        }
+    } else if (gGameState == eGameStates.TOWN) {
+        // GLOBAL MAP
+        if (e.keyCode == 32) {
+            gGameState = eGameStates.PLAYING;
+            drawInterfaceLogs("LEAVING TOWN...");
         }
     }
 

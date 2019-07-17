@@ -45,8 +45,11 @@ var generateWorld = function (seed) {
 
     gPlayer = new Entity("WORLDDESTROYER IV");
 
+
     gPlayer.globalX = Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.height);
     gPlayer.globalY = Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.width);
+
+    new Town(newWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY), "PLACEHOLDERNAME");
 
     var item = itemGenerate("sword");
     gPlayer.inventory.bag.push(item);
@@ -75,7 +78,7 @@ var generateWorld = function (seed) {
         do {
             tile = newWorld.mapGlobal.getTile(Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.width), Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.height));
         }
-        while (tile == null || tile.submapSeed != null)
+        while (tile == null || tile.submapSeed != null || tile.town != null)
 
         tile.submapSeed = Math.floor(newWorld.gTwister.random() * 50000000000000);
     }

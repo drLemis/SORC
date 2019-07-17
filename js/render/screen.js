@@ -58,10 +58,13 @@ function drawScreenGlobalmap2D(globalmap) {
             }
 
             if (tile.submapSeed != null)
-                ctx.fillStyle = gColorsCGA.YELLOW; // submap, yellow
+                ctx.fillStyle = gColorsCGA.YELLOW; // submap
+
+            if (tile.town != null)
+                ctx.fillStyle = gColorsCGA.RED; // town
 
             if (tile.x == gPlayer.globalX && tile.y == gPlayer.globalY) {
-                ctx.fillStyle = gColorsCGA.WHITE; // player, white
+                ctx.fillStyle = gColorsCGA.WHITE; // player
             }
 
             ctx.fillRect(cellCoord[0], cellCoord[1], cellSize, cellSize)

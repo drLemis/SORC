@@ -73,6 +73,9 @@ function draw() {
         case eGameStates.INVENTORY_GET:
             drawMenuPickup();
             break;
+        case eGameStates.TOWN:
+            drawMenuTown();
+            break;
         default:
             if (gGamePosition == eGamePositions.SUBMAP && gWorld.mapLocal)
                 drawScreenSubmap2D(gWorld.mapLocal);
