@@ -78,7 +78,7 @@ function drawMenuInventory() {
     }
 }
 
-function drawMenuPickup() {
+function drawMenuPickup(items) {
     ctx.textAlign = "left";
     ctx.font = "16px Consolas";
 
@@ -106,7 +106,7 @@ function drawMenuPickup() {
         ctx.fillText("============== PGUP TO PREVOUS PAGE    PGDWN TO NEXT PAGE ==============", locW, 30 * locH + offH);
     }
 
-    gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items.every(function (item, index) {
+    items.every(function (item, index) {
         if (index >= drawMenuInventoryPage * (31 - drawMenuPreRows - 1)) {
             bDrawnAtLeastOneBagItem = true;
             if (++drawMenuInventoryRows >= 31) {
@@ -126,7 +126,7 @@ function drawMenuPickup() {
             return true;
     })
 
-    if (!bDrawnAtLeastOneBagItem && gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items.length > 0 && drawMenuInventoryPage > 0) {
+    if (!bDrawnAtLeastOneBagItem && items.length > 0 && drawMenuInventoryPage > 0) {
         drawMenuInventoryPage--;
         draw();
     }

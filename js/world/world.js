@@ -10,6 +10,11 @@ var gPlayer;
 function initGame() {
     gWorld = generateWorld("1234");
 
+    drawInterfaceLogs("I TO OPEN INVENTORY, G TO PICKUP, U TO USE/WEAR, D TO DROP/TAKE OFF");
+    drawInterfaceLogs("O TO ENTER/LEAVE DUNGEONS AND TOWNS");
+    drawInterfaceLogs("ARROWS TO WALK");
+    drawInterfaceLogs("? TO GET HELP");
+
     initDraw();
 }
 
@@ -21,19 +26,31 @@ var World = function (newSeed) {
     this.mapLocal = null;
 }
 
+var eGamePositions = makeEnum([
+    "GLOBALMAP",
+    "SUBMAP"
+]);
 
-var eGamePositions = {
-    GLOBALMAP: 1,
-    SUBMAP: 2
-};
-var eGameStates = {
-    MENU: 1,
-    PLAYING: 2,
-    INVENTORY: 3,
-    INVENTORY_DROP: 4,
-    INVENTORY_USE: 5,
-    INVENTORY_GET: 6,
-};
+var eGameStates = makeEnum([
+    "MENU",
+    "PLAYING",
+    "INVENTORY",
+    "INVENTORY_DROP",
+    "INVENTORY_USE",
+    "INVENTORY_GET",
+    "TOWN",
+    "TOWN_TAVERN",
+    "TOWN_TAVERN_REST",
+    "TOWN_TAVERN_BAG_DROP",
+    "TOWN_TAVERN_BAG_GET",
+    "TOWN_STORE",
+    "TOWN_STORE_BUY",
+    "TOWN_STORE_BUY_CONFIRM",
+    "TOWN_STORE_BUY_ERROR",
+    "TOWN_STORE_SELL",
+    "TOWN_STORE_SELL_CONFIRM",
+    "TOWN_STORE_SELL_ERROR",
+]);
 
 var gGameStateLast = 0;
 

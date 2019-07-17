@@ -8,11 +8,13 @@ function inputProcessing(e) {
         drawInterfaceLogs("I TO OPEN INVENTORY, G TO PICKUP, U TO USE/WEAR, D TO DROP/TAKE OFF");
         drawInterfaceLogs("O TO ENTER/LEAVE DUNGEONS AND TOWNS");
         drawInterfaceLogs("ARROWS TO WALK");
+        drawInterfaceLogs("? TO GET HELP");
     }
 
     if (gGameState == eGameStates.PLAYING) {
         // INVENTORY
         if (e.code == 'KeyI') {
+            gGameStateLast = gGameState;
             gGameState = eGameStates.INVENTORY;
             draw();
             return;
@@ -78,7 +80,7 @@ function inputProcessing(e) {
                 if (gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).submapSeed != null) {
                     gGamePosition = eGamePositions.SUBMAP;
                     gWorld.mapLocal = seedToMapLocal(gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).submapSeed);
-                } else if (gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).town != null) {
+                } else if (getCurrentTown() != null) {
                     gGameState = eGameStates.TOWN;
                 }
             }
@@ -126,23 +128,24 @@ function inputProcessing(e) {
     } else if (gGameState == eGameStates.INVENTORY_DROP) {
         // INVENTORY
         if (e.code == 'Space') {
-            gGameState = eGameStates.INVENTORY;
+            gGameState = gGameStateLast;
+            drawMenuInventoryPage = 0;
+            gGameStateLast = 0;
             drawInterfaceLogs("NO MORE ITEM TOSSING");
         }
 
         if (keyCodeToIndexFromA(e.which) >= 0) {
-            if (gGamePosition == eGamePositions.SUBMAP) {
+            if (gGamePosition == eGamePositions.SUBMAP || gGameStateLast == eGameStates.TOWN_TAVERN) {
                 gPlayer.inventory.itemDrop(gPlayer.inventory.bag[keyCodeToIndexFromA(e.which) + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
             } else {
                 drawInterfaceLogs("YOU CAN'T DROP ITEMS ON GLOBAL MAP!");
             }
         }
-
         // 8 slots at all
-        if (e.key >= '1' && e.key <= '8') {
+        if (e.which >= 49 && e.which <= 56) {
             var keys = Object.keys(gPlayer.inventory.slots);
             for (let index = 0; index < keys.length; index++) {
-                if (e.key - 49 == index) {
+                if (e.which - 49 == index) {
                     gPlayer.inventory.itemUnequipFromSlot(keys[index]);
                 }
             }
@@ -185,8 +188,16 @@ function inputProcessing(e) {
         }
 
         if (keyCodeToIndexFromA(e.which) >= 0) {
-            gPlayer.inventory.itemPickup(gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items[keyCodeToIndexFromA(e.which) + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
-            if (gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items.length == 0) {
+            var items;
+            if (gGameStateLast == eGameStates.TOWN_TAVERN)
+                items = getCurrentTown().items;
+            else
+                items = gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items;
+
+            gPlayer.inventory.itemPickup(items[keyCodeToIndexFromA(e.which) + drawMenuInventoryPage * (30 - drawMenuPreRows - 1)]);
+
+
+            if (items.length == 0) {
                 gGameState = gGameStateLast;
                 drawMenuInventoryPage = 0;
                 gGameStateLast = 0;
@@ -202,11 +213,65 @@ function inputProcessing(e) {
         if (drawMenuInventoryRows >= 30 && e.code == 'PageDown') {
             drawMenuInventoryPage++;
         }
+
     } else if (gGameState == eGameStates.TOWN) {
-        // GLOBAL MAP
-        if (e.code == 'Space') {
-            gGameState = eGameStates.PLAYING;
-            drawInterfaceLogs("LEAVING TOWN...");
+        switch (e.code) {
+            case 'Space':
+                gGameState = eGameStates.PLAYING;
+                drawInterfaceLogs("LEAVING TOWN...");
+                break;
+            case 'Digit1':
+                break;
+            case 'Digit2':
+                break;
+            case 'Digit3':
+                gGameState = eGameStates.TOWN_TAVERN;
+                break;
+            default:
+                break;
+        }
+    } else if (gGameState == eGameStates.TOWN_TAVERN) {
+        switch (e.code) {
+            case 'Space':
+                gGameState = eGameStates.TOWN;
+                break;
+            case 'Digit1':
+                gGameState = eGameStates.TOWN_TAVERN_REST;
+                break;
+            case 'Digit2':
+                gGameStateLast = gGameState;
+                gGameState = eGameStates.INVENTORY_DROP;
+                break;
+            case 'Digit3':
+                if (getCurrentTown().items.length > 0) {
+                    gGameStateLast = gGameState;
+                    gGameState = eGameStates.INVENTORY_GET;
+                } else
+                    drawInterfaceLogs("YOU HAVE NOT DROPPED ANYTHING AT THIS TAVERN!");
+                break;
+            default:
+                break;
+        }
+    } else if (gGameState == eGameStates.TOWN_TAVERN_REST) {
+        switch (e.code) {
+            case 'KeyN':
+            case 'Space':
+                gGameState = eGameStates.TOWN_TAVERN;
+                break;
+            case 'KeyY':
+                if (gPlayer.inventory.gold >= 10) {
+                    gPlayer.inventory.gold -= 10;
+                    gPlayer.stats.health.CURRENT = gPlayer.stats.health.MAX
+                    gPlayer.stats.mana.CURRENT = gPlayer.stats.mana.MAX
+                    gGameState = eGameStates.TOWN_TAVERN;
+                    drawInterfaceLogs("YOU RESTED WELL, RESTORING YOUR HEALTH AND POWER!");
+                } else {
+                    drawInterfaceLogs("YOU HAVE NO SUCH FUNDS FOR NOW!");
+                    gGameState = eGameStates.TOWN_TAVERN;
+                }
+                break;
+            default:
+                break;
         }
     }
 

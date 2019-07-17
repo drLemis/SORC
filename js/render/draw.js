@@ -15,23 +15,23 @@ function initDraw() {
 }
 
 var gColorsCGA = {
-    0: "#000000", 
-    1: "#0000AA", 
-    2: "#00AA00", 
-    3: "#00AAAA", 
-    4: "#AA0000", 
-    5: "#AA00AA", 
-    6: "#AA5500", 
-    7: "#AAAAAA", 
-    8: "#555555", 
-    9: "#5555FF", 
-    10: "#55FF55", 
+    0: "#000000",
+    1: "#0000AA",
+    2: "#00AA00",
+    3: "#00AAAA",
+    4: "#AA0000",
+    5: "#AA00AA",
+    6: "#AA5500",
+    7: "#AAAAAA",
+    8: "#555555",
+    9: "#5555FF",
+    10: "#55FF55",
     11: "#55FFFF",
     12: "#FF5555",
     13: "#FF55FF",
     14: "#FFFF55",
     15: "#FFFFFF",
-    
+
     BLACK: "#000000",
     BLUE: "#0000AA",
     GREEN: "#00AA00",
@@ -71,10 +71,19 @@ function draw() {
             drawMenuInventory();
             break;
         case eGameStates.INVENTORY_GET:
-            drawMenuPickup();
+            if (gGameStateLast == eGameStates.TOWN_TAVERN)
+                drawMenuPickup(getCurrentTown().items);
+            else
+                drawMenuPickup(gWorld.mapLocal.grid[gPlayer.localX][gPlayer.localY].items);
             break;
         case eGameStates.TOWN:
             drawMenuTown();
+            break;
+        case eGameStates.TOWN_TAVERN:
+            drawMenuTownTavern();
+            break;
+        case eGameStates.TOWN_TAVERN_REST:
+            drawMenuTownTavernRest();
             break;
         default:
             if (gGamePosition == eGamePositions.SUBMAP && gWorld.mapLocal)

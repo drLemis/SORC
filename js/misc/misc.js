@@ -101,3 +101,23 @@ function toBetterLetter(char) {
 
     return char;
 }
+
+function makeEnum(list) {
+    var obj = {},
+        sequence = 0,
+        current;
+    for (var i = 0; i < list.length; i++) {
+        current = i;
+        if (typeof list[i + 1] === "number") {
+            sequence = list[i + 1];
+            i++;
+        }
+        obj[list[current]] = sequence++;
+    }
+    return (obj);
+}
+
+function getCurrentTown()
+{
+    return gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).town
+}

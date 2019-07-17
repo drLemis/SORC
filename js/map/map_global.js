@@ -69,5 +69,23 @@ var Town = function (tile, name) {
 	tile.town = this;
 
 	this.name = name;
-	this.bag = [];
+	this.items = [];
+
+	this.addItems = function (newItems) {
+		this.items = this.items.concat(newItems);
+		return this
+	}
+	this.removeItems = function (targetItems) {
+		var itemsOnFloor = this.items;
+		targetItems.forEach(function (item) {
+			var i = itemsOnFloor.indexOf(item)
+			if (i > -1) {
+				itemsOnFloor.splice(i, 1)
+			}
+		})
+		this.items = itemsOnFloor.filter(function (el) {
+			return el != null;
+		});
+		return this
+	}
 }
