@@ -8,14 +8,14 @@ var Stats = function (parent) {
     };
 
     this.health = {
-        CURRENT: 150,
+        CURRENT: 50,
         MIN: 0,
-        MAX: 150
+        MAX: 50
     };
     this.mana = {
-        CURRENT: 80,
+        CURRENT: 50,
         MIN: 0,
-        MAX: 80
+        MAX: 50
     };
     this.attributes = {
         STNG: getRandomInt(1, 3),

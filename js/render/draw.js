@@ -85,6 +85,12 @@ function draw() {
         case eGameStates.TOWN_TAVERN_REST:
             drawMenuTownTavernRest();
             break;
+        case eGameStates.TOWN_AUTHORITIES:
+            drawMenuTownAuthorities();
+            break;
+        case eGameStates.TOWN_AUTHORITIES_LEARN:
+            drawMenuTownAuthoritiesLearn();
+            break;
         default:
             if (gGamePosition == eGamePositions.SUBMAP && gWorld.mapLocal)
                 drawScreenSubmap2D(gWorld.mapLocal);

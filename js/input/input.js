@@ -221,6 +221,7 @@ function inputProcessing(e) {
                 drawInterfaceLogs("LEAVING TOWN...");
                 break;
             case 'Digit1':
+                gGameState = eGameStates.TOWN_AUTHORITIES;
                 break;
             case 'Digit2':
                 break;
@@ -272,6 +273,54 @@ function inputProcessing(e) {
                 break;
             default:
                 break;
+        }
+    } else if (gGameState == eGameStates.TOWN_AUTHORITIES) {
+        switch (e.code) {
+            case 'Space':
+                gGameState = eGameStates.TOWN;
+                break;
+            case 'Digit1':
+                break;
+            case 'Digit2':
+                gGameState = eGameStates.TOWN_AUTHORITIES_LEARN;
+                break;
+            default:
+                break;
+        }
+    } else if (gGameState == eGameStates.TOWN_AUTHORITIES_LEARN) {
+        if (e.code == 'Space') {
+            gGameState = eGameStates.TOWN_AUTHORITIES;
+        } else if (keyCodeToIndexFromA(e.which) >= 0 && keyCodeToIndexFromA(e.which) < 7) {
+            if (gPlayer.stats.xp.CURRENT < gWorld.lessonXpCost) {
+                drawInterfaceLogs("YOU HAVE NO XP FOR THIS LESSON!");
+            } else {
+                gPlayer.stats.addXP(-gWorld.lessonXpCost);
+                gWorld.lessonXpCost = Math.round(gWorld.lessonXpCost * gWorld.lessonXpCostModifier / 10) * 10;
+                switch (e.code) {
+                    case 'KeyA':
+                        gPlayer.stats.health.MAX += 10;
+                        drawInterfaceLogs("YOU IMPROVED YOUR HP!");
+                        break;
+                    case 'KeyB':
+                        gPlayer.stats.mana.MAX += 10;
+                        drawInterfaceLogs("YOU IMPROVED YOUR MP!");
+                        break;
+                    case 'KeyC':
+                        gPlayer.stats.attributes.STNG += 1;
+                        drawInterfaceLogs("YOU IMPROVED YOUR STRENGTH!");
+                        break;
+                    case 'KeyD':
+                        gPlayer.stats.attributes.AGIL += 1;
+                        drawInterfaceLogs("YOU IMPROVED YOUR AGILITY!");
+                        break;
+                    case 'KeyE':
+                        gPlayer.stats.attributes.LUCK += 1;
+                        drawInterfaceLogs("YOU IMPROVED YOUR LUCK!");
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 

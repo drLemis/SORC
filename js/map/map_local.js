@@ -196,12 +196,6 @@ var seedToMapLocal = function (seed) {
 		item = itemGenerate("helmet");
 		enemy.inventory.bag.push(item);
 		enemy.inventory.itemEquip(item);
-		item = new Item(getRandomItemName(), "");
-		enemy.inventory.bag.push(item);
-		item = new Item(getRandomItemName(), "");
-		enemy.inventory.bag.push(item);
-		item = new Item(getRandomItemName(), "");
-		enemy.inventory.bag.push(item);
 	}
 
 	var x = Math.floor(twister.random() * mapLocal.width);

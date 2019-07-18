@@ -55,6 +55,7 @@ var Entity = function (name) {
 
         if (entity.stats.health.CURRENT <= 0) {
             this.stats.addXP(entity.stats.xp.CURRENT);
+            this.inventory.gold += entity.inventory.gold;
         }
     }
 }

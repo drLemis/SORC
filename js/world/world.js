@@ -7,6 +7,7 @@ var gGameState;
 
 var gPlayer;
 
+
 function initGame() {
     gWorld = generateWorld("1234");
 
@@ -24,6 +25,9 @@ var World = function (newSeed) {
     this.date = new Date(this.gTwister.random() * 50000000000000 + 100000000000000);
     this.mapGlobal = new MapGlobal(Math.floor(this.gTwister.random() * 50 + 1), Math.floor(this.gTwister.random() * 50 + 1));
     this.mapLocal = null;
+
+    this.lessonXpCost = 500;
+    this.lessonXpCostModifier = 1.1;
 }
 
 var eGamePositions = makeEnum([
@@ -39,6 +43,8 @@ var eGameStates = makeEnum([
     "INVENTORY_USE",
     "INVENTORY_GET",
     "TOWN",
+    "TOWN_AUTHORITIES",
+    "TOWN_AUTHORITIES_LEARN",
     "TOWN_TAVERN",
     "TOWN_TAVERN_REST",
     "TOWN_TAVERN_BAG_DROP",
@@ -60,7 +66,7 @@ var generateWorld = function (seed) {
     gGamePosition = eGamePositions.GLOBALMAP;
     gGameState = eGameStates.PLAYING;
 
-    gPlayer = new Entity("WORLDDESTROYER IV");
+    gPlayer = new Entity("PLAYER");
 
 
     gPlayer.globalX = Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.height);
@@ -71,23 +77,6 @@ var generateWorld = function (seed) {
     var item = itemGenerate("sword");
     gPlayer.inventory.bag.push(item);
     gPlayer.inventory.itemEquip(item);
-    item = itemGenerate("bow");
-    gPlayer.inventory.bag.push(item);
-    gPlayer.inventory.itemEquip(item);
-    item = itemGenerate("ammo");
-    gPlayer.inventory.bag.push(item);
-    gPlayer.inventory.itemEquip(item);
-    item = itemGenerate("helmet");
-    gPlayer.inventory.bag.push(item);
-    gPlayer.inventory.itemEquip(item);
-    item = itemGenerate("armor");
-    gPlayer.inventory.bag.push(item);
-    gPlayer.inventory.itemEquip(item);
-
-    for (let index = 0; index < 70; index++) {
-        item = itemGenerate("armor");
-        gPlayer.inventory.bag.push(item);
-    }
 
     for (let index = 0; index < 20; index++) {
         // creating and placing submap on globalmap
