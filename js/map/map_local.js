@@ -155,7 +155,6 @@ var TileLocal = function (map, x, y) {
 	}
 
 	this.setCreature = function (newCreature) {
-        console.log("TCL: this.setCreature -> newCreature", newCreature)
 		this.creature = newCreature;
 		this.creature.localX = this.x;
 		this.creature.localY = this.y;
@@ -177,6 +176,8 @@ var seedToMapLocal = function (seed) {
 		var enemy = new Entity("ENEMY");
 		var x = Math.floor(twister.random() * mapLocal.width);
 		var y = Math.floor(twister.random() * mapLocal.height);
+
+		enemy.stats.addXP(Math.floor(twister.random() * 200));
 
 		while (mapLocal.getTile(x, y) && (mapLocal.getTile(x, y).getPass() != true || mapLocal.getTile(x, y).creature != null)) {
 			x = Math.floor(twister.random() * mapLocal.width);

@@ -3,8 +3,8 @@
 var Stats = function (parent) {
     this.parent = parent;
     this.xp = {
-        CURRENT: 1200,
-        ALL: 1200
+        CURRENT: 0,
+        ALL: 0
     };
 
     this.health = {
@@ -75,5 +75,11 @@ var Stats = function (parent) {
 
     this.getXP = function () {
         return this.xp.CURRENT;
+    }
+
+    this.addXP = function (delta) {
+        this.xp.CURRENT += delta;
+        if (delta > 0)
+            this.xp.ALL += delta;
     }
 }
