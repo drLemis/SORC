@@ -30,11 +30,11 @@ function GenerateDungeon(seed){
   while(CheckGeneration(dungeon)<GEN_CLEAR_THRESHOLD){
     //generate room, respect boundaries
     //a room is a 4-tuple [top, left, bottom, right]
-    var dim = [Math.floor(gen.random()*ROOM_MAX_HEIGHT)+1, Math.floor(gen.random()*ROOM_MAX_WIDTH)+1]
-    var room = [Math.floor(gen.random()*(height)), Math.floor(gen.random()*(width))]
+    var dim = [Math.floor(gen.random()*ROOM_MAX_HEIGHT-1)+2, Math.floor(gen.random()*ROOM_MAX_WIDTH-1)+2]
+    var room = [Math.floor(gen.random()*(height-2))+1, Math.floor(gen.random()*(width-2))+1]
     //that describes the topleft corner; add the bottom and right coordinates
-    room.push(Math.min(room[0]+dim[0], height-1))
-    room.push(Math.min(room[1]+dim[1], width-1))
+    room.push(Math.min(room[0]+dim[0], height-2))
+    room.push(Math.min(room[1]+dim[1], width-2))
     
     //ensure it does not intersect with other rooms, with a 1-C_P chance to overlook
     var f = false;
@@ -69,7 +69,7 @@ function GenerateDungeon(seed){
   }
   
   
-  console.log(rooms)
+  
   //for each room - discard it from the list
   while(rooms.length > 0){
     var thisRoom = rooms.pop()
