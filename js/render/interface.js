@@ -1,10 +1,10 @@
 var gInterfaceLogs = [];
 
 function drawInterfaceFrame() {
-    ctx.strokeStyle = colorMain;
+    ctx.strokeStyle = gColorsCGA.WHITE;
     ctx.lineWidth = 3;
 
-    ctx.fillStyle = colorBack;
+    ctx.fillStyle = gColorsCGA.BLACK;
     ctx.fillRect(0, height * 0.80, width, height * 0.25);
     ctx.fillRect(width * 0.8, 0, width * 0.2, height * 0.80);
 
@@ -17,7 +17,7 @@ function drawInterfaceFrame() {
 }
 
 function drawInterfaceStatus() {
-    ctx.strokeStyle = colorMain;
+    ctx.strokeStyle = gColorsCGA.WHITE;
     ctx.lineWidth = 3;
 
     var locW = width * 0.80 + 5;
@@ -46,7 +46,7 @@ function drawInterfaceStats() {
 
     var i = 0;
 
-    ctx.fillStyle = colorMain;
+    ctx.fillStyle = gColorsCGA.WHITE;
     ctx.fillText(gPlayer.name, locW, ++i * locH + offH);
     ctx.fillText("=================", locW, ++i * locH + offH);
     ctx.fillText(gPlayer.race, locW, ++i * locH + offH);
@@ -56,31 +56,31 @@ function drawInterfaceStats() {
 
     ctx.fillText("=================", locW, ++i * locH + offH);
 
-    ctx.fillStyle = getStatusColor(gPlayer.stats.health, [colorWarn, colorAttn, colorMain, colorMain]);
+    ctx.fillStyle = getStatusColor(gPlayer.stats.health, [gColorsCGA.RED, gColorsCGA.YELLOW, gColorsCGA.WHITE, gColorsCGA.WHITE]);
     ctx.fillText("HEALTH", locW, ++i * locH + offH);
-    ctx.fillStyle = getStatusColor(gPlayer.stats.mana, [colorWarn, colorAttn, colorMain, colorMain]);
+    ctx.fillStyle = getStatusColor(gPlayer.stats.mana, [gColorsCGA.RED, gColorsCGA.YELLOW, gColorsCGA.WHITE, gColorsCGA.WHITE]);
     ctx.fillText("            POWER", locW, i * locH + offH);
 
-    ctx.fillStyle = getStatusColor(gPlayer.stats.health, [colorWarn, colorAttn, colorMain, colorMain]);
+    ctx.fillStyle = getStatusColor(gPlayer.stats.health, [gColorsCGA.RED, gColorsCGA.YELLOW, gColorsCGA.WHITE, gColorsCGA.WHITE]);
     ctx.fillText(gPlayer.stats.getHealthAsString(), locW, ++i * locH + offH);
-    ctx.fillStyle = getStatusColor(gPlayer.stats.mana, [colorWarn, colorAttn, colorMain, colorMain]);
+    ctx.fillStyle = getStatusColor(gPlayer.stats.mana, [gColorsCGA.RED, gColorsCGA.YELLOW, gColorsCGA.WHITE, gColorsCGA.WHITE]);
     ctx.fillText("          " + gPlayer.stats.getManaAsString(), locW, i * locH + offH);
 
 
-    ctx.fillStyle = colorMain;
+    ctx.fillStyle = gColorsCGA.WHITE;
     ctx.fillText("EXPERIENCE   GOLD", locW, ++i * locH + offH);
     ctx.fillText(gPlayer.stats.getXP(), locW, ++i * locH + offH);
     ctx.fillText(gPlayer.inventory.getGold(), locW, i * locH + offH);
 
     ctx.fillText("=================", locW, ++i * locH + offH);
 
-    ctx.fillStyle = colorMain;
+    ctx.fillStyle = gColorsCGA.WHITE;
     ctx.fillText("STNG  AGIL  LUCK", locW, ++i * locH + offH);
     ctx.fillText(gPlayer.stats.getStat("STNG") + " " + gPlayer.stats.getStat("AGIL") + " " + gPlayer.stats.getStat("LUCK"), locW, ++i * locH + offH);
 
     ctx.fillText("=================", locW, ++i * locH + offH);
 
-    ctx.fillStyle = colorMain;
+    ctx.fillStyle = gColorsCGA.WHITE;
     ctx.fillText("HEAD:" + gPlayer.inventory.getSlotAsString("HEAD"), locW, ++i * locH + offH);
     ctx.fillText("NECK:" + gPlayer.inventory.getSlotAsString("NECK"), locW, ++i * locH + offH);
     ctx.fillText("BODY:" + gPlayer.inventory.getSlotAsString("BODY"), locW, ++i * locH + offH);
@@ -93,7 +93,7 @@ function drawInterfaceStats() {
 
     ctx.fillText("=================", locW, ++i * locH + offH);
 
-    ctx.fillStyle = colorMain;
+    ctx.fillStyle = gColorsCGA.WHITE;
     ctx.fillText("WEPNATK   WEPNDMG", locW, ++i * locH + offH);
     ctx.fillText(setPadding(gPlayer.inventory.getStat("PATK", "MAIN") + "+" + gPlayer.inventory.getStat("MATK", "MAIN"), 3, 3, "+"), locW, ++i * locH + offH);
     ctx.fillText("          " + setPadding(gPlayer.inventory.getStat("PDMG", "MAIN") + "+" + gPlayer.inventory.getStat("MDMG", "MAIN"), 3, 3, "+"), locW, i * locH + offH);
@@ -114,7 +114,7 @@ function drawInterfaceLogs(newLog = "") {
     if (newLog != "")
     gInterfaceLogs.push(newLog);
 
-    ctx.strokeStyle = colorMain;
+    ctx.strokeStyle = gColorsCGA.WHITE;
 
     var locH = height * 0.85 + 3;
     var stepH = 16;
@@ -123,7 +123,7 @@ function drawInterfaceLogs(newLog = "") {
 
     for (let index = gInterfaceLogs.length - 1; index >= 0; index--) {
         var text = gInterfaceLogs[index];
-        var color = colorMain;
+        var color = gColorsCGA.WHITE;
 
         if (Array.isArray(gInterfaceLogs[index])) {
             text = gInterfaceLogs[index][0];

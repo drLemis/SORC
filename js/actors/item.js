@@ -48,18 +48,6 @@ var Item = function (name, slot) {
 
     this.slot = slot;
 
-    // just in case
-    this.slotToColor = function () {
-        if (this.slot) {
-            var keys = Object.keys(gPlayer.inventory.slots);
-            for (let index = 0; index < keys.length; index++) {
-                if (slot == keys[index] || index > 14)
-                    return gColorsCGA[index];
-            }
-        }
-        return colorsCGA[15];
-    }
-
     this.stats = {
         HP: 0, // + health.max
         MP: 0, // + mana.max

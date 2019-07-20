@@ -15,23 +15,6 @@ function initDraw() {
 }
 
 var gColorsCGA = {
-    0: "#000000",
-    1: "#0000AA",
-    2: "#00AA00",
-    3: "#00AAAA",
-    4: "#AA0000",
-    5: "#AA00AA",
-    6: "#AA5500",
-    7: "#AAAAAA",
-    8: "#555555",
-    9: "#5555FF",
-    10: "#55FF55",
-    11: "#55FFFF",
-    12: "#FF5555",
-    13: "#FF55FF",
-    14: "#FFFF55",
-    15: "#FFFFFF",
-
     BLACK: "#000000",
     BLUE: "#0000AA",
     GREEN: "#00AA00",
@@ -50,16 +33,10 @@ var gColorsCGA = {
     WHITE: "#FFFFFF",
 };
 
-var colorBack = gColorsCGA.BLACK; // black
-var colorMain = gColorsCGA.WHITE; // white
-var colorWarn = gColorsCGA.RED; // red
-var colorAttn = gColorsCGA.YELLOW; // yellow
-var colorGood = gColorsCGA.GREEN; // green
-
 function draw() {
     ctx.clearRect(0, 0, width, height);
 
-    ctx.fillStyle = colorBack;
+    ctx.fillStyle = gColorsCGA.BLACK;
     ctx.fillRect(0, 0, width, height);
 
     drawInterfaceFrame();

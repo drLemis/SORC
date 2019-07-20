@@ -7,7 +7,6 @@ var gGameState;
 
 var gPlayer;
 
-
 function initGame() {
     gWorld = generateWorld("1234");
 
@@ -81,8 +80,12 @@ var generateWorld = function (seed) {
     for (let index = 0; index < 20; index++) {
         // creating and placing submap on globalmap
         var tile = null;
+
         do {
-            tile = newWorld.mapGlobal.getTile(Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.width), Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.height));
+            var randX = Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.width);
+            var randY = Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.height);
+
+            tile = newWorld.mapGlobal.getTile(randX, randY);
         }
         while (tile == null || tile.submapSeed != null || tile.town != null)
 

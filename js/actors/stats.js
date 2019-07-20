@@ -53,7 +53,7 @@ var Stats = function (parent) {
             while (this.parent.inventory.bag.length > 0)
                 this.parent.inventory.itemDrop(this.parent.inventory.bag[0]);
 
-            drawInterfaceLogs([this.parent.name + " IS DEAD!", colorWarn]);
+            drawInterfaceLogs([this.parent.name + " IS DEAD!", gColorsCGA.RED]);
         }
     };
 
