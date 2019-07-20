@@ -5,6 +5,10 @@ var debug_passages = []
 function GenerateDungeon(seed){
   
   const DEBUG = true //true or false
+  debug_rooms.length = 0
+  debug_passages.length = 0
+  
+  
   
   const MAX_HEIGHT = 50
   const MAX_WIDTH = 50
@@ -35,7 +39,7 @@ function GenerateDungeon(seed){
     //generate room, respect boundaries
     //a room is a 4-tuple [top, left, bottom, right]
     var dim = [Math.floor(gen.random()*ROOM_MAX_HEIGHT-1)+2, Math.floor(gen.random()*ROOM_MAX_WIDTH-1)+2]
-    var room = [Math.floor(gen.random()*(height-2))+1, Math.floor(gen.random()*(width-2))+1]
+    var room = [Math.floor(gen.random()*(height-3))+1, Math.floor(gen.random()*(width-3))+1]
     //that describes the topleft corner; add the bottom and right coordinates
     room.push(Math.min(room[0]+dim[0], height-2))
     room.push(Math.min(room[1]+dim[1], width-2))
@@ -88,44 +92,47 @@ function GenerateDungeon(seed){
     
     //make passages
     nearest.forEach(function(thatRoom){
-      if (thisRoom[0] == thatRoom[0]){ //if the rooms are aligned vertically, just make a vertical passage
-        for (var y = Math.min(thisRoom[1], thatRoom[1]);
-            y <= Math.max(thisRoom[1], thatRoom[1]);
-            y++) {
-              dungeon[thisRoom[0]][y] = 0;
+      if (thisRoom[0] == thatRoom[0]){ //if the rooms are aligned horizontally, just make a horizontal passage
+        for (var x = Math.min(thisRoom[1], thatRoom[1]);
+            x <= Math.max(thisRoom[1], thatRoom[1]);
+            x++) {
+              dungeon[thisRoom[0]][x] = 0;
             }
 			if (DEBUG === true) debug_passages.push([thisRoom, thatRoom])
       }
+	  else if (thisRoom[1] == thatRoom[1]){//likewise for vertical
+		  for (var y = Math.min(thisRoom[0], thatRoom[0]); 
+            y <= Math.max(thisRoom[0], thatRoom[0]);
+            y++) {
+				dungeon[y][thisRoom[1]] = 0;
+			}
+			if (DEBUG === true) debug_passages.push([thisRoom, thatRoom])
+	  }
       else {
-        var x1 = Math.min(thisRoom[1], thatRoom[1]);
-		var x2 = Math.max(thisRoom[1], thatRoom[1])
-		var y1 = Math.min(thisRoom[0], thatRoom[0]);
-		var y2 = Math.max(thisRoom[0], thatRoom[0])
-		
-		if (gen.random() > 0.5){
-			for (var index = y1; index <= y2; index ++) {
-				dungeon[index][x1] = 0
-				
+		if (gen.random() > 0.5) {
+			
+			for (var index = thisRoom[0]; index != thatRoom[0]; index += Math.sign(thatRoom[0]-thisRoom[0]))
+				dungeon[index][thisRoom[1]] = 0;
+			
+			for (var index = thisRoom[1]; index != thatRoom[1]; index += Math.sign(thatRoom[1]-thisRoom[1]))
+				dungeon[thatRoom[0]][index] = 0;
+			
+			if (DEBUG === true) debug_passages.push([thisRoom, [thatRoom[0], thisRoom[1]], thatRoom])
+			
 			}
-			for (var index = x1; index <= x2; index ++){
-				dungeon[y2][index] = 0
-			}
-			if (DEBUG === true) debug_passages.push([[y1, x1], [y2, x1], [y2,x2]])
-		}
 		else{
-			for (var index = x1; index <= x2; index ++){
-				dungeon[y1][index] = 0
-				
+			for (var index = thisRoom[1]; index != thatRoom[1]; index += Math.sign(thatRoom[1]-thisRoom[1]))
+				dungeon[thisRoom[0]][index] = 0;
+			
+			for (var index = thisRoom[0]; index != thatRoom[0]; index += Math.sign(thatRoom[0]-thisRoom[0]))
+				dungeon[index][thatRoom[1]] = 0;
+			
+			if (DEBUG === true) debug_passages.push([thisRoom, [thisRoom[0], thatRoom[1]] ,thatRoom]) 
 			}
-			for (var index = y1; index <= y2; index ++) {
-				dungeon[index][x2] = 0
-				
-			}
-		if (DEBUG === true) debug_passages.push([[y1, x1], [y1, x2], [y2,x2]])
 		}
-      }
-    })
-  }
+      })
+    }
+  
   
   
   console.log(debug_passages)
