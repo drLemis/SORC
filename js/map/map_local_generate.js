@@ -133,9 +133,6 @@ function GenerateDungeon(seed){
       })
     }
   
-  
-  
-  console.log(debug_passages)
   return dungeon
   
 }
