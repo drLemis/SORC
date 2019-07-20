@@ -7,6 +7,7 @@ function drawScreenSubmap2D(submap) {
 
     for (let iX = 0; iX < submap.width; iX++) {
         for (let iY = 0; iY < submap.height; iY++) {
+			ctx.strokeStyle = gColorsCGA.WHITE;
             var cellCoord = [fromCoord[0] + (iY * cellSize), fromCoord[1] + (iX * cellSize)];
 
             ctx.fillStyle = gColorsCGA.BLACK;
@@ -28,6 +29,26 @@ function drawScreenSubmap2D(submap) {
 
             ctx.fillRect(cellCoord[0], cellCoord[1], cellSize, cellSize)
             ctx.strokeRect(cellCoord[0], cellCoord[1], cellSize, cellSize);
+			
+			if (debug_rooms.length > 0) {
+				for (var i = 0; i < debug_rooms.length; i++) {
+					ctx.strokeStyle = gColorsCGA.RED;
+					ctx.strokeRect(debug_rooms[i][1]*cellSize, debug_rooms[i][0]*cellSize, cellSize, cellSize)
+				}
+			}
+			
+			if (debug_passages.length > 0) {
+				ctx.strokeStyle = gColorsCGA.BLUE;
+				for (var i = 0; i < debug_passages.length; i++) {
+					ctx.beginPath()
+					ctx.moveTo((debug_passages[i][0][1]+0.5)*cellSize, (debug_passages[i][0][0]+0.5)*cellSize)
+					for (var j = 1; j < debug_passages[i].length; j++){
+						ctx.lineTo((debug_passages[i][j][1]+0.5)*cellSize, (debug_passages[i][j][0]+0.5)*cellSize)
+					}
+					ctx.stroke();
+				}
+				
+			}
         }
     }
 }

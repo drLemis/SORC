@@ -1,6 +1,10 @@
 
+var debug_rooms = []
+var debug_passages = []
+
 function GenerateDungeon(seed){
   
+  const DEBUG = true //true or false
   
   const MAX_HEIGHT = 50
   const MAX_WIDTH = 50
@@ -67,7 +71,7 @@ function GenerateDungeon(seed){
     //now rooms are [y, x]
   
   }
-  
+  if (DEBUG === true) debug_rooms = [...rooms]
   
   
   //for each room - discard it from the list
@@ -90,34 +94,41 @@ function GenerateDungeon(seed){
             y++) {
               dungeon[thisRoom[0]][y] = 0;
             }
+			if (DEBUG === true) debug_passages.push([thisRoom, thatRoom])
       }
       else {
-        //starting x: the one corresponding to lower Y
-        var x1 = thisRoom[0] < thatRoom[0] ? thisRoom[1] : thatRoom[1];
-		//ending x: to higher Y
-		var x2 = thisRoom[0] < thatRoom[0] ? thatRoom[1] : thisRoom[1];
+        var x1 = Math.min(thisRoom[1], thatRoom[1]);
+		var x2 = Math.max(thisRoom[1], thatRoom[1])
 		var y1 = Math.min(thisRoom[0], thatRoom[0]);
 		var y2 = Math.max(thisRoom[0], thatRoom[0])
 		
 		if (gen.random() > 0.5){
 			for (var index = y1; index <= y2; index ++) {
 				dungeon[index][x1] = 0
+				
 			}
 			for (var index = x1; index <= x2; index ++){
 				dungeon[y2][index] = 0
 			}
+			if (DEBUG === true) debug_passages.push([[y1, x1], [y2, x1], [y2,x2]])
 		}
 		else{
 			for (var index = x1; index <= x2; index ++){
 				dungeon[y1][index] = 0
+				
 			}
 			for (var index = y1; index <= y2; index ++) {
 				dungeon[index][x2] = 0
+				
 			}
+		if (DEBUG === true) debug_passages.push([[y1, x1], [y1, x2], [y2,x2]])
 		}
       }
     })
   }
+  
+  
+  console.log(debug_passages)
   return dungeon
   
 }
