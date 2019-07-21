@@ -1,8 +1,10 @@
+var gDrawingRightNow = false;
+
 function drawScreenSubmap2D(submap) {
+    gDrawingRightNow = true;
     var fromCoord = [0, 0]; // left-top offset
     var cellSize = Math.min(width * 0.80 / submap.width, height * 0.80 / submap.height); // px
 
-    ctx.strokeStyle = gColorsCGA.WHITE;
     ctx.lineWidth = 1;
 
     for (let iX = 0; iX < submap.width; iX++) {
@@ -27,9 +29,11 @@ function drawScreenSubmap2D(submap) {
                     ctx.fillStyle = gColorsCGA.BROWN;
             }
 
-            ctx.fillRect(cellCoord[0], cellCoord[1], cellSize, cellSize)
-            ctx.strokeRect(cellCoord[0], cellCoord[1], cellSize, cellSize);
-
+            if (ctx.fillStyle != gColorsCGA.BLACK) {
+                ctx.strokeStyle = ctx.fillStyle;
+                ctx.fillRect(cellCoord[0], cellCoord[1], cellSize, cellSize);
+                ctx.strokeRect(cellCoord[0], cellCoord[1], cellSize, cellSize);
+            }
             // if (debug_rooms.length > 0) {
             //     for (var i = 0; i < debug_rooms.length; i++) {
             //         ctx.strokeStyle = gColorsCGA.RED;
@@ -51,9 +55,11 @@ function drawScreenSubmap2D(submap) {
             // }
         }
     }
+    gDrawingRightNow = false;
 }
 
 function drawScreenGlobalmap2D(globalmap) {
+    gDrawingRightNow = true;
     var fromCoord = [0, 0]; // left-top offset
     var cellSize = Math.min(width * 0.80 / globalmap.width, height * 0.80 / globalmap.height); // px
 
@@ -92,4 +98,5 @@ function drawScreenGlobalmap2D(globalmap) {
             ctx.strokeRect(cellCoord[0], cellCoord[1], cellSize, cellSize);
         }
     }
+    gDrawingRightNow = false;
 }

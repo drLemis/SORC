@@ -123,7 +123,6 @@ function readEntityFromDatabase(enemy) {
 				});
 			}
 		}
-		console.log(entity)
 		return entity;
 	} else {
 		return null;

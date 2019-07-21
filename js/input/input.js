@@ -1,4 +1,7 @@
 function inputProcessing(e) {
+    if (gDrawingRightNow || e.repeat) {
+        return;
+    }
     // DEBUG 
     if (e.altKey && e.code == 'KeyG') { // left
         gWorld = generateWorld(prompt("Your seed is " + gWorld.seed + ", input new one!", gWorld.seed));
