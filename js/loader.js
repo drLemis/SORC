@@ -12,8 +12,8 @@ const LOADER_SCRIPTFILES = [
     "js/render/draw.js",
     "js/render/interface.js",
     "js/render/screen.js",
-    "js/render/menuInventory.js",
-    "js/render/menuTown.js",
+    "js/render/menu_inventory.js",
+    "js/render/menu_town.js",
 
     "js/map/map_local.js",
     "js/map/map_local_generate.js",
