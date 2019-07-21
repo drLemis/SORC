@@ -173,7 +173,7 @@ var seedToMapLocal = function (seed) {
 	var twister = new MersenneTwister(seed);
 
 	for (let index = 0; index < Math.floor(twister.random() * 20 + 1); index++) {
-		var enemy = new Entity("ENEMY");
+		var enemy = new Entity("ANIMAL");
 		var x = Math.floor(twister.random() * mapLocal.width);
 		var y = Math.floor(twister.random() * mapLocal.height);
 
@@ -187,13 +187,7 @@ var seedToMapLocal = function (seed) {
 		tile = mapLocal.getTile(x, y);
 		tile.setCreature(enemy);
 
-		item = itemGenerate("sword");
-		enemy.inventory.bag.push(item);
-		enemy.inventory.itemEquip(item);
-		item = itemGenerate("armor");
-		enemy.inventory.bag.push(item);
-		enemy.inventory.itemEquip(item);
-		item = itemGenerate("helmet");
+		item = itemGenerate("natural");
 		enemy.inventory.bag.push(item);
 		enemy.inventory.itemEquip(item);
 	}

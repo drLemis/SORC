@@ -1,8 +1,10 @@
 'use strict';
 
-var Item = function (name, slot) {
+var Item = function (name, slot, canDrop = true) {
     this.name = name.toUpperCase().trim();
     this.shortname = this.name;
+
+    this.canDrop = canDrop;
 
     if (name.length > 12) {
         this.shortname = this.name.replace(/[aeiouy]/gi, '');
@@ -92,6 +94,11 @@ function itemGenerate(type = "sword") {
             item.stats["MATK"] = getRandomInt(0, 2);
             item.stats["PDMG"] = getRandomInt(1, 3);
             item.stats["MDMG"] = getRandomInt(0, 2);
+            break;
+        case "natural":
+            item = new Item("CLAWS", "MAIN", false);
+            item.stats["PATK"] = getRandomInt(0, 3);
+            item.stats["PDMG"] = getRandomInt(1, 3);
             break;
         default:
             item = new Item(getRandomItemName(), "MAIN");

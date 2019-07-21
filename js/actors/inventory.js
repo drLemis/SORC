@@ -91,7 +91,7 @@ var Inventory = function (parent) {
     }
 
     this.itemUnequipFromSlot = function (slot) {
-        if (this.slots[slot]) {
+        if (this.slots[slot] && this.slots[slot].canDrop) {
             this.parent.stats.health.max -= this.slots[slot].stats["HP"];
             this.parent.stats.mana.max -= this.slots[slot].stats["MP"];
             this.bag.push(this.slots[slot]);
