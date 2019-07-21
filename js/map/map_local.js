@@ -65,7 +65,6 @@ var MapLocal = function (w, h) {
 				return;
 			}
 			if (toTile.passable != true) {
-				drawInterfaceLogs("YOU CAN'T MOVE THERE!");
 				return;
 			}
 			toTile.setCreature(fromTile.getCreature());
