@@ -53,9 +53,11 @@ var Entity = function (name) {
 
 		entity.stats.setHealthDelta(-damage);
 
-		if (entity.stats.health.CURRENT <= 0) {
-			this.stats.addXP(entity.stats.xp.CURRENT);
-			this.inventory.gold += entity.inventory.gold;
+		if (entity.stats.health.CURRENT <= 0 && entity != gPlayer) {
+			this.stats.addXP(+entity.stats.xp.CURRENT);
+			this.inventory.gold += +entity.inventory.gold;
+			entity.stats.xp = 0;
+			entity.inventory.gold = 0;
 		}
 	}
 }

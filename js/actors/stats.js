@@ -77,8 +77,8 @@ var Stats = function (parent) {
     }
 
     this.addXP = function (delta) {
-        this.xp.CURRENT += delta;
+        this.xp.CURRENT += +delta;
         if (delta > 0)
-            this.xp.ALL += delta;
+            this.xp.ALL += +delta;
     }
 }
