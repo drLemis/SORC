@@ -1,10 +1,17 @@
+var gRepeatInput = true;
+
 function inputProcessing(e) {
-    if (gDrawingRightNow || e.repeat) {
+    if (gDrawingRightNow || (e.repeat && !gRepeatInput)) {
         return;
     }
+
     // DEBUG 
-    if (e.altKey && e.code == 'KeyG') { // left
+    if (e.altKey && e.code == 'KeyG') {
         gWorld = generateWorld(prompt("Your seed is " + gWorld.seed + ", input new one!", gWorld.seed));
+    }
+
+    if (e.altKey && e.code == 'KeyR') {
+        gRepeatInput = !gRepeatInput;
     }
 
     if (e.code == 'Slash') {
