@@ -50,8 +50,7 @@ var Stats = function (parent) {
             this.parent.inventory.itemUnequipFromSlot("DIST");
             this.parent.inventory.itemUnequipFromSlot("AMMO");
 
-            while (this.parent.inventory.bag.length > 0)
-                this.parent.inventory.itemDrop(this.parent.inventory.bag[0]);
+            this.parent.inventory.itemsDropAll();
 
             drawInterfaceLogs([this.parent.name + " IS DEAD!", gColorsCGA.RED]);
         }

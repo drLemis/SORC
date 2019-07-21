@@ -91,7 +91,7 @@ var Inventory = function (parent) {
     }
 
     this.itemUnequipFromSlot = function (slot) {
-        if (this.slots[slot] && this.slots[slot].canDrop) {
+        if (this.slots[slot]) {
             this.parent.stats.health.max -= this.slots[slot].stats["HP"];
             this.parent.stats.mana.max -= this.slots[slot].stats["MP"];
             this.bag.push(this.slots[slot]);
@@ -132,6 +132,19 @@ var Inventory = function (parent) {
             if (this.parent == gPlayer)
                 drawInterfaceLogs("YOU DROPPED " + item.name);
         }
+    }
+
+    this.itemsDropAll = function () {
+        this.bag.forEach(item => {
+            if (item && item.canDrop) {
+                if (gGameStateLast == eGameStates.TOWN_TAVERN) {
+                    getCurrentGlobalTile(this.parent).town.addItems(item);
+                } else
+                    getCurrentLocalTile(this.parent).addItems(item);
+            }
+        });
+
+        this.bag = [];
     }
 
     this.getSlotsMod = function (modname) {
