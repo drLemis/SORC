@@ -128,3 +128,16 @@ function getCurrentLocalTile(entity) {
         entity = gPlayer
     return gWorld.mapLocal.getTile(entity.localX, entity.localY)
 }
+
+function varFromArray(input) {
+    var result;
+
+    if (Array.isArray(input) && input.length > 1)
+        result = getRandomInt(input[0], input[1]);
+    else if (Array.isArray(input) && input.length == 1)
+        result = input[0];
+    else
+        result = input;
+
+    return result;
+}

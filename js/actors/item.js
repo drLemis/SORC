@@ -65,48 +65,48 @@ var Item = function (name, slot, canDrop = true) {
     };
 }
 
-function itemGenerate(type = "sword") {
+function itemGenerate(type = "sword", mult = 1) {
     var item;
 
     switch (type) {
         case "armor":
             item = new Item(getRandomItemName(), "BODY");
-            item.stats["STNG"] = getRandomInt(0, 1);
-            item.stats["PARM"] = getRandomInt(1, 10);
-            item.stats["MARM"] = getRandomInt(1, 3);
+            item.stats["STNG"] = getRandomInt(0, 1) * mult;
+            item.stats["PARM"] = getRandomInt(1, 10) * mult;
+            item.stats["MARM"] = getRandomInt(1, 3) * mult;
             break;
         case "helmet":
             item = new Item(getRandomItemName(), "HEAD");
-            item.stats["PARM"] = getRandomInt(0, 3);
-            item.stats["MARM"] = getRandomInt(0, 2);
+            item.stats["PARM"] = getRandomInt(0, 3) * mult;
+            item.stats["MARM"] = getRandomInt(0, 2) * mult;
             break;
         case "bow":
             item = new Item(getRandomItemName(), "DIST");
-            item.stats["AGIL"] = getRandomInt(0, 1);
-            item.stats["PATK"] = getRandomInt(0, 3);
-            item.stats["MATK"] = getRandomInt(0, 2);
-            item.stats["PDMG"] = getRandomInt(1, 3);
-            item.stats["MDMG"] = getRandomInt(0, 2);
+            item.stats["AGIL"] = getRandomInt(0, 1) * mult;
+            item.stats["PATK"] = getRandomInt(0, 3) * mult;
+            item.stats["MATK"] = getRandomInt(0, 2) * mult;
+            item.stats["PDMG"] = getRandomInt(1, 3) * mult;
+            item.stats["MDMG"] = getRandomInt(0, 2) * mult;
             break;
         case "ammo":
             item = new Item(getRandomItemName(), "AMMO");
-            item.stats["PATK"] = getRandomInt(0, 3);
-            item.stats["MATK"] = getRandomInt(0, 2);
-            item.stats["PDMG"] = getRandomInt(1, 3);
-            item.stats["MDMG"] = getRandomInt(0, 2);
+            item.stats["PATK"] = getRandomInt(0, 3) * mult;
+            item.stats["MATK"] = getRandomInt(0, 2) * mult;
+            item.stats["PDMG"] = getRandomInt(1, 3) * mult;
+            item.stats["MDMG"] = getRandomInt(0, 2) * mult;
             break;
         case "natural":
             item = new Item("CLAWS", "MAIN", false);
-            item.stats["PATK"] = getRandomInt(0, 3);
-            item.stats["PDMG"] = getRandomInt(1, 3);
+            item.stats["PATK"] = getRandomInt(0, 3) * mult;
+            item.stats["PDMG"] = getRandomInt(1, 3) * mult;
             break;
         default:
             item = new Item(getRandomItemName(), "MAIN");
-            item.stats["STNG"] = getRandomInt(1, 2);
-            item.stats["PATK"] = getRandomInt(0, 3);
-            item.stats["MATK"] = getRandomInt(0, 2);
-            item.stats["PDMG"] = getRandomInt(1, 3);
-            item.stats["MDMG"] = getRandomInt(0, 2);
+            item.stats["STNG"] = getRandomInt(1, 2) * mult;
+            item.stats["PATK"] = getRandomInt(0, 3) * mult;
+            item.stats["MATK"] = getRandomInt(0, 2) * mult;
+            item.stats["PDMG"] = getRandomInt(1, 3) * mult;
+            item.stats["MDMG"] = getRandomInt(0, 2) * mult;
             break;
     }
 

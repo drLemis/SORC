@@ -4,6 +4,8 @@ const LOADER_SCRIPTFILES = [
     "js/misc/misc.js",
     "js/misc/twister.js",
 
+    "js/database/database_enemies.js",
+
     "js/actors/item.js",
     "js/actors/inventory.js",
     "js/actors/stats.js",

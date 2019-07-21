@@ -66,7 +66,15 @@ var generateWorld = function (seed) {
     gGameState = eGameStates.PLAYING;
 
     gPlayer = new Entity("PLAYER");
+    gPlayer.race = "HUMAN";
+    gPlayer.class = "WARRIOR";
 
+    gPlayer.stats.health.MAX = gPlayer.stats.health.CURRENT = 50;
+    gPlayer.stats.mana.MAX = gPlayer.stats.mana.CURRENT = 50;
+    
+    gPlayer.stats.attributes.STNG = 1;
+    gPlayer.stats.attributes.AGIL = 1;
+    gPlayer.stats.attributes.LUCK = 1;
 
     gPlayer.globalX = Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.height);
     gPlayer.globalY = Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.width);

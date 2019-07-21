@@ -17,8 +17,8 @@ var Inventory = function (parent) {
 
     this.bag = [];
 
-    this.gold = getRandomInt(0, 50);
-    this.food = getRandomInt(0, 5);
+    this.gold = 0;
+    this.food = 0;
 
     this.getGold = function () {
         return setPadding(this.gold, 17);
