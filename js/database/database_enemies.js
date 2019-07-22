@@ -19,9 +19,7 @@ const DatabaseEnemies = function () {
 
 	this.getClosestDifficulty = function getClosestDifficulty(difficulty, fromTop = false) {
 		var map = this.getDifficultyMap();
-		var result = {
-			"difficulty": 0
-		};
+		var result = map[1][0];
 
 		if (fromTop) {
 			for (let element of map) {
