@@ -78,6 +78,9 @@ function drawScreenGlobalmap2D(globalmap) {
 	var fromCoord = [0, 0]; // left-top offset
 	var cellSize = Math.min(width * 0.80 / globalmap.width, height * 0.80 / globalmap.height); // px
 
+	ctx.fillStyle = gColorsCGA.LIGHTGRAY;
+	ctx.fillRect(0, 0, cellSize * globalmap.width, cellSize * globalmap.height);
+
 	ctx.strokeStyle = gColorsCGA.WHITE;
 	ctx.lineWidth = 1;
 
@@ -109,8 +112,8 @@ function drawScreenGlobalmap2D(globalmap) {
 				ctx.fillStyle = gColorsCGA.WHITE; // player
 			}
 
-			ctx.fillRect(cellCoord[0], cellCoord[1], cellSize, cellSize)
-			ctx.strokeRect(cellCoord[0], cellCoord[1], cellSize, cellSize);
+			if (ctx.fillStyle != gColorsCGA.LIGHTGRAY)
+				ctx.fillRect(cellCoord[0], cellCoord[1], cellSize, cellSize)
 		}
 	}
 	gDrawingRightNow = false;

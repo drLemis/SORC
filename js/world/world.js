@@ -22,7 +22,7 @@ var World = function (newSeed) {
     this.seed = newSeed;
     this.gTwister = new MersenneTwister(newSeed);
     this.date = new Date(this.gTwister.random() * 50000000000000 + 100000000000000);
-    this.mapGlobal = new MapGlobal(Math.floor(this.gTwister.random() * 50 + 1), Math.floor(this.gTwister.random() * 50 + 1));
+    this.mapGlobal = new MapGlobal(64, 64);
     this.mapLocal = null;
 
     this.lessonXpCost = 500;
