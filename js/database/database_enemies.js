@@ -101,7 +101,25 @@ const DatabaseEnemies = function () {
 					"chance": 0.2
 				}]
 			}
-		}
+		},
+		"jabberwocky": {
+			"difficulty": 20,
+			"name": "JABBERWOCKY",
+			"stats": {
+				"health": [300, 350],
+				"xp": [5000, 6000]
+			},
+			"inventory": {
+				"gold": [10000, 15000],
+				"equipped": [{
+					"type": "natural",
+					"stats": {
+						"patk": [30, 40],
+						"pdmg": [40, 50],
+					}
+				}]
+			}
+		},
 	}
 };
 
