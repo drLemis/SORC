@@ -101,7 +101,7 @@ function createEntityFromEntry(dbEntry) {
 
 						if (dbItem.stats) {
 							Object.keys(dbItem.stats).forEach(dbStat => {
-								entity.inventory.bag[entity.inventory.bag.length - 1].stats[dbStat] = varFromArray(dbItem.stats[dbStat]);
+								entity.inventory.bag[entity.inventory.bag.length - 1].stats[dbStat.toUpperCase()] = varFromArray(dbItem.stats[dbStat]);
 							});
 						}
 						entity.inventory.itemEquip(entity.inventory.bag[entity.inventory.bag.length - 1]);
@@ -121,7 +121,7 @@ function createEntityFromEntry(dbEntry) {
 
 						if (dbItem.stats) {
 							Object.keys(dbItem.stats).forEach(dbStat => {
-								entity.inventory.bag[entity.inventorry.bag.length - 1].stats[dbStat] = varFromArray(dbItem.stats[dbStat]);
+								entity.inventory.bag[entity.inventorry.bag.length - 1].stats[dbStat.toUpperCase()] = varFromArray(dbItem.stats[dbStat]);
 							});
 						}
 					}
