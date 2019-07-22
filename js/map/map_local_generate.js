@@ -6,8 +6,8 @@ function GenerateDungeon(seed) {
 	debug_rooms.length = 0
 	debug_passages.length = 0
 
-	const MAX_HEIGHT = 50
-	const MAX_WIDTH = 50
+	const MAX_HEIGHT = 32
+	const MAX_WIDTH = 32
 	const GEN_CLEAR_THRESHOLD = 0.4
 	const CHECK_PERCENTAGE = 0.9
 	const NUMBER_OF_PASSAGES = 2

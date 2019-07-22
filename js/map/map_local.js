@@ -173,8 +173,12 @@ var seedToMapLocal = function (seed, difficulty = 0) {
 
 	while (difficulty > 0) {
 		var entry = gDatabaseEnemies.getClosestDifficulty(difficulty)
-
 		var enemy = createEntityFromEntry(entry);
+
+		if (Math.random() < 0.5) {
+			entry = gDatabaseEnemies.getClosestDifficulty(entry.difficulty / 2)
+			enemy = createEntityFromEntry(entry);
+		}
 
 		if (!enemy)
 			break;
