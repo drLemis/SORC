@@ -165,31 +165,33 @@ var TileLocal = function (map, x, y) {
 	}
 }
 
-var seedToMapLocal = function (seed) {
+var seedToMapLocal = function (seed, difficulty = 0) {
 	// generating mapLocal
 	var mapLocal = MapLocalFromArray(GenerateDungeon(seed));
 
 	var twister = new MersenneTwister(seed);
 
-	for (let index = 0; index < Math.floor(twister.random() * 20 + 1); index++) {
-		var enemy;
+	while (difficulty > 0) {
+		var entry = gDatabaseEnemies.getClosestDifficulty(difficulty)
 
-		if (Math.random() < 0.7)
-			enemy = readEntityFromDatabase("rat")
-		else
-			enemy = readEntityFromDatabase("zombie")
+		var enemy = createEntityFromEntry(entry);
 
-		var x = Math.floor(twister.random() * mapLocal.width);
-		var y = Math.floor(twister.random() * mapLocal.height);
+		if (!enemy)
+			break;
+
+		difficulty -= entry.difficulty
+
+		var x = Math.floor(Math.random() * mapLocal.width);
+		var y = Math.floor(Math.random() * mapLocal.height);
 
 		while (mapLocal.getTile(x, y) && (mapLocal.getTile(x, y).getPass() != true || mapLocal.getTile(x, y).creature != null)) {
-			x = Math.floor(twister.random() * mapLocal.width);
-			y = Math.floor(twister.random() * mapLocal.height);
+			x = Math.floor(Math.random() * mapLocal.width);
+			y = Math.floor(Math.random() * mapLocal.height);
 		}
 
-		tile = mapLocal.getTile(x, y);
-		tile.setCreature(enemy);
+		mapLocal.getTile(x, y).setCreature(enemy);
 	}
+
 
 	var x = Math.floor(twister.random() * mapLocal.width);
 	var y = Math.floor(twister.random() * mapLocal.height);

@@ -71,7 +71,7 @@ var generateWorld = function (seed) {
 
     gPlayer.stats.health.MAX = gPlayer.stats.health.CURRENT = 50;
     gPlayer.stats.mana.MAX = gPlayer.stats.mana.CURRENT = 50;
-    
+
     gPlayer.stats.attributes.STNG = 1;
     gPlayer.stats.attributes.AGIL = 1;
     gPlayer.stats.attributes.LUCK = 1;
@@ -98,6 +98,7 @@ var generateWorld = function (seed) {
         while (tile == null || tile.submapSeed != null || tile.town != null)
 
         tile.submapSeed = Math.floor(newWorld.gTwister.random() * 50000000000000);
+        tile.difficulty = Math.ceil(Math.getDistance(gPlayer.globalX, gPlayer.globalY, tile.x, tile.y));
     }
 
     return newWorld;

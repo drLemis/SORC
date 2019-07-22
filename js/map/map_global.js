@@ -56,6 +56,8 @@ var TileGlobal = function (map, x, y) {
 	this.y = y;
 	this.parent = map;
 
+	this.difficulty = 0;
+
 	this.onFoot = new Boolean(true);
 	this.onSail = new Boolean(false);
 	this.onFlight = new Boolean(true);

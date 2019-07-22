@@ -62,8 +62,11 @@ var Entity = function (name) {
 	}
 }
 
-function readEntityFromDatabase(enemy) {
-	var dbEntry = gDatabaseEnemies.getEntry(enemy);
+function readEntityFromDatabase(dbEntry) {
+	return createEntityFromEntry(gDatabaseEnemies.getEntry(dbEntry));
+}
+
+function createEntityFromEntry(dbEntry) {
 	if (dbEntry) {
 		var entity = new Entity(dbEntry.name);
 

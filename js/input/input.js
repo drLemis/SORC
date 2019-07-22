@@ -89,7 +89,7 @@ function inputProcessing(e) {
             if (e.code == 'KeyO') {
                 if (getCurrentGlobalTile().submapSeed != null) {
                     gGamePosition = eGamePositions.SUBMAP;
-                    gWorld.mapLocal = seedToMapLocal(getCurrentGlobalTile().submapSeed);
+                    gWorld.mapLocal = seedToMapLocal(getCurrentGlobalTile().submapSeed, getCurrentGlobalTile().difficulty);
                 } else if (getCurrentGlobalTile().town != null) {
                     gGameState = eGameStates.TOWN;
                 }
