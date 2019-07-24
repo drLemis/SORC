@@ -32,6 +32,22 @@ function drawScreenSubmap2D(submap) {
 			if (tile.getCreature() != null) {
 				if (tile.getCreature() == gPlayer) {
 					ctx.fillStyle = gColorsCGA.WHITE;
+
+					switch (gPlayer.heading) {
+						case 1:
+							text = ">"
+							break;
+						case 2:
+							text = "v"
+							break;
+						case 3:
+							text = "<"
+							break;
+						default:
+							text = "^"
+							break;
+					}
+
 				} else {
 					ctx.fillStyle = gColorsCGA.BROWN;
 					text = tile.getCreature().name.charAt(0);

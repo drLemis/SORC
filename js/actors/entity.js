@@ -11,6 +11,8 @@ var Entity = function (name) {
 	this.globalX = 0;
 	this.globalY = 0;
 
+	this.heading = 0;
+
 	this.inventory = new Inventory(this);
 	this.stats = new Stats(this);
 

@@ -28,6 +28,7 @@ var MapLocal = function (w, h) {
 	this.width = w
 
 	this.seed = 0;
+	this.heading = 0;
 
 	this.getTile = function (x, y) {
 		if (x >= 0 && x < h && y >= 0 && y < w)
@@ -170,6 +171,7 @@ var seedToMapLocal = function (seed, difficulty = 0) {
 	var mapLocal = MapLocalFromArray(GenerateDungeon(seed));
 
 	var twister = new MersenneTwister(seed);
+	mapLocal.heading = twister.genrand_int32() % 4;
 
 	while (difficulty > 0) {
 		var entry = gDatabaseEnemies.getClosestDifficulty(difficulty)
