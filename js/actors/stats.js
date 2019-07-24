@@ -1,84 +1,84 @@
 'use strict';
 
 var Stats = function (parent) {
-    this.parent = parent;
-    this.xp = {
-        CURRENT: 0,
-        ALL: 0
-    };
+	this.parent = parent;
+	this.xp = {
+		CURRENT: 0,
+		ALL: 0
+	};
 
-    this.health = {
-        CURRENT: 50,
-        MIN: 0,
-        MAX: 50
-    };
-    this.mana = {
-        CURRENT: 50,
-        MIN: 0,
-        MAX: 50
-    };
-    this.attributes = {
-        STNG: 1,
-        AGIL: 1,
-        LUCK: 1,
-    };
+	this.health = {
+		CURRENT: 50,
+		MIN: 0,
+		MAX: 50
+	};
+	this.mana = {
+		CURRENT: 50,
+		MIN: 0,
+		MAX: 50
+	};
+	this.attributes = {
+		STNG: 1,
+		AGIL: 1,
+		LUCK: 1,
+	};
 
-    this.getStat = function (statName) {
-        var result = this.attributes[statName];
+	this.getStat = function (statName) {
+		var result = this.attributes[statName];
 
-        var statMod = this.parent.inventory.getSlotsAllMod(statName);
-        if (statMod > 0)
-            result += "+" + statMod;
-        else if (statMod < 0)
-            result += +statMod;
+		var statMod = this.parent.inventory.getSlotsAllMod(statName);
+		if (statMod > 0)
+			result += "+" + statMod;
+		else if (statMod < 0)
+			result += +statMod;
 
-        return setPadding(result, 2, 2, "+");
-    };
+		return setPadding(result, 2, 2, "+");
+	};
 
-    this.setHealth = function (newStat) {
-        this.health.CURRENT = Math.min(Math.max(this.health.MIN, newStat), this.health.MAX);
+	this.setHealth = function (newStat) {
+		this.health.CURRENT = Math.min(Math.max(this.health.MIN, newStat), this.health.MAX);
 
-        if (this.health.CURRENT <= 0 && this.parent != gPlayer) {
-            getCurrentLocalTile(this.parent).removeCreature();
+		if (this.health.CURRENT <= 0 && this.parent != gPlayer) {
+			getCurrentLocalTile(this.parent).removeCreature();
 
-            this.parent.inventory.itemUnequipFromSlot("HEAD");
-            this.parent.inventory.itemUnequipFromSlot("NECK");
-            this.parent.inventory.itemUnequipFromSlot("BODY");
-            this.parent.inventory.itemUnequipFromSlot("HAND");
-            this.parent.inventory.itemUnequipFromSlot("LEGS");
-            this.parent.inventory.itemUnequipFromSlot("MAIN");
-            this.parent.inventory.itemUnequipFromSlot("DIST");
-            this.parent.inventory.itemUnequipFromSlot("AMMO");
+			this.parent.inventory.itemUnequipFromSlot("HEAD");
+			this.parent.inventory.itemUnequipFromSlot("NECK");
+			this.parent.inventory.itemUnequipFromSlot("BODY");
+			this.parent.inventory.itemUnequipFromSlot("HAND");
+			this.parent.inventory.itemUnequipFromSlot("LEGS");
+			this.parent.inventory.itemUnequipFromSlot("MAIN");
+			this.parent.inventory.itemUnequipFromSlot("DIST");
+			this.parent.inventory.itemUnequipFromSlot("AMMO");
 
-            this.parent.inventory.itemsDropAll();
+			this.parent.inventory.itemsDropAll();
 
-            drawInterfaceLogs([this.parent.name + " IS DEAD!", gColorsCGA.RED]);
-        }
-    };
+			drawInterfaceLogs([this.parent.name + " IS DEAD!", gColorsCGA.RED]);
+		}
+	};
 
-    this.setHealthDelta = function (delta) {
-        this.setHealth(this.health.CURRENT + delta);
-    };
+	this.setHealthDelta = function (delta) {
+		this.setHealth(this.health.CURRENT + delta);
+	};
 
-    this.getHealthAsString = function () {
-        return setPadding(this.health["CURRENT"] + "/" + this.health["MAX"], 3, 3, "/");
-    };
+	this.getHealthAsString = function () {
+		return setPadding(this.health["CURRENT"] + "/" + this.health["MAX"], 3, 3, "/");
+	};
 
-    this.setMana = function (newStat) {
-        this.mana.CURRENT = Math.min(Math.max(this.mana.MIN, newStat), this.mana.MAX);
-    };
+	this.setMana = function (newStat) {
+		this.mana.CURRENT = Math.min(Math.max(this.mana.MIN, newStat), this.mana.MAX);
+	};
 
-    this.getManaAsString = function () {
-        return setPadding(this.mana["CURRENT"] + "/" + this.mana["MAX"], 3, 3, "/");
-    };
+	this.getManaAsString = function () {
+		return setPadding(this.mana["CURRENT"] + "/" + this.mana["MAX"], 3, 3, "/");
+	};
 
-    this.getXP = function () {
-        return this.xp.CURRENT;
-    }
+	this.getXP = function () {
+		return this.xp.CURRENT;
+	}
 
-    this.addXP = function (delta) {
-        this.xp.CURRENT += +delta;
-        if (delta > 0)
-            this.xp.ALL += +delta;
-    }
+	this.addXP = function (delta) {
+		this.xp.CURRENT += +delta;
+		if (delta > 0)
+			this.xp.ALL += +delta;
+	}
 }

@@ -25,66 +25,66 @@ snake_case для имён файлов.
 GAME
 |-WORLD
   |-MAP
-    |-TILE
-    | |-COORDS
-    | |-PASSABLE
-    |   |-BY FOOT
-    |   |-BY BOAT
-    |   |-BY FLIGHT
-    |-SUBMAP
-      |-TILE
-        |-PASSABLE
-        |-CONTENT
-          |-OBJECT
-          | |-INTERACTABLE
-          | |-TYPE (DOOR, TELEPORT, LEVER)
-          | |-STATE
-          | |-DEPENDANTS (LEVER OPENING DOOR)
-          |-ENTITY
-          | |-STATS
-          | | |-EXPERIENCE
-          | | |-HEALTH
-          | | | |-MIN
-          | | | |-CURRENT
-          | | | |-MAX
-          | | | |-TEMPORARY BONUS
-          | | |   |-CURRENT
-          | | |   |-TIME LEFT
-          | | |-MANA
-          | | | |-MIN
-          | | | |-CURRENT
-          | | | |-MAX
-          | | | |-TEMPORARY BONUS
-          | | |   |-CURRENT
-          | | |   |-TIME LEFT
-          | | |-ATTRIBUTES
-          | |   |-STRENGTH
-          | |   | |-CURRENT
-          | |   | |-TEMPORARY BONUS
-          | |   |   |-CURRENT
-          | |   |   |-TIME LEFT
-          | |   |-AGILITY
-          | |   | |-CURRENT
-          | |   | |-TEMPORARY BONUS
-          | |   |   |-CURRENT
-          | |   |   |-TIME LEFT
-          | |   |-LUCK
-          | |     |-CURRENT
-          | |     |-TEMPORARY BONUS
-          | |       |-CURRENT
-          | |       |-TIME LEFT
-          | |-INVENTORY
-          |   |-ITEM
-          |     |-OBTAINABLE
-          |     |-OWNER
-          |     |-SLOT
-          |     |-BONUS
-          |     |-COST
-          |     |-WEIGHT
-          |-ITEM
-            |-OBTAINABLE
-            |-OWNER
-            |-SLOT
-            |-BONUS
-            |-COST
-            |-WEIGHT
+	|-TILE
+	| |-COORDS
+	| |-PASSABLE
+	|   |-BY FOOT
+	|   |-BY BOAT
+	|   |-BY FLIGHT
+	|-SUBMAP
+	  |-TILE
+		|-PASSABLE
+		|-CONTENT
+		  |-OBJECT
+		  | |-INTERACTABLE
+		  | |-TYPE (DOOR, TELEPORT, LEVER)
+		  | |-STATE
+		  | |-DEPENDANTS (LEVER OPENING DOOR)
+		  |-ENTITY
+		  | |-STATS
+		  | | |-EXPERIENCE
+		  | | |-HEALTH
+		  | | | |-MIN
+		  | | | |-CURRENT
+		  | | | |-MAX
+		  | | | |-TEMPORARY BONUS
+		  | | |   |-CURRENT
+		  | | |   |-TIME LEFT
+		  | | |-MANA
+		  | | | |-MIN
+		  | | | |-CURRENT
+		  | | | |-MAX
+		  | | | |-TEMPORARY BONUS
+		  | | |   |-CURRENT
+		  | | |   |-TIME LEFT
+		  | | |-ATTRIBUTES
+		  | |   |-STRENGTH
+		  | |   | |-CURRENT
+		  | |   | |-TEMPORARY BONUS
+		  | |   |   |-CURRENT
+		  | |   |   |-TIME LEFT
+		  | |   |-AGILITY
+		  | |   | |-CURRENT
+		  | |   | |-TEMPORARY BONUS
+		  | |   |   |-CURRENT
+		  | |   |   |-TIME LEFT
+		  | |   |-LUCK
+		  | |	 |-CURRENT
+		  | |	 |-TEMPORARY BONUS
+		  | |	   |-CURRENT
+		  | |	   |-TIME LEFT
+		  | |-INVENTORY
+		  |   |-ITEM
+		  |	 |-OBTAINABLE
+		  |	 |-OWNER
+		  |	 |-SLOT
+		  |	 |-BONUS
+		  |	 |-COST
+		  |	 |-WEIGHT
+		  |-ITEM
+			|-OBTAINABLE
+			|-OWNER
+			|-SLOT
+			|-BONUS
+			|-COST
+			|-WEIGHT
