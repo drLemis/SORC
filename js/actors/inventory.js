@@ -19,6 +19,37 @@ var Inventory = function (parent) {
 
 	this.gold = 0;
 	this.food = 0;
+	
+	this.toJSON = () => {
+		var newBag = [...this.bag];
+		for (var index = 0; index < newBag.length; index++){
+			newBag[index] = newBag[index].toJSON()
+		}
+		 //THIS PART WAS SO MADDENING FOR SOME REASON
+		var newSlots = new Map();
+		var entries = (Object.entries(this.slots))
+		for (var index in Object.entries(this.slots)){
+			newSlots[entries[index][0]] = entries[index][1] == "" ? "" : entries[index][1].toJSON()
+		}
+	
+		return [
+			['gold', this.gold],
+			['food', this.food],
+			['bag', newBag],
+			['slots', newSlots]
+	]}
+	
+	
+	this.fromJSON = function(data){
+		data = new Map(data)
+		this.gold = data['gold'];
+		this.food = data['food'];
+		this.bag = [...data['bag']].forEach((item) => {item = createItemFromJSON(item)});
+		this.slots = new Map(data['slots']).forEach((slotValue, slotKey, map) => {
+			if (slotValue != "") slotValue = createItemFromJSON(item)
+		})
+	return this;
+	}
 
 	this.getGold = function () {
 		return setPadding(this.gold, 17);

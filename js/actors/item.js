@@ -19,6 +19,17 @@ var Item = function (name, slot, canDrop = true) {
 
 	this.weight = Math.ceil(Math.random() * 10);
 
+	this.toJSON = () => [
+	['name',this.name],
+	['canDrop', this.canDrop],
+	['slot', this.slot],
+	['master', this.master],
+	['weight', this.weight],
+	['stats', this.stats]
+	];
+		
+
+	
 	this.getStatsAsString = function () {
 		var result = ""
 		Object.keys(this.stats).forEach(stat => {
@@ -63,6 +74,15 @@ var Item = function (name, slot, canDrop = true) {
 		PARM: 0, // physical armor
 		MARM: 0, // magical armor
 	};
+}
+
+function createItemFromJSON(data){
+	data = new Map(data)
+	var item = new Item(data['name'], data['slot'], data['canDrop']);
+	item.master = data['master'];
+	item.stats = data['stats'];
+	item.weight = data['weight'];
+	return item;
 }
 
 function itemGenerate(type = "sword", mult = 1) {
