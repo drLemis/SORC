@@ -13,6 +13,10 @@ function inputProcessing(e) {
 	if (e.altKey && e.code == 'KeyR') {
 		gRepeatInput = !gRepeatInput;
 	}
+	if (e.altKey && e.code == 'Digit3') {
+		gDebug3D = !gDebug3D;
+	}
+
 
 	if (e.code == 'Slash') {
 		drawInterfaceLogs("I TO OPEN INVENTORY, G TO PICKUP, U TO USE/WEAR, D TO DROP/TAKE OFF");
