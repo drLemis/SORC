@@ -90,4 +90,15 @@ var Town = function (tile, name) {
 		});
 		return this
 	}
+	this.saveItems = () => {
+		var newBag = [...this.items]
+		for (var index = 0; index < newBag.length; index++){
+			newBag[index] = newBag[index].toJSON()
+		}
+		return newBag;
+	}
+	
+	this.getItems = (data) => {this.items = data.forEach((item) => {this.items.push(createItemFromJSON(item))})}
+	
+	return this
 }

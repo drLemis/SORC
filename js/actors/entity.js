@@ -62,6 +62,33 @@ var Entity = function (name) {
 			entity.inventory.gold = 0;
 		}
 	}
+	this.toJSON = () => [
+			['name', this.name],
+			['race', this.race],
+			['class', this.class],
+			['localX', this.localX],
+			['localY', this.localY],
+			['globalX', this.globalX],
+			['globalY', this.globalY],
+			['heading', this.heading],
+			['inventory', this.inventory.toJSON()],
+			['stats', this.stats.toJSON()]
+		]
+	
+	this.fromJSON = function(data){
+		data = newMap(data);
+		this.name = data['name'];
+		this.race = data['race'];
+		this.class = data['class'];
+		this.localX = data['localX'];
+		this.localY = data['localY'];
+		this.globalX = data['globalX'];
+		this.globalY = data['globalY'];
+		this.heading = data['heading'];
+		this.inventory.fromJSON(data['inventory']);
+		this.stats.fromJSON(data['stats']);
+		return this;
+	}
 }
 
 function readEntityFromDatabase(dbEntry) {
@@ -123,7 +150,7 @@ function createEntityFromEntry(dbEntry) {
 
 						if (dbItem.stats) {
 							Object.keys(dbItem.stats).forEach(dbStat => {
-								entity.inventory.bag[entity.inventorry.bag.length - 1].stats[dbStat.toUpperCase()] = varFromArray(dbItem.stats[dbStat]);
+								entity.inventory.bag[entity.inventory.bag.length - 1].stats[dbStat.toUpperCase()] = varFromArray(dbItem.stats[dbStat]);
 							});
 						}
 					}

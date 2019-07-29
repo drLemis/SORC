@@ -1,7 +1,7 @@
 'use strict';
 
 var gWorld;
-
+var gTown;
 var gGamePosition;
 var gGameState;
 
@@ -16,6 +16,7 @@ function initGame() {
 	drawInterfaceLogs("? TO GET HELP");
 
 	initDraw();
+	saveGame();
 }
 
 var World = function (newSeed) {
@@ -89,7 +90,7 @@ var generateWorld = function (seed) {
 	gPlayer.globalX = Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.height);
 	gPlayer.globalY = Math.floor(newWorld.gTwister.random() * newWorld.mapGlobal.width);
 
-	new Town(newWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY), "PLACEHOLDERNAME");
+	gTown = new Town(newWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY), "PLACEHOLDERNAME");
 
 	var item = itemGenerate("sword");
 	gPlayer.inventory.bag.push(item);
