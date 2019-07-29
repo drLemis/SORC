@@ -16,6 +16,7 @@ function drawScreenSubmap3DDebug() {
 	drawScreenSubmap3D(1, 2);
 	drawScreenSubmap3D(-1, 1);
 	drawScreenSubmap3D(1, 1);
+	drawScreenSubmap3D(-1, 0);
 	drawScreenSubmap3D(1, 0);
 }
 
@@ -28,8 +29,8 @@ function drawScreenSubmap3D(position, distance) {
 		ratioDistance = 2;
 	}
 
-	var width = canvas.width * 0.75;
-	var height = canvas.height * 0.75;
+	var width = canvas.width * 0.8;
+	var height = canvas.height * 0.8;
 
 	var sizewall = [width / 4, height / 4];
 	var xsuwall = [-sizewall[0], sizewall[0]];
