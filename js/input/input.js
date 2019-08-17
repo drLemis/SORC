@@ -56,6 +56,9 @@ function inputProcessing(e) {
 					gPlayer.heading = getMillArray(vDirectionHeading, gPlayer.heading + 1, true);
 					break;
 				case "ArrowDown":
+					var thxJS = (gPlayer.heading + 2) % 4;
+					newTile = gWorld.mapLocal.getTileAdjacent(oldTile, vDirectionHeading[thxJS]);
+					break;
 				case "ArrowUp":
 					newTile = gWorld.mapLocal.getTileAdjacent(oldTile, vDirectionHeading[gPlayer.heading]);
 					break;
