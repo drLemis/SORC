@@ -68,10 +68,10 @@ function draw() {
 			break;
 		default:
 			if (gGamePosition == eGamePositions.SUBMAP && gWorld.mapLocal)
-				// if (gDebug3D)
+				if (gDebug3D)
 					drawScreenSubmap3DDebug(gWorld.mapLocal);
-				// else
-				// 	drawScreenSubmap2D(gWorld.mapLocal);
+				else
+					drawScreenSubmap2D(gWorld.mapLocal);
 			else
 				drawScreenGlobalmap2D(gWorld.mapGlobal);
 			break;

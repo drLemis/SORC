@@ -1,6 +1,6 @@
 var gDrawingRightNow = false;
 
-var gDebug3D = false;
+var gDebug3D = true;
 
 function drawScreenSubmap3DCube(position, distance, maincolor = gColorsCGA.BLACK, subcolor = gColorsCGA.WHITE, text = "", textcolor = gColorsCGA.WHITE) {
 	ctx.lineWidth = 1;
