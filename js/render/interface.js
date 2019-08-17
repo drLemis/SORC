@@ -12,27 +12,118 @@ function drawInterfaceFrame() {
     ctx.strokeRect(1, height * 0.80 + 1, width - 2, height * 0.25 - 2);
     //right
     ctx.strokeRect(width * 0.8 + 1, 1, width * 0.2 - 2, height - 1);
-    
+
     ctx.strokeRect(1, 1, width - 2, height - 2);
 }
 
 function drawInterfaceStatus() {
-    ctx.strokeStyle = gColorsCGA.WHITE;
-    ctx.lineWidth = 3;
+    if (gGamePosition == eGamePositions.SUBMAP && gWorld.mapLocal) {
+        var locW = width * 0.80;
+        var offH = height * 0.80;
 
-    var locW = width * 0.80 + 5;
-    var locH = 16;
-    var offH = height * 0.80;
+        var cellSize = width * 0.005; // px
 
-    var i = 0;
+        // не пытайтесь что-то изменить
+        // людей переписавшим сойдут с ума
+        if (gPlayer.localY < 10)
+            offH += cellSize * (10 - gPlayer.localY);
+        if (gPlayer.localX < 10)
+            locW += cellSize * (10 - gPlayer.localX);
 
-    ctx.fillText("      =====      ", locW, ++i * locH + offH);
-    ctx.fillText("  ====     ====  ", locW, ++i * locH + offH);
-    ctx.fillText(" ===         === ", locW, ++i * locH + offH);
-    ctx.fillText("=================", locW, ++i * locH + offH);
-    ctx.fillText("      SUNNY      ", locW, ++i * locH + offH);
-    ctx.fillText("=================", locW, ++i * locH + offH);
-    ctx.fillText(setPadding(dateToYMD(gWorld.date), 14), locW, ++i * locH + offH);
+
+        var fromCoord = [locW, offH]; // left-top offset
+
+        ctx.lineWidth = 1;
+
+        var cX = 0;
+        var cY = 0;
+
+        for (let iX = Math.max(0, gPlayer.localY - 10); iX < Math.min(gWorld.mapLocal.grid.length, gPlayer.localY + 10); iX++) {
+            cX++;
+            cY = 0;
+            for (let iY = Math.max(0, gPlayer.localX - 10); iY < Math.min(gWorld.mapLocal.grid[0].length, gPlayer.localX + 10); iY++) {
+                cY++;
+                ctx.strokeStyle = gColorsCGA.WHITE;
+                var cellCoord = [fromCoord[0] + (cY * cellSize), fromCoord[1] + (cX * cellSize)];
+
+                ctx.fillStyle = gColorsCGA.BLACK;
+
+                var tile = gWorld.mapLocal.grid[iY][iX];
+
+                if (tile.getPass() != true)
+                    ctx.fillStyle = gColorsCGA.DARKGRAY;
+
+                if (tile.items.length > 0) {
+                    ctx.fillStyle = gColorsCGA.YELLOW;
+                }
+
+                if (tile.getCreature() != null) {
+                    if (tile.getCreature() == gPlayer) {
+                        ctx.fillStyle = gColorsCGA.WHITE;
+                    } else {
+                        ctx.fillStyle = gColorsCGA.RED;
+                    }
+                }
+
+                if (ctx.fillStyle != gColorsCGA.BLACK) {
+                    ctx.fillRect(cellCoord[0], cellCoord[1], cellSize, cellSize);
+                }
+            }
+        }
+
+        var locW = width * 0.80 + 5;
+        var locH = 16;
+        var offH = height * 0.80;
+        var i = 0;
+
+        ctx.textAlign = "left";
+
+        ctx.fillStyle = gColorsCGA.WHITE;
+        ctx.lineWidth = 3;
+        ctx.font = locH + "px Consolas";
+
+        var n = e = w = s = " ";
+
+        switch (gPlayer.heading) {
+            case 3:
+                e = ">";
+                break;
+            case 2:
+                s = "v";
+                break;
+            case 1:
+                w = "<";
+                break;
+            default:
+                n = "^";
+                break;
+        }
+
+        ctx.fillText("          ||     ", locW, ++i * locH + offH);
+        ctx.fillText("          ||  " + n + "   ", locW, ++i * locH + offH);
+        ctx.fillText("          || " + w + "N" + e + " ", locW, ++i * locH + offH);
+        ctx.fillText("          ||  " + s + "  ", locW, ++i * locH + offH);
+        ctx.fillText("          ||     ", locW, ++i * locH + offH);
+        ctx.fillText("=================", locW, ++i * locH + offH);
+        ctx.fillText(setPadding(dateToYMD(gWorld.date), 14), locW, ++i * locH + offH);
+    } else {
+        var locW = width * 0.80 + 5;
+        var locH = 16;
+        var offH = height * 0.80;
+        var i = 0;
+
+        ctx.fillStyle = gColorsCGA.WHITE;
+        ctx.lineWidth = 3;
+        ctx.font = locH + "px Consolas";
+
+        ctx.fillText("      =====      ", locW, ++i * locH + offH);
+        ctx.fillText("  ====     ====  ", locW, ++i * locH + offH);
+        ctx.fillText(" ===         === ", locW, ++i * locH + offH);
+        ctx.fillText("=================", locW, ++i * locH + offH);
+        ctx.fillText("      SUNNY      ", locW, ++i * locH + offH);
+        ctx.fillText("=================", locW, ++i * locH + offH);
+        ctx.fillText(setPadding(dateToYMD(gWorld.date), 14), locW, ++i * locH + offH);
+    }
 }
 
 
@@ -112,7 +203,7 @@ function drawInterfaceStats() {
 
 function drawInterfaceLogs(newLog = "") {
     if (newLog != "")
-    gInterfaceLogs.push(newLog);
+        gInterfaceLogs.push(newLog);
 
     ctx.strokeStyle = gColorsCGA.WHITE;
 
