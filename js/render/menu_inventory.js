@@ -20,10 +20,10 @@ function drawMenuInventory() {
 
     if (gGameState == eGameStates.INVENTORY_DROP) {
         ctx.strokeStyle = gColorsCGA.RED;
-        ctx.strokeRect(1, 1, width * 0.8, height * 0.80);
+        ctx.strokeRect(3, 3, width * 0.8 - 4, height * 0.8 - 4);
     } else if (gGameState == eGameStates.INVENTORY_USE) {
         ctx.strokeStyle = gColorsCGA.GREEN;
-        ctx.strokeRect(1, 1, width * 0.8, height * 0.80);
+        ctx.strokeRect(3, 3, width * 0.8 - 4, height * 0.8 - 4);
     }
 
     ctx.fillStyle = gColorsCGA.WHITE;
