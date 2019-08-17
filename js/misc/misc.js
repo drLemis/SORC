@@ -166,45 +166,67 @@ function getMillArray(array, index, getIndex = false) {
 		return array[index];
 }
 
-function saveGame(){
+function rotateArrayClockwise(array) {
+	var result = [];
+	array.forEach(function (a, i, aa) {
+		a.forEach(function (b, j, bb) {
+			result[j] = result[j] || [];
+			result[j][aa.length - i - 1] = b;
+		});
+	});
+	return result;
+}
+
+function rotateArrayCounterclockwise(array) {
+	var result = [];
+	array.forEach(function (a, i, aa) {
+		a.forEach(function (b, j, bb) {
+			result[bb.length - j - 1] = result[bb.length - j - 1] || [];
+			result[bb.length - j - 1][i] = b;
+		});
+	});
+	return result;
+}
+
+function saveGame() {
 	//saves the game state in a cookie, returns true/false based on if it succeeded
 	//zeroth step - check if we can save it at all
-	if(!navigator.cookieEnabled) {
+	if (!navigator.cookieEnabled) {
 		alert("Cannot save game - please enable cookies for this site.");
 		return false;
 	}
 	//first, kill the previous cookie
 	document.cookie = "SORCdata=;Max-Age=-99999999999;path=/;"
 	//second, save the new data
-	
+
 	var save_data = [
 		gPlayer.toJSON(),
 		gWorld.seed,
 		gTown.saveItems()
-		]
+	]
 	save_data = JSON.stringify(save_data)
-	console.log("SORCdata='" + save_data + "'; path=/; expires=" + new Date(new Date().getTime() + 60 * 1000).toUTCString())
+	// console.log("SORCdata='" + save_data + "'; path=/; expires=" + new Date(new Date().getTime() + 60 * 1000).toUTCString())
 	document.cookie = "SORCdata=" + save_data + "; path=/; expires=" + new Date(new Date().getTime() + 60 * 1000).toUTCString();
 	return true;
 }
 
-function loadGame(){
+function loadGame() {
 	//loads the game from a cookie, reutrns true/false based on if it succeeded
 	//check if cookies are enabled
-	if(!navigator.cookieEnabled){
+	if (!navigator.cookieEnabled) {
 		alert("Cannot load game - please enable cookies for this site.");
 		return false;
 	}
-	
+
 	var save_data = null;
 	//load the cookie, break it down by the semicolon
 	var cookie_array = document.cookie.split(';')
-	for(var i=0;i < cookie_array.length;i++) {
-        var c = cookie_array[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf("SORCdata=") == 0) save_data = c.substring("SORCdata=".length,c.length);
-    }
-    if (save_data === null){
+	for (var i = 0; i < cookie_array.length; i++) {
+		var c = cookie_array[i];
+		while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+		if (c.indexOf("SORCdata=") == 0) save_data = c.substring("SORCdata=".length, c.length);
+	}
+	if (save_data === null) {
 		alert("Failed to load save data!")
 		return false;
 	}

@@ -85,7 +85,7 @@ var TileLocal = function (map, x, y) {
 	this.y = y;
 	this.parent = map;
 
-	this.passable = new Boolean(true);
+	this.passable = true;
 	this.objects = [];
 	this.items = [];
 	this.creature = null;

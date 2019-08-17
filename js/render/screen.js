@@ -2,24 +2,6 @@ var gDrawingRightNow = false;
 
 var gDebug3D = false;
 
-function drawScreenSubmap3DDebug() {
-	drawScreenSubmap3D(0, 8);
-	drawScreenSubmap3D(-1, 6);
-	drawScreenSubmap3D(1, 6);
-	drawScreenSubmap3D(-1, 5);
-	drawScreenSubmap3D(1, 5);
-	drawScreenSubmap3D(-1, 4);
-	drawScreenSubmap3D(1, 4);
-	drawScreenSubmap3D(-2, 3);
-	drawScreenSubmap3D(1, 3);
-	drawScreenSubmap3D(-1, 2);
-	drawScreenSubmap3D(1, 2);
-	drawScreenSubmap3D(-1, 1);
-	drawScreenSubmap3D(1, 1);
-	drawScreenSubmap3D(-1, 0);
-	drawScreenSubmap3D(1, 0);
-}
-
 function drawScreenSubmap3D(position, distance) {
 	ctx.lineWidth = 1;
 
@@ -143,15 +125,15 @@ function drawScreenSubmap3D(position, distance) {
 		ctx.closePath();
 		ctx.stroke();
 
-		xsrwall[0] = xsrwall[0] - 1;
-		xsrwall[1] = xsrwall[1] - 1;
-		xsrwall[2] = xsrwall[2] - 1;
-		xsrwall[3] = xsrwall[3] - 1;
+		xsrwall[0] = xsrwall[0];
+		xsrwall[1] = xsrwall[1];
+		xsrwall[2] = xsrwall[2];
+		xsrwall[3] = xsrwall[3];
 
-		ysrwall[0] = ysrwall[0] + 0;
-		ysrwall[1] = ysrwall[1] + 1;
-		ysrwall[2] = ysrwall[2] - 1;
-		ysrwall[3] = ysrwall[3] - 0;
+		ysrwall[0] = ysrwall[0];
+		ysrwall[1] = ysrwall[1];
+		ysrwall[2] = ysrwall[2];
+		ysrwall[3] = ysrwall[3];
 
 		ctx.fillStyle = gColorsCGA.BLACK;
 		ctx.beginPath();
@@ -165,10 +147,10 @@ function drawScreenSubmap3D(position, distance) {
 	}
 
 	ctx.fillStyle = gColorsCGA.BLACK;
-	ctx.fillRect(xsuwall[0], ysuwall[0] + 1, xsuwall[1] - xsuwall[0] + 1, ysdwall[0] - ysuwall[0] - 1);
+	ctx.fillRect(xsuwall[0], ysuwall[0], xsuwall[1] - xsuwall[0], ysdwall[0] - ysuwall[0]);
 
 	ctx.strokeStyle = gColorsCGA.WHITE;
-	ctx.strokeRect(xsuwall[0], ysuwall[0] + 1, xsuwall[1] - xsuwall[0] + 1, ysdwall[0] - ysuwall[0] - 1);
+	ctx.strokeRect(xsuwall[0], ysuwall[0], xsuwall[1] - xsuwall[0], ysdwall[0] - ysuwall[0]);
 
 	// verticals
 	// g.setColor(Interface.color[15]);
@@ -293,4 +275,111 @@ function drawScreenGlobalmap2D(globalmap) {
 		}
 	}
 	gDrawingRightNow = false;
+}
+
+
+function drawScreenSubmap3DDebug(submap) {
+	var array = [
+		[]
+	];
+
+	for (let Y = 0; Y < submap.height; Y++) {
+		for (let X = 0; X < submap.width; X++) {
+			if (!array[Y])
+				array[Y] = [];
+			array[Y][X] = submap.getTile(X, Y).getPass();
+		}
+	}
+
+	var params = getRenderableArray(array, gPlayer.localX, gPlayer.localY, gPlayer.heading)
+
+	for (let Y = 0; Y < params.array.length; Y++) {
+		for (let X = 0; X < params.offset; X++) {
+			var leftright = X - params.offset;
+			var distance = params.array.length - Y - 1;
+			if (!params.array[Y][X]) {
+				drawScreenSubmap3D(leftright, distance);
+			}
+		}
+	}
+
+	for (let Y = 0; Y < params.array.length; Y++) {
+		for (let X = params.array[0].length; X > params.offset; X--) {
+			var leftright = X - params.offset;
+			var distance = params.array.length - Y - 1;
+			if (!params.array[Y][X]) {
+				drawScreenSubmap3D(leftright, distance);
+			}
+		}
+	}
+
+	for (let Y = 0; Y < params.array.length; Y++) {
+		var distance = params.array.length - Y - 1;
+		if (!params.array[Y][params.offset]) {
+			drawScreenSubmap3D(0, distance);
+		}
+	}
+}
+
+var PlayerPosInRender = function (array, offset) {
+	this.array = array;
+	this.offset = offset;
+};
+
+function getRenderableArray(array, posX, posY, heading = 0) {
+	var offset = 0;
+
+	switch (heading) {
+		case 3: // west
+			array = getSubarray(array, 0, 0, posX, array.length);
+			offset = array.length - gPlayer.localY - 1;
+			break;
+		case 2: // south
+			array = getSubarray(array, 0, posY, array[0].length, array.length);
+			offset = array[0].length - gPlayer.localX - 1;
+			break;
+		case 1: // east
+			array = getSubarray(array, posX, 0, array[0].length, array.length);
+			offset = gPlayer.localY;
+			break;
+		default: // north
+			array = getSubarray(array, 0, 0, array[0].length, posY);
+			offset = gPlayer.localX;
+			break;
+	}
+
+	switch (heading) {
+		case 3:
+			array = rotateArrayCounterclockwise(array);
+		case 2:
+			array = rotateArrayCounterclockwise(array);
+		case 1:
+			array = rotateArrayCounterclockwise(array);
+		default:
+			break;
+	}
+
+	var result = new PlayerPosInRender(array, offset);
+	return result;
+}
+
+function getSubarray(array, fromY, fromX, toY, toX) {
+	fromX = Math.max(0, fromX);
+	fromY = Math.max(0, fromY);
+	toX = Math.min(array[0].length - 1, toX);
+	toY = Math.min(array.length - 1, toY);
+
+	var result = [
+		[]
+	];
+
+	for (let iX = fromX; iX <= toX; iX++) {
+		for (let iY = fromY; iY <= toY; iY++) {
+			if (!result[iX - fromX])
+				result[iX - fromX] = [];
+
+			result[iX - fromX][iY - fromY] = array[iX][iY];
+		}
+	}
+	return result;
 }

@@ -69,7 +69,7 @@ function draw() {
 		default:
 			if (gGamePosition == eGamePositions.SUBMAP && gWorld.mapLocal)
 				if (gDebug3D)
-					drawScreenSubmap3DDebug();
+					drawScreenSubmap3DDebug(gWorld.mapLocal);
 				else
 					drawScreenSubmap2D(gWorld.mapLocal);
 			else
