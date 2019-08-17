@@ -2,7 +2,7 @@ var gDrawingRightNow = false;
 
 var gDebug3D = false;
 
-function drawScreenSubmap3D(position, distance) {
+function drawScreenSubmap3DCube(position, distance, maincolor = gColorsCGA.BLACK, subcolor = gColorsCGA.WHITE, text = "", textcolor = gColorsCGA.WHITE) {
 	ctx.lineWidth = 1;
 
 	var ratioDistance = 1 / distance;
@@ -59,7 +59,7 @@ function drawScreenSubmap3D(position, distance) {
 			ysdwall[1]
 		];
 
-		ctx.strokeStyle = gColorsCGA.WHITE;
+		ctx.strokeStyle = subcolor;
 		ctx.beginPath();
 		ctx.moveTo(xslwall[0], yslwall[0]);
 		ctx.lineTo(xslwall[1], yslwall[1]);
@@ -78,7 +78,7 @@ function drawScreenSubmap3D(position, distance) {
 		yslwall[2] = yslwall[2] - 1;
 		yslwall[3] = yslwall[3] - 0;
 
-		ctx.fillStyle = gColorsCGA.BLACK;
+		ctx.fillStyle = maincolor;
 		ctx.beginPath();
 		ctx.moveTo(xslwall[0], yslwall[0]);
 		ctx.lineTo(xslwall[1], yslwall[1]);
@@ -116,7 +116,7 @@ function drawScreenSubmap3D(position, distance) {
 			ysdwall[1]
 		];
 
-		ctx.strokeStyle = gColorsCGA.WHITE;
+		ctx.strokeStyle = subcolor;
 		ctx.beginPath();
 		ctx.moveTo(xsrwall[0], ysrwall[0]);
 		ctx.lineTo(xsrwall[1], ysrwall[1]);
@@ -135,7 +135,7 @@ function drawScreenSubmap3D(position, distance) {
 		ysrwall[2] = ysrwall[2];
 		ysrwall[3] = ysrwall[3];
 
-		ctx.fillStyle = gColorsCGA.BLACK;
+		ctx.fillStyle = maincolor;
 		ctx.beginPath();
 		ctx.moveTo(xsrwall[0], ysrwall[0]);
 		ctx.lineTo(xsrwall[1], ysrwall[1]);
@@ -146,11 +146,28 @@ function drawScreenSubmap3D(position, distance) {
 
 	}
 
-	ctx.fillStyle = gColorsCGA.BLACK;
+	ctx.fillStyle = maincolor;
 	ctx.fillRect(xsuwall[0], ysuwall[0], xsuwall[1] - xsuwall[0], ysdwall[0] - ysuwall[0]);
 
-	ctx.strokeStyle = gColorsCGA.WHITE;
+	ctx.strokeStyle = subcolor;
 	ctx.strokeRect(xsuwall[0], ysuwall[0], xsuwall[1] - xsuwall[0], ysdwall[0] - ysuwall[0]);
+
+	if (text != "" && distance > 0) {
+		ctx.textAlign = "center";
+		ctx.font = 30 / distance * 1.5 + "px Consolas";
+		ctx.fillStyle = textcolor;
+
+		ctx.fillText(text, xsuwall[0] + (xsuwall[1] - xsuwall[0]) / 2, ysuwall[0] + (ysdwall[0] - ysuwall[0]) / 2);
+	}
+
+
+	// xsuwall[0]:ysuwall[0]         xsuwall[1]:ysuwall[1]
+	//
+	//
+	//
+	// xsdwall[0]:ysdwall[0]         xsdwall[1]:ysdwall[1]
+
+
 
 	// verticals
 	// g.setColor(Interface.color[15]);
@@ -287,36 +304,63 @@ function drawScreenSubmap3DDebug(submap) {
 		for (let X = 0; X < submap.width; X++) {
 			if (!array[Y])
 				array[Y] = [];
-			array[Y][X] = submap.getTile(X, Y).getPass();
+			var tile = submap.getTile(X, Y);
+			array[Y][X] = new TileContentInRender(!tile.getPass(), tile.getCreature(), tile.getItems());
 		}
 	}
 
 	var params = getRenderableArray(array, gPlayer.localX, gPlayer.localY, gPlayer.heading)
 
+	// left hand walls
 	for (let Y = 0; Y < params.array.length; Y++) {
 		for (let X = 0; X < params.offset; X++) {
 			var leftright = X - params.offset;
 			var distance = params.array.length - Y - 1;
-			if (!params.array[Y][X]) {
-				drawScreenSubmap3D(leftright, distance);
+			var tile = params.array[Y][X];
+			if (tile) {
+				if (tile.wall) {
+					drawScreenSubmap3DCube(leftright, distance);
+				} else if (tile.creature && tile.creature.name != gPlayer.name) {
+					drawScreenSubmap3DCube(leftright, distance, "#FF000088", "#FF000088", tile.creature.name);
+				} else if (tile.loot.length > 0) {
+					drawScreenSubmap3DCube(leftright, distance, "#FFFF0088", "#FFFF0088", "LOOT");
+				}
 			}
 		}
 	}
 
+	// right hand walls
 	for (let Y = 0; Y < params.array.length; Y++) {
 		for (let X = params.array[0].length; X > params.offset; X--) {
 			var leftright = X - params.offset;
 			var distance = params.array.length - Y - 1;
-			if (!params.array[Y][X]) {
-				drawScreenSubmap3D(leftright, distance);
+			var tile = params.array[Y][X];
+			if (tile) {
+				if (tile.wall) {
+					drawScreenSubmap3DCube(leftright, distance);
+				} else if (tile.creature && tile.creature.name != gPlayer.name) {
+					drawScreenSubmap3DCube(leftright, distance, "#FF000088", "#FF000088", tile.creature.name);
+				} else if (tile.loot.length > 0) {
+					drawScreenSubmap3DCube(leftright, distance, "#FFFF0088", "#FFFF0088", "LOOT");
+				}
 			}
 		}
 	}
 
+	// face walls
 	for (let Y = 0; Y < params.array.length; Y++) {
 		var distance = params.array.length - Y - 1;
-		if (!params.array[Y][params.offset]) {
-			drawScreenSubmap3D(0, distance);
+		var X = params.offset;
+		var leftright = 0;
+		var tile = params.array[Y][X];
+		if (tile) {
+			if (tile.wall) {
+				drawScreenSubmap3DCube(leftright, distance);
+			} else if (tile.creature && tile.creature.name != gPlayer.name) {
+				drawScreenSubmap3DCube(leftright, distance, "#FF000088", "#FF000088", tile.creature.name);
+			} else if (tile.loot.length > 0) {
+				drawScreenSubmap3DCube(leftright, distance, "#FFFF0088", "#FFFF0088", "LOOT");
+			}
 		}
 	}
 }
@@ -324,6 +368,12 @@ function drawScreenSubmap3DDebug(submap) {
 var PlayerPosInRender = function (array, offset) {
 	this.array = array;
 	this.offset = offset;
+};
+
+var TileContentInRender = function (wall, creature, loot) {
+	this.wall = wall;
+	this.creature = creature;
+	this.loot = loot;
 };
 
 function getRenderableArray(array, posX, posY, heading = 0) {
