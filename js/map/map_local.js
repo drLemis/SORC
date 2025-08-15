@@ -210,3 +210,73 @@ var seedToMapLocal = function (seed, difficulty = 0) {
 	mapLocal.getTile(x, y).setCreature(gPlayer);
 	return mapLocal;
 }
+
+function processEnemyTurn(mapLocal) {
+	for (let x = 0; x < mapLocal.width; x++) {
+		for (let y = 0; y < mapLocal.height; y++) {
+			let tile = mapLocal.getTile(x, y);
+			let enemy = tile.getCreature();
+			if (enemy && enemy != gPlayer && enemy.moveChance && Math.random() < enemy.moveChance) {
+				let dx = 0, dy = 0;
+				let moved = false;
+
+				// Check if adjacent to player
+				let isAdjacent = false;
+				for (let [adx, ady] of [[1,0],[-1,0],[0,1],[0,-1]]) {
+					let tx = x + adx, ty = y + ady;
+					if (mapLocal.getTile(tx, ty) && mapLocal.getTile(tx, ty).getCreature() === gPlayer) {
+						isAdjacent = true;
+						break;
+					}
+				}
+
+				if (isAdjacent) {
+					// Attack player
+					enemy.attackMain(gPlayer);
+					moved = true;
+				}
+
+				if (!moved && enemy.followPlayer && enemy.visionRange > 0 && canSeePlayer(mapLocal, x, y, enemy.visionRange)) {
+					// Move toward player
+					dx = Math.sign(gPlayer.localX - x);
+					dy = Math.sign(gPlayer.localY - y);
+					// Prefer horizontal or vertical movement randomly
+					if (Math.abs(dx) > 0 && Math.abs(dy) > 0) {
+						if (Math.random() < 0.5) dy = 0; else dx = 0;
+					}
+					let newTile = mapLocal.getTile(x+dx, y+dy);
+					if (newTile && newTile.getPass() && !newTile.getCreature()) {
+						newTile.setCreature(enemy);
+						tile.removeCreature();
+						moved = true;
+					}
+				}
+				if (!moved && enemy.aiType === "random") {
+					let dirs = [[1,0],[-1,0],[0,1],[0,-1]];
+					let [rdx, rdy] = dirs[Math.floor(Math.random()*dirs.length)];
+					let newTile = mapLocal.getTile(x+rdx, y+rdy);
+					if (newTile && newTile.getPass() && !newTile.getCreature()) {
+						newTile.setCreature(enemy);
+						tile.removeCreature();
+					}
+				}
+			}
+		}
+	}
+}
+
+function canSeePlayer(mapLocal, ex, ey, range) {
+	let px = gPlayer.localX, py = gPlayer.localY;
+	let dx = px - ex, dy = py - ey;
+	if (Math.abs(dx) > range || Math.abs(dy) > range) return false;
+	// Bresenham's line algorithm for line of sight
+	let steps = Math.max(Math.abs(dx), Math.abs(dy));
+	for (let i = 1; i <= steps; i++) {
+		let tx = Math.round(ex + (dx * i) / steps);
+		let ty = Math.round(ey + (dy * i) / steps);
+		if ((tx !== px || ty !== py) && mapLocal.getTile(tx, ty) && mapLocal.getTile(tx, ty).getPass() !== true) {
+			return false; // Wall blocks vision
+		}
+	}
+	return true;
+}

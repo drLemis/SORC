@@ -46,6 +46,9 @@ var Entity = function (name) {
 		if (marm <= matk)
 			damage += mdmg;
 
+		// Always round up damage
+		damage = Math.ceil(damage);
+
 		var log = this.name + " ATTACKS " + entity.name + "! " + patk + "->" + parm + "/" + matk + "->" + marm
 
 		if (damage > 0)
@@ -112,28 +115,35 @@ function createEntityFromEntry(dbEntry) {
 				entity.stats.attributes.LUCK = varFromArray(dbEntry.stats.attributes.LUCK);
 		}
 
+		// Determine loot multiplier based on difficulty
+		var lootMult = 1;
+		if (dbEntry.difficulty) lootMult = 1 + dbEntry.difficulty / 10;
 		if (dbEntry.inventory) {
 			if (dbEntry.inventory.gold)
-				entity.inventory.gold = varFromArray(dbEntry.inventory.gold);
+				entity.inventory.gold = Math.ceil(varFromArray(dbEntry.inventory.gold));
 			if (dbEntry.inventory.food)
-				entity.inventory.food = varFromArray(dbEntry.inventory.food);
+				entity.inventory.food = Math.ceil(varFromArray(dbEntry.inventory.food));
 
 			if (dbEntry.inventory.equipped) {
 				dbEntry.inventory.equipped.forEach(dbItem => {
 					if (!dbItem.chance || Math.random() <= dbItem.chance) {
+						let item;
 						if (Array.isArray(dbItem) && dbItem.length > 1)
-							entity.inventory.bag.push(itemGenerate(dbItem.type[0], dbItem.type[1]));
+							item = itemGenerate(dbItem.type[0], dbItem.type[1] * lootMult);
 						else if (Array.isArray(dbItem) && dbItem.length == 1)
-							entity.inventory.bag.push(itemGenerate(dbItem.type[0]));
+							item = itemGenerate(dbItem.type[0], lootMult);
+						else if (typeof dbItem === 'object' && dbItem.type)
+							item = itemGenerate(dbItem.type, lootMult);
 						else
-							entity.inventory.bag.push(itemGenerate(dbItem.type));
+							item = itemGenerate(dbItem, lootMult);
 
 						if (dbItem.stats) {
 							Object.keys(dbItem.stats).forEach(dbStat => {
-								entity.inventory.bag[entity.inventory.bag.length - 1].stats[dbStat.toUpperCase()] = varFromArray(dbItem.stats[dbStat]);
+								item.stats[dbStat.toUpperCase()] = Math.ceil(varFromArray(dbItem.stats[dbStat]));
 							});
 						}
-						entity.inventory.itemEquip(entity.inventory.bag[entity.inventory.bag.length - 1]);
+						entity.inventory.bag.push(item);
+						entity.inventory.itemEquip(item);
 					}
 				});
 			}
@@ -141,22 +151,32 @@ function createEntityFromEntry(dbEntry) {
 			if (dbEntry.inventory.bag) {
 				dbEntry.inventory.bag.forEach(dbItem => {
 					if (!dbItem.chance || Math.random() <= dbItem.chance) {
+						let item;
 						if (Array.isArray(dbItem) && dbItem.length > 1)
-							entity.inventory.bag.push(itemGenerate(dbItem.type[0], dbItem.type[1]));
+							item = itemGenerate(dbItem.type[0], dbItem.type[1] * lootMult);
 						else if (Array.isArray(dbItem) && dbItem.length == 1)
-							entity.inventory.bag.push(itemGenerate(dbItem.type[0]));
+							item = itemGenerate(dbItem.type[0], lootMult);
+						else if (typeof dbItem === 'object' && dbItem.type)
+							item = itemGenerate(dbItem.type, lootMult);
 						else
-							entity.inventory.bag.push(itemGenerate(dbItem.type));
+							item = itemGenerate(dbItem, lootMult);
 
 						if (dbItem.stats) {
 							Object.keys(dbItem.stats).forEach(dbStat => {
-								entity.inventory.bag[entity.inventory.bag.length - 1].stats[dbStat.toUpperCase()] = varFromArray(dbItem.stats[dbStat]);
+								item.stats[dbStat.toUpperCase()] = Math.ceil(varFromArray(dbItem.stats[dbStat]));
 							});
 						}
+						entity.inventory.bag.push(item);
 					}
 				});
 			}
 		}
+
+		if (dbEntry.aiType) entity.aiType = dbEntry.aiType;
+		if (dbEntry.moveChance) entity.moveChance = dbEntry.moveChance;
+		if (dbEntry.visionRange) entity.visionRange = dbEntry.visionRange;
+		if (dbEntry.followPlayer !== undefined) entity.followPlayer = dbEntry.followPlayer;
+
 		return entity;
 	} else {
 		return null;

@@ -19,14 +19,14 @@ function drawMenuInventory() {
     drawMenuInventoryRows = 0;
 
     if (gGameState == eGameStates.INVENTORY_DROP) {
-        ctx.strokeStyle = gColorsCGA.RED;
+        ctx.strokeStyle = getCurrentPalette().RED;
         ctx.strokeRect(3, 3, width * 0.8 - 4, height * 0.8 - 4);
     } else if (gGameState == eGameStates.INVENTORY_USE) {
-        ctx.strokeStyle = gColorsCGA.GREEN;
+        ctx.strokeStyle = getCurrentPalette().GREEN;
         ctx.strokeRect(3, 3, width * 0.8 - 4, height * 0.8 - 4);
     }
 
-    ctx.fillStyle = gColorsCGA.WHITE;
+    ctx.fillStyle = getCurrentPalette().WHITE;
 
     Object.keys(gPlayer.inventory.slots).forEach(slot => {
         ++itemIndex;
@@ -92,10 +92,10 @@ function drawMenuPickup(items) {
     var itemIndex = 0
     drawMenuInventoryRows = 1;
 
-    ctx.strokeStyle = gColorsCGA.BLUE;
+    ctx.strokeStyle = getCurrentPalette().BLUE;
     ctx.strokeRect(1, 1, width * 0.8, height * 0.80);
 
-    ctx.fillStyle = gColorsCGA.WHITE;
+    ctx.fillStyle = getCurrentPalette().WHITE;
 
     itemIndex = 64; // pre-A letter
 

@@ -87,7 +87,7 @@ var Stats = function (parent) {
 
 			this.parent.inventory.itemsDropAll();
 
-			drawInterfaceLogs([this.parent.name + " IS DEAD!", gColorsCGA.RED]);
+			drawInterfaceLogs([this.parent.name + " IS DEAD!", getCurrentPalette().RED]);
 		}
 	};
 

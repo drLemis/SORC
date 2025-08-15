@@ -1,4 +1,5 @@
 var gRepeatInput = true;
+var pauseMenuSelectedIndex = 0;
 
 function inputProcessing(e) {
 	if (gDrawingRightNow || (e.repeat && !gRepeatInput)) {
@@ -66,8 +67,11 @@ function inputProcessing(e) {
 					break;
 			}
 
-			if (newTile != null && newTile != undefined)
+			if (newTile != null && newTile != undefined) {
 				gWorld.mapLocal.moveCreature(oldTile, newTile);
+				processEnemyTurn(gWorld.mapLocal);
+				draw();
+			}
 
 			if (e.code == 'KeyO') {
 				gGamePosition = eGamePositions.GLOBALMAP;
@@ -102,6 +106,13 @@ function inputProcessing(e) {
 			}
 		}
 
+		// Add pause menu trigger
+		if (e.code == 'KeyP') {
+			gGameStateLast = gGameState;
+			gGameState = eGameStates.PAUSE_MENU;
+			drawPauseMenu();
+			return;
+		}
 	} else if (gGameState == eGameStates.INVENTORY) {
 		// CLOSE INVENTORY
 		if (e.code == 'KeyI' || e.code == 'Space') {
@@ -232,19 +243,21 @@ function inputProcessing(e) {
 
 	} else if (gGameState == eGameStates.TOWN) {
 		switch (e.code) {
-			case 'Space':
-				gGameState = eGameStates.PLAYING;
-				drawInterfaceLogs("LEAVING TOWN...");
-				break;
 			case 'Digit1':
 				gGameState = eGameStates.TOWN_AUTHORITIES;
+				draw();
 				break;
 			case 'Digit2':
+				gGameState = eGameStates.TOWN_STORE;
+				draw();
 				break;
 			case 'Digit3':
 				gGameState = eGameStates.TOWN_TAVERN;
+				draw();
 				break;
-			default:
+			case 'Space':
+				gGameState = eGameStates.PLAYING;
+				draw();
 				break;
 		}
 	} else if (gGameState == eGameStates.TOWN_TAVERN) {
@@ -338,6 +351,78 @@ function inputProcessing(e) {
 				}
 			}
 		}
+	} else if (gGameState == eGameStates.TOWN_STORE) {
+		var store = gWorld.mapGlobal.getTile(gPlayer.globalX, gPlayer.globalY).town.generateStore();
+		if (e.code.startsWith('Digit')) {
+			var idx = parseInt(e.code.replace('Digit', '')) - 1;
+			if (store[idx]) {
+				var price = store[idx].stats.COST || 10;
+				if (gPlayer.inventory.gold >= price) {
+					gPlayer.inventory.gold -= price;
+					gPlayer.inventory.bag.push(store[idx]);
+					drawInterfaceLogs("YOU BOUGHT " + store[idx].name + " FOR " + price + " GOLD.");
+					store.splice(idx, 1);
+				} else {
+					drawInterfaceLogs("NOT ENOUGH GOLD!");
+				}
+				draw();
+			}
+		} else if (e.code == 'KeyS') {
+			gGameState = eGameStates.TOWN_STORE_SELL;
+			draw();
+		} else if (e.code == 'Space') {
+			gGameState = eGameStates.TOWN;
+			draw();
+		}
+	} else if (gGameState == eGameStates.TOWN_STORE_SELL) {
+		if (e.code.startsWith('Digit')) {
+			var idx = parseInt(e.code.replace('Digit', '')) - 1;
+			if (gPlayer.inventory.bag[idx]) {
+				var sellPrice = Math.floor((gPlayer.inventory.bag[idx].stats.COST || 10) * 0.7);
+				gPlayer.inventory.gold += sellPrice;
+				drawInterfaceLogs("YOU SOLD " + gPlayer.inventory.bag[idx].name + " FOR " + sellPrice + " GOLD.");
+				gPlayer.inventory.bag.splice(idx, 1);
+				draw();
+			}
+		} else if (e.code == 'Space') {
+			gGameState = eGameStates.TOWN_STORE;
+			draw();
+		}
+	} else if (gGameState == eGameStates.PAUSE_MENU) {
+		// Navigation for pause menu
+		if (e.code == 'ArrowUp') {
+			pauseMenuSelectedIndex = (pauseMenuSelectedIndex + 2) % 3;
+			drawPauseMenu(pauseMenuSelectedIndex);
+			return;
+		}
+		if (e.code == 'ArrowDown') {
+			pauseMenuSelectedIndex = (pauseMenuSelectedIndex + 1) % 3;
+			drawPauseMenu(pauseMenuSelectedIndex);
+			return;
+		}
+		// Left/right to change settings
+		if (e.code == 'ArrowLeft' || e.code == 'ArrowRight') {
+			if (pauseMenuSelectedIndex === 0) {
+				gWallDetailMode = (gWallDetailMode === 'detailed') ? 'simple' : 'detailed';
+				draw();
+			} else if (pauseMenuSelectedIndex === 1) {
+				if (e.code == 'ArrowLeft') {
+					gPaletteIndex = (gPaletteIndex - 1 + gPalettes.length) % gPalettes.length;
+				} else {
+					gPaletteIndex = (gPaletteIndex + 1) % gPalettes.length;
+				}
+				draw();
+			}
+			drawPauseMenu(pauseMenuSelectedIndex);
+			return;
+		}
+		if (e.code == 'KeyP') {
+			gGameState = eGameStates.PLAYING;
+			draw();
+			return;
+		}
+		// Prevent fallthrough
+		return;
 	}
 
 	draw();

@@ -1,10 +1,10 @@
 var gInterfaceLogs = [];
 
 function drawInterfaceFrame() {
-    ctx.strokeStyle = gColorsCGA.WHITE;
+    ctx.strokeStyle = getCurrentPalette().WHITE;
     ctx.lineWidth = 3;
 
-    ctx.fillStyle = gColorsCGA.BLACK;
+    ctx.fillStyle = getCurrentPalette().BLACK;
     ctx.fillRect(0, height * 0.80, width, height * 0.25);
     ctx.fillRect(width * 0.8, 0, width * 0.2, height * 0.80);
 
@@ -43,29 +43,29 @@ function drawInterfaceStatus() {
             cY = 0;
             for (let iY = Math.max(0, gPlayer.localX - 10); iY < Math.min(gWorld.mapLocal.grid[0].length, gPlayer.localX + 10); iY++) {
                 cY++;
-                ctx.strokeStyle = gColorsCGA.WHITE;
+                ctx.strokeStyle = getCurrentPalette().WHITE;
                 var cellCoord = [fromCoord[0] + (cY * cellSize), fromCoord[1] + (cX * cellSize)];
 
-                ctx.fillStyle = gColorsCGA.BLACK;
+                ctx.fillStyle = getCurrentPalette().BLACK;
 
                 var tile = gWorld.mapLocal.grid[iY][iX];
 
                 if (tile.getPass() != true)
-                    ctx.fillStyle = gColorsCGA.DARKGRAY;
+                    ctx.fillStyle = getCurrentPalette().DARKGRAY;
 
                 if (tile.items.length > 0) {
-                    ctx.fillStyle = gColorsCGA.YELLOW;
+                    ctx.fillStyle = getCurrentPalette().YELLOW;
                 }
 
                 if (tile.getCreature() != null) {
                     if (tile.getCreature() == gPlayer) {
-                        ctx.fillStyle = gColorsCGA.WHITE;
+                        ctx.fillStyle = getCurrentPalette().WHITE;
                     } else {
-                        ctx.fillStyle = gColorsCGA.RED;
+                        ctx.fillStyle = getCurrentPalette().RED;
                     }
                 }
 
-                if (ctx.fillStyle != gColorsCGA.BLACK) {
+                if (ctx.fillStyle != getCurrentPalette().BLACK) {
                     ctx.fillRect(cellCoord[0], cellCoord[1], cellSize, cellSize);
                 }
             }
@@ -78,7 +78,7 @@ function drawInterfaceStatus() {
 
         ctx.textAlign = "left";
 
-        ctx.fillStyle = gColorsCGA.WHITE;
+        ctx.fillStyle = getCurrentPalette().WHITE;
         ctx.lineWidth = 3;
         ctx.font = locH + "px Consolas";
 
@@ -112,7 +112,7 @@ function drawInterfaceStatus() {
         var offH = height * 0.80;
         var i = 0;
 
-        ctx.fillStyle = gColorsCGA.WHITE;
+        ctx.fillStyle = getCurrentPalette().WHITE;
         ctx.lineWidth = 3;
         ctx.font = locH + "px Consolas";
 
@@ -137,7 +137,7 @@ function drawInterfaceStats() {
 
     var i = 0;
 
-    ctx.fillStyle = gColorsCGA.WHITE;
+    ctx.fillStyle = getCurrentPalette().WHITE;
     ctx.fillText(gPlayer.name, locW, ++i * locH + offH);
     ctx.fillText("=================", locW, ++i * locH + offH);
     ctx.fillText(gPlayer.race, locW, ++i * locH + offH);
@@ -147,31 +147,31 @@ function drawInterfaceStats() {
 
     ctx.fillText("=================", locW, ++i * locH + offH);
 
-    ctx.fillStyle = getStatusColor(gPlayer.stats.health, [gColorsCGA.RED, gColorsCGA.YELLOW, gColorsCGA.WHITE, gColorsCGA.WHITE]);
+    ctx.fillStyle = getStatusColor(gPlayer.stats.health, [getCurrentPalette().RED, getCurrentPalette().YELLOW, getCurrentPalette().WHITE, getCurrentPalette().WHITE]);
     ctx.fillText("HEALTH", locW, ++i * locH + offH);
-    ctx.fillStyle = getStatusColor(gPlayer.stats.mana, [gColorsCGA.RED, gColorsCGA.YELLOW, gColorsCGA.WHITE, gColorsCGA.WHITE]);
+    ctx.fillStyle = getStatusColor(gPlayer.stats.mana, [getCurrentPalette().RED, getCurrentPalette().YELLOW, getCurrentPalette().WHITE, getCurrentPalette().WHITE]);
     ctx.fillText("            POWER", locW, i * locH + offH);
 
-    ctx.fillStyle = getStatusColor(gPlayer.stats.health, [gColorsCGA.RED, gColorsCGA.YELLOW, gColorsCGA.WHITE, gColorsCGA.WHITE]);
+    ctx.fillStyle = getStatusColor(gPlayer.stats.health, [getCurrentPalette().RED, getCurrentPalette().YELLOW, getCurrentPalette().WHITE, getCurrentPalette().WHITE]);
     ctx.fillText(gPlayer.stats.getHealthAsString(), locW, ++i * locH + offH);
-    ctx.fillStyle = getStatusColor(gPlayer.stats.mana, [gColorsCGA.RED, gColorsCGA.YELLOW, gColorsCGA.WHITE, gColorsCGA.WHITE]);
+    ctx.fillStyle = getStatusColor(gPlayer.stats.mana, [getCurrentPalette().RED, getCurrentPalette().YELLOW, getCurrentPalette().WHITE, getCurrentPalette().WHITE]);
     ctx.fillText("          " + gPlayer.stats.getManaAsString(), locW, i * locH + offH);
 
 
-    ctx.fillStyle = gColorsCGA.WHITE;
+    ctx.fillStyle = getCurrentPalette().WHITE;
     ctx.fillText("EXPERIENCE   GOLD", locW, ++i * locH + offH);
     ctx.fillText(gPlayer.stats.getXP(), locW, ++i * locH + offH);
     ctx.fillText(gPlayer.inventory.getGold(), locW, i * locH + offH);
 
     ctx.fillText("=================", locW, ++i * locH + offH);
 
-    ctx.fillStyle = gColorsCGA.WHITE;
+    ctx.fillStyle = getCurrentPalette().WHITE;
     ctx.fillText("STNG  AGIL  LUCK", locW, ++i * locH + offH);
     ctx.fillText(gPlayer.stats.getStat("STNG") + " " + gPlayer.stats.getStat("AGIL") + " " + gPlayer.stats.getStat("LUCK"), locW, ++i * locH + offH);
 
     ctx.fillText("=================", locW, ++i * locH + offH);
 
-    ctx.fillStyle = gColorsCGA.WHITE;
+    ctx.fillStyle = getCurrentPalette().WHITE;
     ctx.fillText("HEAD:" + gPlayer.inventory.getSlotAsString("HEAD"), locW, ++i * locH + offH);
     ctx.fillText("NECK:" + gPlayer.inventory.getSlotAsString("NECK"), locW, ++i * locH + offH);
     ctx.fillText("BODY:" + gPlayer.inventory.getSlotAsString("BODY"), locW, ++i * locH + offH);
@@ -184,7 +184,7 @@ function drawInterfaceStats() {
 
     ctx.fillText("=================", locW, ++i * locH + offH);
 
-    ctx.fillStyle = gColorsCGA.WHITE;
+    ctx.fillStyle = getCurrentPalette().WHITE;
     ctx.fillText("WEPNATK   WEPNDMG", locW, ++i * locH + offH);
     ctx.fillText(setPadding(gPlayer.inventory.getStat("PATK", "MAIN") + "+" + gPlayer.inventory.getStat("MATK", "MAIN"), 3, 3, "+"), locW, ++i * locH + offH);
     ctx.fillText("          " + setPadding(gPlayer.inventory.getStat("PDMG", "MAIN") + "+" + gPlayer.inventory.getStat("MDMG", "MAIN"), 3, 3, "+"), locW, i * locH + offH);
@@ -205,7 +205,7 @@ function drawInterfaceLogs(newLog = "") {
     if (newLog != "")
         gInterfaceLogs.push(newLog);
 
-    ctx.strokeStyle = gColorsCGA.WHITE;
+    ctx.strokeStyle = getCurrentPalette().WHITE;
 
     var locH = height * 0.85 + 3;
     var stepH = 16;
@@ -214,7 +214,7 @@ function drawInterfaceLogs(newLog = "") {
 
     for (let index = gInterfaceLogs.length - 1; index >= 0; index--) {
         var text = gInterfaceLogs[index];
-        var color = gColorsCGA.WHITE;
+        var color = getCurrentPalette().WHITE;
 
         if (Array.isArray(gInterfaceLogs[index])) {
             text = gInterfaceLogs[index][0];

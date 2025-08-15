@@ -73,6 +73,26 @@ var Town = function (tile, name) {
 	this.name = name;
 	this.items = [];
 
+	// Store inventory for the shop
+	this.store = [];
+	this.generateStore = function() {
+		if (this.store.length === 0) {
+			// Add 5-6 consumables
+			let numConsumables = 5 + Math.floor(Math.random() * 2); // 5 or 6
+			for (let i = 0; i < numConsumables; i++) {
+				this.store.push(itemGenerate("consumable"));
+			}
+			// Add 2-3 gear items (randomly chosen type)
+			let gearTypes = ["weapon", "armor", "helmet", "bow", "amulet", "ring"];
+			let numGear = 8 - numConsumables;
+			for (let i = 0; i < numGear; i++) {
+				let type = gearTypes[Math.floor(Math.random() * gearTypes.length)];
+				this.store.push(itemGenerate(type));
+			}
+		}
+		return this.store;
+	};
+
 	this.addItems = function (newItems) {
 		this.items = this.items.concat(newItems);
 		return this

@@ -56,6 +56,7 @@ const eGameStates = makeEnum([
 	"TOWN_STORE_SELL",
 	"TOWN_STORE_SELL_CONFIRM",
 	"TOWN_STORE_SELL_ERROR",
+	"PAUSE_MENU"
 ]);
 
 const vDirectionHeading = [
@@ -114,3 +115,8 @@ var generateWorld = function (seed) {
 
 	return newWorld;
 }
+
+// Wall detail mode: "detailed" or "simple"
+var gWallDetailMode = "detailed";
+// Palette selection index
+var gPaletteIndex = 0;
